@@ -1,0 +1,733 @@
+skills:
+- name: reality-sync
+  path: .agents/skills/reality-sync/
+  formal_action_name: 现状同步
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 现状同步
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 主流程入口 skill，用于在任务开始前同步项目现状、主线、风险与下一步。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+- name: spec-designer
+  path: .agents/skills/spec-designer/
+  formal_action_name: 方案设计
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 方案设计
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 主流程中段 skill，在需求边界稳定后组织并生成可执行的方案设计。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: requirement-convergence
+    type: called_by
+    direction: inbound
+    description: 需求边界稳定后，由需求收敛转入方案设计
+  - target: context-implementer
+    type: calls
+    direction: outbound
+    description: 方案设计完成后，非代码交付物转入上下文实施
+  - target: superpowers-bridge
+    type: calls
+    direction: outbound
+    description: 方案设计完成后，代码交付物转入 SP 桥接
+- name: context-implementer
+  path: .agents/skills/context-implementer/
+  formal_action_name: 上下文实施
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 上下文实施
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 主流程实施 skill，在上下文和方案清楚后完成受控编码与局部自检。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: spec-designer
+    type: called_by
+    direction: inbound
+    description: 方案设计完成后，由方案设计转入上下文实施
+  - target: integrated-validator
+    type: calls
+    direction: outbound
+    description: 实施完成后，转入综合验证
+- name: superpowers-bridge
+  path: .agents/skills/superpowers-bridge/
+  formal_action_name: SP 桥接
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 上下文实施
+  object_kind: skill
+  source_url: https://github.com/obra/superpowers
+  adaptation_date: '2026-05-31'
+  adaptation_summary: 代码执行委托桥接器，将 Maglev spec 的代码交付物路由到 Superpowers 执行，回收结果到验证体系。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-05-31'
+  last_optimized: '2026-05-31'
+  status: active
+  relations:
+  - target: spec-designer
+    type: called_by
+    direction: inbound
+    description: 方案设计完成后，代码类交付物路由到 SP 桥接
+  - target: context-implementer
+    type: complements
+    direction: bidirectional
+    description: 代码走 SP 桥接，非代码走 context-implementer，互补不竞争
+  - target: integrated-validator
+    type: calls
+    direction: outbound
+    description: SP 执行完成后，结果传递给综合验证
+- name: integrated-validator
+  path: .agents/skills/integrated-validator/
+  formal_action_name: 综合验证
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 综合验证
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 主流程验证 skill，汇聚质量层能力面对结果做系统性一致性验证。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: spec-audit-surface
+    type: calls
+    direction: outbound
+    description: 在综合验证前加载输入层审计结果
+  - target: review-validation-surface
+    type: calls
+    direction: outbound
+    description: 在综合验证前加载结果层审查结果
+  - target: test-design-surface
+    type: calls
+    direction: outbound
+    description: 在综合验证前加载测试设计与验证支撑信息
+  - target: context-implementer
+    type: called_by
+    direction: inbound
+    description: 实施完成后，由上下文实施转入综合验证
+  - target: crystallization
+    type: calls
+    direction: outbound
+    description: 验证通过后，转入现实结晶
+- name: maglev-map-maker
+  path: .agents/skills/maglev-map-maker/
+  formal_action_name: 项目地图生成
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 现状表达
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 现状表达能力中的项目地图生成对象，负责基于仓库产物生成和更新项目地图。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+- name: maglev-bootstrapper
+  path: .agents/skills/maglev-bootstrapper/
+  formal_action_name: 整体接入初始化
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 整体接入
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 整体接入能力簇中的初始化对象，用于为新仓库或新环境注入 Maglev 基础结构。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: maglev-legacy-adopter
+    type: complements
+    direction: bidirectional
+    description: 分别承接新项目初始化与存量项目接入
+  - target: maglev-updater
+    type: complements
+    direction: bidirectional
+    description: 分别承接初始化接入与安装后的更新同步
+- name: maglev-updater
+  path: .agents/skills/maglev-updater/
+  formal_action_name: 安装后更新
+  runtime_name_status: active_legacy_name
+  distribution_scope: private_only
+  top_level_capability: 整体接入
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 整体接入能力簇中的安装后更新对象，负责预览更新、执行 update，并统一版本与同步状态口径。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: maglev-bootstrapper
+    type: complements
+    direction: bidirectional
+    description: 分别承接初始化接入与安装后的更新同步
+- name: maglev-content-sync
+  path: .agents/skills/maglev-content-sync/
+  formal_action_name: 内容写作同步
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 非核心主流程能力
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 专项支持对象，在内容写作前同步当前定义、边界与表达口径，避免运营写作脱离 reality。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+- name: artifact-purity-keeper
+  path: .agents/skills/artifact-purity-keeper/
+  formal_action_name: 产物洁净度守护
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 产物洁净度守护
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-04-29'
+  adaptation_summary: 质量层观测能力，在 AI 协作产出对外文件前后识别会话痕迹（迭代叙事、过程编号、协作叙事等），按受众分级给出选择性修复建议。底层工具
+    scripts/scanner.py 与 scripts/rules.yaml 随 skill 同包分发。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-04-29'
+  last_optimized: '2026-04-29'
+  status: active
+  relations: []
+- name: maglev-design-ux
+  path: .agents/skills/maglev-design-ux/
+  formal_action_name: 体验设计
+  runtime_name_status: active_legacy_name
+  distribution_scope: user_visible
+  top_level_capability: 非核心主流程能力
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 专项支持对象，在方案已稳定后显性化 UX 设计，补齐从 spec 到 code 之间的体验设计层。
+  author: Maglev contributors
+  version: 2.0 (Deep Mode)
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+- name: maglev-tutor
+  path: .agents/skills/maglev-tutor/
+  formal_action_name: 教学引导
+  runtime_name_status: active_legacy_name
+  distribution_scope: user_visible
+  top_level_capability: 非核心主流程能力
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 专项支持对象，通过用户分层、课程路径和仓库导览帮助新成员理解 Maglev 的使用与扩展方式。
+  author: Maglev contributors
+  version: 2.0 (User & Maker Edition)
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+- name: maglev-legacy-adopter
+  path: .agents/skills/maglev-legacy-adopter/
+  formal_action_name: 存量接入
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 整体接入
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 整体接入能力簇中的存量接入对象，负责在既有仓库中完成环境诊断、基础设施注入与逆向接入准备。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: maglev-bootstrapper
+    type: complements
+    direction: bidirectional
+    description: 分别承接新项目初始化与存量项目接入
+  - target: maglev-reverse-spec
+    type: calls
+    direction: outbound
+    description: 在存量接入过程中委托逆向规格重建能力
+- name: maglev-reverse-spec
+  path: .agents/skills/maglev-reverse-spec/
+  formal_action_name: 逆向规格重建
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 整体接入
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 整体接入能力簇中的逆向重建对象，用于从存量系统中恢复功能、结构与规格信息。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: maglev-legacy-adopter
+    type: called_by
+    direction: inbound
+    description: 作为存量接入链路中的逆向分析对象被调用
+  - target: maglev-map-maker
+    type: complements
+    direction: bidirectional
+    description: 逆向重建结果可回补项目地图与现状表达
+- name: maglev-python-runtime
+  path: scripts/maglev-python
+  formal_action_name: Python 运行时入口
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 运行时环境检查
+  object_kind: script
+  source_url: native
+  adaptation_date: '2026-06-19'
+  adaptation_summary: 为 Maglev Python 协议脚本提供受控运行时、依赖安装与 doctor/preflight 能力。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-06-19'
+  last_optimized: '2026-06-19'
+  status: active
+  relations:
+  - target: index-librarian
+    type: supports
+    direction: outbound
+    description: 为 index-librarian 协议脚本提供 Python 运行时入口
+  - target: reality-sync
+    type: supports
+    direction: outbound
+    description: 为启动期漂移哨兵提供运行时 preflight
+- name: index-librarian
+  path: .agents/skills/index-librarian/
+  formal_action_name: 索引管理
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 数据治理
+  object_kind: skill
+  source_url: https://github.com/feiyu-gao/my-smart-workbench
+  adaptation_date: '2026-04-25'
+  adaptation_summary: 基于脚本权威范式编排 index-librarian/protocol/ 完成多类 track（docs/specs/code/repo-entry）的索引扫描、验证与校准。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-04-25'
+  last_optimized: '2026-04-25'
+  status: active
+  relations:
+  - target: reality-sync
+    type: called_by
+    direction: inbound
+    description: 会话启动发现索引异常时调用
+  - target: crystallization
+    type: called_by
+    direction: inbound
+    description: 现实结晶后回填索引时调用
+- name: skill-scout
+  path: .agents/skills/skill-scout/
+  formal_action_name: 技能侦察
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 能力进化
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2025-07-11'
+  adaptation_summary: 能力进化能力簇中的侦察对象，负责从公域搜索、评估、私域化改造、生成并登记治理对象，并提供 Patrol 模式持续优化现役对象。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2025-07-11'
+  status: active
+  relations:
+  - target: skill-squadron
+    type: called_by
+    direction: inbound
+    description: 被 Skill Squadron 委托执行 Patrol 扫描
+- name: skill-squadron
+  path: .agents/skills/skill-squadron/
+  formal_action_name: 编队巡逻
+  runtime_name_status: active_legacy_name
+  distribution_scope: runtime_internal
+  top_level_capability: 能力进化
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-28'
+  adaptation_summary: 能力进化能力簇中的编队巡逻对象，负责基于治理对象关系图执行分组、巡逻、命名状态检查与跨对象影响分析。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-28'
+  status: active
+  relations:
+  - target: skill-scout
+    type: calls
+    direction: outbound
+    description: 委托 Skill Scout 的 Patrol 模式执行单 skill 扫描
+- name: entry-router
+  path: .agents/skills/entry-router/
+  formal_action_name: 入口路由
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 需求收敛
+  object_kind: skill
+  source_url: https://openai.github.io/openai-agents-python/handoffs/
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenAI Agents Handoffs 模式改造的入口路由技能，负责 triage、route 与 handoff。主要定制：接入
+    Maglev 下游能力集合，明确入口层与下游专长能力的边界。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: reality-sync
+    type: calls
+    direction: outbound
+    description: 当项目现状不清时，交给现状同步
+  - target: requirement-convergence
+    type: calls
+    direction: outbound
+    description: 当需求边界不稳时，交给需求收敛
+  - target: spec-designer
+    type: calls
+    direction: outbound
+    description: 当输入稳定且需要方案设计时，交给方案设计
+  - target: context-implementer
+    type: calls
+    direction: outbound
+    description: 当任务已明确可实施时，交给上下文实施
+  - target: integrated-validator
+    type: calls
+    direction: outbound
+    description: 当需要系统性验证时，交给综合验证
+- name: knowledge-check
+  path: .agents/skills/knowledge-check/
+  formal_action_name: 知识沉淀检查
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 思考沉淀
+  object_kind: skill
+  source_url: https://www.atlassian.com/incident-management/postmortem/templates
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 Atlassian Postmortem 逻辑改造的知识沉淀检查技能，负责思考、方案、参考资料和贡献记录检查，并承担
+    9 段记忆宫殿 / 位段（segments）归类判断。主要定制：去掉归档大词入口，明确与 reality writeback 分离。
+  author: Maglev contributors
+  version: 1.0.1
+  last_updated: '2026-06-14'
+  last_optimized: '2026-06-14'
+  status: active
+  relations:
+  - target: crystallization
+    type: precedes
+    direction: outbound
+    description: 知识沉淀检查完成后，若需写回 reality 和收口 active，转交 crystallization
+  - target: skill-scout
+    type: complements
+    direction: bidirectional
+    description: 当产出可 skill 化时，为 Scout 提供前置沉淀检查
+- name: requirement-convergence
+  path: .agents/skills/requirement-convergence/
+  formal_action_name: 需求收敛
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 需求收敛
+  object_kind: skill
+  source_url: https://github.com/Fission-AI/OpenSpec
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenSpec 前段 change proposal / alignment 逻辑改造的需求收敛技能，负责入口分流、需求定义、Ready
+    Gate 与下游交接。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: entry-router
+    type: called_by
+    direction: inbound
+    description: 作为入口路由后的前段收敛路径
+  - target: spec-designer
+    type: calls
+    direction: outbound
+    description: 需求边界稳定后，转入方案设计
+- name: crystallization
+  path: .agents/skills/crystallization/
+  formal_action_name: 现实结晶
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 现实结晶
+  object_kind: skill
+  source_url: https://github.com/Fission-AI/OpenSpec
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenSpec 后段 archive / update-specs 逻辑改造的现实结晶技能，负责 Reality
+    回写判定、active 收口与可发现性回填。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: knowledge-check
+    type: preceded_by
+    direction: inbound
+    description: 知识沉淀检查完成后转入现实结晶
+  - target: integrated-validator
+    type: called_by
+    direction: inbound
+    description: 验证通过后，由综合验证转入现实结晶
+  - target: maglev-map-maker
+    type: calls
+    direction: outbound
+    description: 需要可发现性回填时调用项目地图能力
+  - target: index-librarian
+    type: calls
+    direction: outbound
+    description: 需要索引回填时调用 docs 索引管家
+- name: maglev-discipline
+  path: .agents/skills/maglev-discipline/
+  formal_action_name: 治理纪律
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 治理强制
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-05-23'
+  adaptation_summary: 反 AI 惰性的会话级背景纪律。定义三条不可灰度红线、8 类惰性模式、L0-L4 压力升级、通用 5 步方法论与 Task
+    Contract，作为所有主流程 skill 的背景约束。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-05-23'
+  last_optimized: '2026-05-23'
+  status: active
+  relations:
+  - target: reality-sync
+    type: complements
+    direction: outbound
+    description: 作为背景纪律叠加在 reality-sync 执行之上
+  - target: spec-designer
+    type: complements
+    direction: outbound
+    description: 作为背景纪律叠加在 spec-designer 执行之上
+  - target: context-implementer
+    type: complements
+    direction: outbound
+    description: 作为背景纪律叠加在 context-implementer 执行之上
+  - target: integrated-validator
+    type: complements
+    direction: outbound
+    description: 作为背景纪律叠加在 integrated-validator 执行之上
+- name: spec-audit-surface
+  path: .agents/skills/spec-audit-surface/
+  formal_action_name: Spec 审计
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 综合验证
+  object_kind: skill
+  source_url: https://github.com/Fission-AI/OpenSpec
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenSpec 输入纪律改造的 Spec 审计面，统一承接 requirements 与 spec cluster
+    的输入质量审计。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: integrated-validator
+    type: complements
+    direction: bidirectional
+    description: Spec 审计面负责输入层审计，综合验证负责主流程汇聚验证
+  - target: review-validation-surface
+    type: complements
+    direction: bidirectional
+    description: 分别承接输入层审计与结果层审查
+  - target: test-design-surface
+    type: complements
+    direction: bidirectional
+    description: 输入层审计结果可为测试设计提供边界和质量前提
+  - target: skill-squadron
+    type: called_by
+    direction: inbound
+    description: 进入质量层编队巡逻时作为治理对象被消费
+- name: review-validation-surface
+  path: .agents/skills/review-validation-surface/
+  formal_action_name: Review 与验证
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 综合验证
+  object_kind: skill
+  source_url: https://github.com/Fission-AI/OpenSpec
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenSpec 结果纪律改造的 Review 与验证面，统一承接实现结果的 review 与 validation。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: integrated-validator
+    type: complements
+    direction: bidirectional
+    description: Review 与验证面负责结果层审查，综合验证负责主流程汇聚验证
+  - target: spec-audit-surface
+    type: complements
+    direction: bidirectional
+    description: 输入层审计与结果层审查共同构成质量层前后两段
+  - target: test-design-surface
+    type: complements
+    direction: bidirectional
+    description: 结果层审查会反向暴露测试设计缺口
+  - target: skill-squadron
+    type: called_by
+    direction: inbound
+    description: 进入质量层编队巡逻时作为治理对象被消费
+- name: test-design-surface
+  path: .agents/skills/test-design-surface/
+  formal_action_name: 测试设计
+  runtime_name_status: canonical_name_active
+  distribution_scope: runtime_internal
+  top_level_capability: 综合验证
+  object_kind: skill
+  source_url: https://github.com/Fission-AI/OpenSpec
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 基于 OpenSpec 输入纪律与 eval/guardrail 资料改造的测试设计面，统一承接测试对象识别、覆盖策略与验证支撑建议。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-03-30'
+  last_optimized: '2026-03-30'
+  status: active
+  relations:
+  - target: integrated-validator
+    type: complements
+    direction: bidirectional
+    description: 测试设计面负责测试设计与支撑建议，综合验证负责主流程汇聚验证
+  - target: spec-audit-surface
+    type: complements
+    direction: bidirectional
+    description: 测试设计需要继承输入层审计确认的边界
+  - target: review-validation-surface
+    type: complements
+    direction: bidirectional
+    description: 测试设计与结果层审查共同闭合验证支撑链
+  - target: skill-squadron
+    type: called_by
+    direction: inbound
+    description: 进入质量层编队巡逻时作为治理对象被消费
+- name: project-board
+  path: .agents/skills/project-board/
+  formal_action_name: 项目看板
+  runtime_name_status: canonical_name_active
+  distribution_scope: user_visible
+  top_level_capability: 项目看板
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-04-15'
+  adaptation_summary: 观测层项目看板：扫描 specs/20_evolution/active 活跃需求，交叉判断流程阶段，映射角色状态，输出
+    specs/20_evolution/board.md。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-04-23'
+  last_optimized: '2026-04-23'
+  status: active
+  relations:
+  - target: entry-router
+    type: complements
+    direction: bidirectional
+    description: 看板提供当前进展的观测入口，与入口路由共同辅助用户理解状态
+  - target: crystallization
+    type: shares_data
+    direction: inbound
+    description: 读取 specs/20_evolution/active 与 board.md，结晶器负责回写状态与关闭 active
+- name: maglev-changelog-generator
+  path: .agents/skills/maglev-changelog-generator/
+  formal_action_name: 版本说明生成
+  runtime_name_status: active_legacy_name
+  distribution_scope: private_only
+  top_level_capability: 非核心主流程能力
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-03-30'
+  adaptation_summary: 读取 Changelog Draft 并结合源码分析，生成面向用户的语义化 CHANGELOG.md，仅 Creator
+    场景使用。
+  author: Maglev Core
+  version: 1.0.0
+  last_updated: '2026-04-23'
+  last_optimized: '2026-03-30'
+  status: active
+- name: radar
+  path: external://github.com/zzfn/radar
+  formal_action_name: 依赖影响分析
+  runtime_name_status: canonical_name_active
+  distribution_scope: external_optional
+  top_level_capability: 非核心主流程能力
+  object_kind: skill
+  source_url: https://github.com/zzfn/radar
+  adaptation_date: '2026-04-23'
+  adaptation_summary: 外源代码依赖分析工具：评估改动影响面（blast radius）、检测循环依赖、定位死代码、识别高风险核心节点、查找两文件间依赖路径。作为运行面工具，不修改
+    Maglev 主流程。
+  author: zzfn
+  version: 0.4.0
+  last_updated: '2026-04-23'
+  last_optimized: '2026-04-23'
+  status: external_reference
+  bundled: false
+  public_projection_note: radar is an optional external dependency analysis integration
+    and is not bundled in the Maglev public artifact
+- name: evolution-observatory
+  path: .agents/skills/evolution-observatory/
+  formal_action_name: 持续进化观测
+  runtime_name_status: canonical_name_active
+  distribution_scope: private_only
+  top_level_capability: 能力进化
+  object_kind: skill
+  source_url: native
+  adaptation_date: '2026-05-25'
+  adaptation_summary: 持续竞争情报与自我进化驱动工具。通过"通用情报循环 + 领域配置"分层设计，系统化观测行业框架并为 Maglev 提供可追溯改进养分。当前
+    instance：观测 AI 协作框架。
+  author: Maglev contributors
+  version: 1.0.0
+  last_updated: '2026-05-25'
+  last_optimized: '2026-05-25'
+  status: active
+  relations:
+  - target: skill-scout
+    type: complements
+    direction: bidirectional
+    description: 研究发现优化方向可触发 scout 寻找外部实现
+  - target: knowledge-check
+    type: complements
+    direction: outbound
+    description: 研究报告沉淀到 docs/thinking/ 需知识检查
+  - target: spec-designer
+    type: precedes
+    direction: outbound
+    description: insight(proposed) 可作为 spec 设计输入
+  - target: crystallization
+    type: complements
+    direction: outbound
+    description: insight(absorbed) 触发 reality 更新
+workflows: []

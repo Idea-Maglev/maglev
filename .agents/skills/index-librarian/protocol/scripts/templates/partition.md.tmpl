@@ -1,0 +1,27 @@
+---
+type: entity-index
+scope: {{scope}}
+entity_type: "{{entity_type}}"
+child_count: {{child_count}}
+stats:
+{{stats_yaml}}
+{{#if table_columns}}
+table_columns:
+{{table_columns_yaml}}
+{{/if}}
+updated: "{{today}}"
+---
+
+# {{title}}
+
+共 **{{stats.total}}** 个条目。
+
+{{#if table_columns}}
+{{generated_table}}
+{{else}}
+| # | 名称 | 链接 |
+|:---|:---|:---|
+{{#each children}}
+| {{@index_1}} | {{name}} | [→]({{path}}/) |
+{{/each}}
+{{/if}}

@@ -1,0 +1,14 @@
+# Maglev release build artifacts
+.maglev_build/
+packages/maglev-cli/dist/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# OS/editor noise
+.DS_Store
+# Local npm auth/config; publish settings live in package.json publishConfig
+.npmrc
+**/.npmrc

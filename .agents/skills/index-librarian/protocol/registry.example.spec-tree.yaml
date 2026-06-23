@@ -1,0 +1,25 @@
+# registry.yaml track 模板 — type=spec-tree
+# 用途: 把 specs/ 风格的目录纳入索引协议
+# 用法: 复制以下条目到你的 registry.yaml `tracks:` 列表末尾，按需调整字段
+
+# AI 助手提示: 使用本模板时直接抄下面字段即可，无需现场编排。
+# 修改字段时遵循 schema:
+#   - 必填 (3): id / type / root
+#   - 常用可选: patterns / output / thresholds.archive_age_days
+
+tracks:
+  - id: my-specs                       # 必填 — 用户可改为业务名（kebab-case）
+    type: spec-tree                    # 必填 — 固定为 spec-tree
+    root: specs/                       # 必填 — 相对 repo 根的目录路径
+    output: specs/_meta/index.yaml     # 可选 — 索引产物落点（默认 <root>/_meta/index.yaml）
+    patterns:                          # 可选 — 命中文件的 glob 列表（默认 ['**/00_intent.md','**/01_requirements.md','**/02_design.md','**/status.md']）
+      - "**/00_intent.md"
+      - "**/01_requirements.md"
+      - "**/02_design.md"
+      - "**/status.md"
+    thresholds:                        # 可选 — 阈值
+      archive_age_days: 180            # 主题 status 超过 N 天未更新 → 进入 archive 候选
+
+# 字段说明:
+# - patterns 决定哪些文件被收入索引；默认覆盖标准 spec 四件套
+# - thresholds.archive_age_days 是 track_archive_triggers.py 触发归档候选的判定阈值

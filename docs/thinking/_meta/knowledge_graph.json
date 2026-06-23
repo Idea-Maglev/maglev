@@ -1,0 +1,223 @@
+{
+  "nodes": [
+    {
+      "segment": "00_meta",
+      "count": 8,
+      "drafts": 0,
+      "files": [
+        "00_meta/atomizer_uncertainty_principle.md",
+        "00_meta/prd_vs_spec_dialectic.md",
+        "00_meta/meta_paradigm_analysis.md",
+        "00_meta/2026-04-27-skeleton_before_data.md",
+        "00_meta/spec_as_universal_ir.md",
+        "00_meta/transparency_as_feature.md",
+        "00_meta/ai_role_evolution_analysis.md",
+        "00_meta/2026-04-27-lifecycle_abstraction_overdesign.md"
+      ]
+    },
+    {
+      "segment": "10_critique",
+      "count": 13,
+      "drafts": 0,
+      "files": [
+        "10_critique/reflection_phase1_risks.md",
+        "10_critique/2026-04-27-f8_empty_graph_as_honest_signal.md",
+        "10_critique/2026-02-03-prd_format_battle.md",
+        "10_critique/defense_completeness_myth.md",
+        "10_critique/workflow_comparison.md",
+        "10_critique/tech_generation_critique.md",
+        "10_critique/2026-02-23-maglev_vs_openspec_vs_bmad.md",
+        "10_critique/2026-03-16-maglev_vs_harness_engineering.md",
+        "10_critique/fleet_vision_critique.md",
+        "10_critique/2026-02-02-maglev_vs_bmm_critique.md",
+        "10_critique/2026-02-03-bifocal_dilemma.md",
+        "10_critique/research_industry_validation.md",
+        "10_critique/2026-03-01-showcase_cognitive_barrier_strategy.md"
+      ]
+    },
+    {
+      "segment": "20_architecture",
+      "count": 11,
+      "drafts": 0,
+      "files": [
+        "20_architecture/lifecycle_layer_boundary.md",
+        "20_architecture/skill_safety_analysis.md",
+        "20_architecture/kiro_for_cc_analysis_2026_04_13.md",
+        "20_architecture/release_notes_delivery_boundary.md",
+        "20_architecture/adoption_model_evolution.md",
+        "20_architecture/atomic_spec_architecture.md",
+        "20_architecture/tech_robustness_gap_analysis.md",
+        "20_architecture/2026-03-16-harness_maglev_integration_blueprint.md",
+        "20_architecture/2026-02-02-maglev_atlas.md",
+        "20_architecture/extension_point_architecture_2026_04_11.md",
+        "20_architecture/visual_verification_strategy.md"
+      ]
+    },
+    {
+      "segment": "30_philosophy",
+      "count": 3,
+      "drafts": 0,
+      "files": [
+        "30_philosophy/maglev_equation.md",
+        "30_philosophy/bidirectional_context_protocol.md",
+        "30_philosophy/accuracy_and_correction_protocol.md"
+      ]
+    },
+    {
+      "segment": "40_paper",
+      "count": 1,
+      "drafts": 0,
+      "files": [
+        "40_paper/paper_potential.md"
+      ]
+    },
+    {
+      "segment": "50_alignment",
+      "count": 3,
+      "drafts": 0,
+      "files": [
+        "50_alignment/maglev_vs_openai_frontier.md",
+        "50_alignment/maglev_vs_kuaishou_paradigm.md",
+        "50_alignment/maglev_vs_hermes_agent.md"
+      ]
+    },
+    {
+      "segment": "60_case",
+      "count": 46,
+      "drafts": 0,
+      "files": [
+        "60_case/maglev_root_reconstruction.md",
+        "60_case/consolidation_plan_2026_02_03.md",
+        "60_case/maglev_reality_revised.md",
+        "60_case/spec_consolidation_2026_03_15.md",
+        "60_case/distribution_acceptance_mapping_2026_03_15.md",
+        "60_case/maglev_reality_repair_plan.md",
+        "60_case/reality_crystallization_plan_2026_03_19.md",
+        "60_case/lark_doc_write_api_research_2026_04_10.md",
+        "60_case/spec_merge_execution_plan_2026_03_15.md",
+        "60_case/maglev_reality_definition.md",
+        "60_case/consolidation_task.md",
+        "60_case/maglev_legacy_adoption_plan.md",
+        "60_case/maglev_sync_removal_impact_2026_03_15.md",
+        "60_case/distribution_test_plan_2026_03_16.md",
+        "60_case/doc_update_2026_02_03/task.md",
+        "60_case/doc_update_2026_02_03/implementation_plan.md",
+        "60_case/backend_bias_fix_2026_02_03/task.md",
+        "60_case/backend_bias_fix_2026_02_03/implementation_plan.md",
+        "60_case/layering_rollout_2026_02_03/task.md",
+        "60_case/layering_rollout_2026_02_03/implementation_plan.md",
+        "60_case/doc_cleanup_2026_02_02/task.md",
+        "60_case/doc_cleanup_2026_02_02/walkthrough.md",
+        "60_case/doc_cleanup_2026_02_02/implementation_plan.md",
+        "60_case/2026-02-03-maglev-fortification/03_reverse_spec_audit.md",
+        "60_case/2026-02-03-maglev-fortification/02_fix_reverse_archival.md",
+        "60_case/2026-02-03-maglev-fortification/00_index.md",
+        "60_case/2026-02-03-maglev-fortification/04_create_spec_audit.md",
+        "60_case/2026-02-03-maglev-fortification/05_create_prd_audit.md",
+        "60_case/2026-02-03-maglev-fortification/01_openspec_adoption.md",
+        "60_case/quick_spec_refactor_2026_02_03/task.md",
+        "60_case/quick_spec_refactor_2026_02_03/implementation_plan.md",
+        "60_case/starter_kit_cleanup_2026_02_02/task.md",
+        "60_case/starter_kit_cleanup_2026_02_02/implementation_plan.md",
+        "60_case/chunking_rollout_2026_02_03/task.md",
+        "60_case/chunking_rollout_2026_02_03/implementation_plan.md",
+        "60_case/workflow_exposure_2026_02_03/task.md",
+        "60_case/workflow_exposure_2026_02_03/implementation_plan.md",
+        "60_case/doc_strategy_analysis_2026_02_03/implementation_plan.md",
+        "60_case/reverse_spec_upgrade_2026_02_03/task.md",
+        "60_case/reverse_spec_upgrade_2026_02_03/implementation_plan.md",
+        "60_case/map_maker_refinement_2026_02_02/task.md",
+        "60_case/map_maker_refinement_2026_02_02/implementation_plan.md",
+        "60_case/reverse_spec_quality_gap_2026_02_03/task.md",
+        "60_case/reverse_spec_quality_gap_2026_02_03/implementation_plan.md",
+        "60_case/protocol_audit_2026_02_03/task.md",
+        "60_case/protocol_audit_2026_02_03/implementation_plan.md"
+      ]
+    },
+    {
+      "segment": "70_retrospective",
+      "count": 18,
+      "drafts": 0,
+      "files": [
+        "70_retrospective/model_config_214_retrospective_2026_04_09.md",
+        "70_retrospective/maglev_on_maglev.md",
+        "70_retrospective/improvement_prioritization_2026_04.md",
+        "70_retrospective/docs_archival_r3_review_of_r2.md",
+        "70_retrospective/docs_archival_full_topic_review.md",
+        "70_retrospective/component_level_spec_decomposition_antipattern.md",
+        "70_retrospective/maglev_dogfooding_plan.md",
+        "70_retrospective/docs_segment_classification_heuristics.md",
+        "70_retrospective/docs_archival_phase3_red_team_review.md",
+        "70_retrospective/docs_archival_r2_review_of_review.md",
+        "70_retrospective/2026-04-29-rebase-onto-skip-merge-pitfall.md",
+        "70_retrospective/2026-04-29-skill-srp-no-project-mapping.md",
+        "70_retrospective/skill_lifecycle_management.md",
+        "70_retrospective/distribution_iteration_closeout_2026_03_19.md",
+        "70_retrospective/2026-04-27-multi_round_reflection_session.md",
+        "70_retrospective/release_0_3_3_execution_lessons.md",
+        "70_retrospective/2026-04-29-purity_cleanup_governance_session.md",
+        "70_retrospective/maglev_os_reflection.md"
+      ]
+    },
+    {
+      "segment": "90_archive",
+      "count": 11,
+      "drafts": 0,
+      "files": [
+        "90_archive/todo_archive_2026_02_13.md",
+        "90_archive/standup_2026_02_13.md",
+        "90_archive/deep_mode_rollout_2026_02_02/task.md",
+        "90_archive/deep_mode_rollout_2026_02_02/walkthrough.md",
+        "90_archive/deep_mode_rollout_2026_02_02/implementation_plan.md",
+        "90_archive/skill_extension_2026_02_01/task.md",
+        "90_archive/skill_extension_2026_02_01/implementation_plan.md",
+        "90_archive/reverse_spec_redesign_2026_02_01/step-04-spec-synthesis.md",
+        "90_archive/reverse_spec_redesign_2026_02_01/task.md",
+        "90_archive/reverse_spec_redesign_2026_02_01/walkthrough.md",
+        "90_archive/reverse_spec_redesign_2026_02_01/implementation_plan.md"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "src": "00_meta",
+      "dst": "10_critique",
+      "weight": 1,
+      "samples": [
+        "00_meta/2026-04-27-skeleton_before_data.md -> 10_critique/2026-04-27-f8_empty_graph_as_honest_signal.md"
+      ]
+    },
+    {
+      "src": "00_meta",
+      "dst": "70_retrospective",
+      "weight": 1,
+      "samples": [
+        "00_meta/2026-04-27-lifecycle_abstraction_overdesign.md -> 70_retrospective/2026-04-27-multi_round_reflection_session.md"
+      ]
+    },
+    {
+      "src": "10_critique",
+      "dst": "00_meta",
+      "weight": 1,
+      "samples": [
+        "10_critique/2026-04-27-f8_empty_graph_as_honest_signal.md -> 00_meta/2026-04-27-skeleton_before_data.md"
+      ]
+    },
+    {
+      "src": "70_retrospective",
+      "dst": "00_meta",
+      "weight": 1,
+      "samples": [
+        "70_retrospective/2026-04-27-multi_round_reflection_session.md -> 00_meta/2026-04-27-skeleton_before_data.md"
+      ]
+    },
+    {
+      "src": "70_retrospective",
+      "dst": "10_critique",
+      "weight": 1,
+      "samples": [
+        "70_retrospective/2026-04-27-multi_round_reflection_session.md -> 10_critique/2026-04-27-f8_empty_graph_as_honest_signal.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@idea-maglev/maglev-cli",
+  "version": "0.5.6",
+  "description": "Maglev Distribution Engine CLI Wrapper",
+  "bin": {
+    "maglev-cli": "bin/index.js"
+  },
+  "author": "Maglev Creator",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "files": [
+    "README.md",
+    "bin/",
+    "dist/"
+  ]
+}

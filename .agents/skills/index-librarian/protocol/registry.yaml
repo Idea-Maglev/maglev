@@ -1,0 +1,62 @@
+# Index Protocol — Module & Track Registry
+# 声明哪些资产纳入索引协议管理
+# 维护: index_init.py / index-librarian / track_*.py
+
+protocol_version: "3.0"
+
+# ============================================================
+# tracks — 顶层声明可索引对象
+# ============================================================
+# 必填字段: id / type / root
+# 可选字段: output / entity_type / child_type / max_depth / ignore / patterns / thresholds / radar_summary
+# type 枚举: dir-tree / repo-entry / code-tree
+# dir-tree: 递归生成 INDEX.md 网络 (替代旧 spec-tree + docs-tree)
+# repo-entry: 仓库入口文件摘要
+# code-tree: 代码结构索引
+# ------------------------------------------------------------
+tracks:
+  - id: specs
+    type: dir-tree
+    root: specs/
+    output: specs/_meta/index.yaml
+    entity_type: spec-topic
+    child_type: auto
+    max_depth: 4
+    ignore:
+      - _meta
+      - context
+      - ref
+
+  - id: docs
+    type: dir-tree
+    root: docs/
+    output: docs/_meta/index.yaml
+    entity_type: document
+    child_type: auto
+    max_depth: 4
+    ignore:
+      - _meta
+
+  - id: repo-entry
+    type: repo-entry
+    root: .
+    depth_limit: 1
+    patterns:
+      - "README.md"
+      - "AGENTS.md"
+      - "llms.txt"
+      - "CHANGELOG.md"
+      - "package.json"
+      - "*.toml"
+      - "Makefile"
+      - "Dockerfile"
+    output: .agents/_meta/repo-entry.yaml
+
+  - id: skills
+    type: repo-entry
+    root: .agents/skills/
+    patterns:
+      - "**/SKILL.md"
+    output: .agents/_meta/skills-map.yaml
+
+  # 用户如需代码索引，参见 registry.example.code-tree.yaml

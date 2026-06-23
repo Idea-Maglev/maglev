@@ -1,0 +1,24 @@
+# registry.yaml track 模板 — type=docs-tree
+# 用途: 把 docs/ 风格的文档目录纳入索引协议（含认知地图 + 归档触发）
+# 用法: 复制以下条目到你的 registry.yaml `tracks:` 列表末尾，按需调整字段
+
+# AI 助手提示: 使用本模板时直接抄下面字段即可，无需现场编排。
+# docs-tree 是最完备的 type，下游脚本会调用 cognitive_map / archive_triggers 等 backing 脚本。
+
+tracks:
+  - id: my-docs                          # 必填 — 用户可改为业务名（kebab-case）
+    type: docs-tree                      # 必填 — 固定为 docs-tree
+    root: docs/                          # 必填 — 相对 repo 根的目录路径
+    output: docs/_meta/index.yaml        # 可选 — 索引产物落点
+    patterns:                            # 可选 — 命中文件的 glob 列表（默认 ['**/*.md']）
+      - "**/*.md"
+    thresholds:                          # 可选 — 阈值组
+      archive:
+        inactivity_days: 365             # 文件 N 天未更新进入 archive 候选
+        inbound_link_min: 1              # 入链数 < N 进入 archive 候选
+      cognitive_map:
+        weak_link_threshold: 2           # 节点连接数 < N 视为弱关联
+
+# 字段说明:
+# - thresholds.archive 与 thresholds.cognitive_map 分别由 track_archive_triggers.py / track_map.py 读取
+# - docs-tree 复用 modules 字段做内部细化（root_index / entity_type / management_level）
