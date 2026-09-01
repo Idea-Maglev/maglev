@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: auxiliary
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: "2026-04-29"
   version: "1.0.0"
 ---

@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: governance_loop
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-05-21
 ---
 
@@ -28,7 +28,7 @@ metadata:
 
 这是一个**治理纪律 skill**，包含三层职责：
 
-1. **惰性识别**：定义 8 类 AI 系统性惰性模式（甩锅 / 工具闲置 / 绕过框架自治理流程 / 改 dist 不改 runtime-src 等）与对应反击话术
+1. **惰性识别**：定义 9 类 AI 系统性惰性模式（甩锅 / 工具闲置 / 绕过框架自治理流程 / 改 dist 不改 runtime-src 等）与对应反击话术
 2. **卡壳脱困**：在 AI 反复失败时提供 L0-L4 压力升级、通用 5 步方法论、7 项强制检查清单
 3. **闭环强制**：通过 `[MAGLEV-DIAGNOSIS]` 强制语法、`[MAGLEV +1]` 超额交付标记、Task Contract 四元组、信心门控 6 步，把"AI 自评通过"环节加上反作弊门
 
@@ -109,7 +109,7 @@ metadata:
 
 `[MAGLEV +1]` 标记的本质是"区分本职工作和真正的 owner 意识"，不是给 AI 邀功用的。
 
-## 8 类惰性模式（速查）
+## 9 类惰性模式（速查）
 
 详见 [`references/laziness-patterns.md`](references/laziness-patterns.md)。
 
@@ -121,6 +121,7 @@ metadata:
 6. **空口完成**：无证据交付（违反红线一）
 7. **改 dist 不改 runtime-src**：AGENTS.md 明确写了警告还是会犯
 8. **绕过框架自治理流程** ⭐：做治理类任务时跳过 maglev 自己的需求收敛 / 方案设计 / 验证流程，用结果倒推
+9. **颗粒度偷懒**：被要求"产品手册级"却写成"功能摘要"；文件多但每个都短/空洞
 
 每一类都有对应的反击话术与触发等级，见 references/laziness-patterns.md 抗合理化反击表。
 

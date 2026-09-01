@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Projection-bound Validation Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "validator_context_ref",
+    "projection_digest",
+    "base_commit",
+    "candidate_commit",
+    "reality_digest",
+    "change_digest",
+    "contract_version",
+    "profile_id",
+    "profile_version",
+    "review_binding",
+    "isolation_attestation",
+    "status",
+    "claim_findings",
+    "conflicts",
+    "unsupported_assertions",
+    "scenario_results",
+    "blocking_gaps",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 2},
+    "validator_context_ref": {"type": "string", "minLength": 1},
+    "projection_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "base_commit": {"type": "string", "minLength": 7},
+    "candidate_commit": {"type": "string", "minLength": 7},
+    "reality_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "change_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "contract_version": {"type": "string", "const": "reality-contract-v2"},
+    "profile_id": {"type": ["string", "null"]},
+    "profile_version": {"type": ["integer", "string", "null"]},
+    "review_binding": {
+      "type": "object",
+      "required": [
+        "reverse_review_result_digest",
+        "work_contract_digest",
+        "module_map_digest",
+        "gate_a_digest",
+        "gate_b_digest",
+        "pack_id",
+        "manifest_digest",
+        "pack_digest",
+        "consumer_contract_version",
+        "review_layers",
+        "projection_digest",
+        "candidate_commit",
+        "reality_digest",
+        "change_digest"
+      ],
+      "properties": {
+        "reverse_review_result_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "work_contract_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "module_map_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "gate_a_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "gate_b_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "pack_id": {"type": "string", "minLength": 1},
+        "manifest_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "pack_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "consumer_contract_version": {
+          "type": "string",
+          "const": "reality-template-effect-pack-consumer/v1"
+        },
+        "review_layers": {
+          "type": "object",
+          "required": ["structure", "content", "confidence"],
+          "properties": {
+            "structure": {
+              "enum": ["pass", "fail", "blocked", "not_proven"]
+            },
+            "content": {
+              "enum": ["pass", "fail", "blocked", "not_proven"]
+            },
+            "confidence": {
+              "enum": ["pass", "fail", "blocked", "not_proven"]
+            }
+          },
+          "additionalProperties": false
+        },
+        "projection_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "candidate_commit": {"type": "string", "minLength": 7},
+        "reality_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "change_digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "isolation_attestation": {
+      "type": "object",
+      "required": ["mode", "producer_is_validator"],
+      "properties": {
+        "mode": {"type": "string", "const": "separate_worktree"},
+        "producer_is_validator": {"type": "boolean", "const": false}
+      },
+      "additionalProperties": true
+    },
+    "status": {"enum": ["pass", "fail", "blocked"]},
+    "scenario_results": {
+      "type": "object",
+      "required": ["explain", "locate", "verify"],
+      "properties": {
+        "explain": {"enum": ["pass", "fail", "blocked", "not_applicable"]},
+        "locate": {"enum": ["pass", "fail", "blocked", "not_applicable"]},
+        "verify": {"enum": ["pass", "fail", "blocked", "not_applicable"]}
+      }
+    },
+    "blocking_gaps": {"type": "array"},
+    "claim_findings": {"type": "array"},
+    "conflicts": {"type": "array"},
+    "unsupported_assertions": {"type": "array"},
+    "evidence_refs": {"type": "array"}
+  },
+  "additionalProperties": true
+}

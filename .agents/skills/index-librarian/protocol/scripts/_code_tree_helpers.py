@@ -9,17 +9,14 @@ original source):
 Functions:
   walk_with_anchors(root, ignore_dirs, anchor_files, max_depth, max_lines)
     → list of {path, depth, name, anchors, summary}
-    Used by both _scan_code_tree (track_scan.py) and _map_repo_entry (track_map.py).
+    Used by _scan_code_tree (track_scan.py).
 
   invoke_radar_summary(root, hotspot_top, include_unused, include_cycles_count,
                        max_output_lines, timeout)
     → dict {hotspot, unused_count?, cycles_count?, _truncated?} on success
     → dict {skipped: True, reason: <str>}              on failure (D26 容错降级)
 
-  format_repo_map_markdown(structure, max_lines) → str
-    Inherited rendering from smart_map.py generate_markdown.
-
-Design authority: spec 02_design v5.2 §3.2.2 (D24/D25/D26 + D10)
+Design authority: spec 02_design v5.2 §3.2.2 (D24/D25/D26)
 Execution authority: THIS FILE.
 """
 
@@ -31,6 +28,8 @@ import subprocess
 import sys
 from pathlib import Path
 from typing import Any, Optional
+
+from common.ignore import IndexIgnorePolicy
 
 # v5 D25: 防爆参数继承 smart_map.py 常量
 DEFAULT_IGNORE_DIRS: frozenset[str] = frozenset({
@@ -75,7 +74,7 @@ def _readme_summary(dir_path: Path) -> str:
 def walk_with_anchors(
     root: Path | str,
     *,
-    ignore_dirs: Optional[frozenset[str] | set[str] | list[str]] = None,
+    ignore_dirs: Optional[frozenset[str] | set[str] | list[str] | IndexIgnorePolicy] = None,
     anchor_files: Optional[frozenset[str] | set[str] | list[str]] = None,
     max_depth: int = DEFAULT_MAX_DEPTH,
     max_lines: int = DEFAULT_MAX_LINES,
@@ -83,20 +82,29 @@ def walk_with_anchors(
     """Walk root; record dirs that are root, contain anchor files, or sit at depth 1.
 
     Output is a list of {path, depth, name, anchors, summary} entries, capped by
-    max_lines (which approximates output size in markdown lines, see
-    format_repo_map_markdown).
+    max_lines as a bounded structure budget.
     """
     root_path = Path(root)
-    ignore = frozenset(ignore_dirs) if ignore_dirs is not None else DEFAULT_IGNORE_DIRS
+    ignore = (
+        ignore_dirs
+        if isinstance(ignore_dirs, IndexIgnorePolicy)
+        else frozenset(ignore_dirs) if ignore_dirs is not None else DEFAULT_IGNORE_DIRS
+    )
     anchors = frozenset(anchor_files) if anchor_files is not None else DEFAULT_ANCHOR_FILES
 
     structure: list[dict[str, Any]] = []
     for dirpath, dirnames, filenames in os.walk(root_path):
         # In-place pruning to skip ignored / hidden dirs
-        dirnames[:] = [
-            d for d in dirnames
-            if d not in ignore and not d.startswith(".")
-        ]
+        if isinstance(ignore, IndexIgnorePolicy):
+            dirnames[:] = [
+                name for name in dirnames
+                if not ignore.should_ignore_directory(Path(dirpath) / name)
+            ]
+        else:
+            dirnames[:] = [
+                name for name in dirnames
+                if name not in ignore and not name.startswith(".")
+            ]
 
         rel = os.path.relpath(dirpath, root_path)
         depth = 0 if rel == "." else rel.count(os.sep) + 1
@@ -116,37 +124,6 @@ def walk_with_anchors(
             if len(structure) >= max_lines:
                 break
     return structure
-
-
-def format_repo_map_markdown(
-    structure: list[dict[str, Any]], max_lines: int = DEFAULT_MAX_LINES
-) -> str:
-    """Render walk_with_anchors output as repository map markdown."""
-    lines: list[str] = [
-        "# 代码仓库地图 (Repository Map)",
-        "",
-        "> 由 index-protocol track_map.py 生成。仅显示包含关键文件的模块。",
-        "",
-        "## 目录结构",
-        "",
-    ]
-    for item in structure:
-        if len(lines) >= max_lines:
-            lines.append(f"\n... (已截断: 超过 {max_lines} 行限制)")
-            break
-        indent = "    " * item["depth"]
-        icon = "📂"
-        if "package.json" in item["anchors"]:
-            icon = "📦"
-        elif "go.mod" in item["anchors"]:
-            icon = "🐹"
-        elif "pom.xml" in item["anchors"]:
-            icon = "☕"
-        line = f"{indent}- {icon} `{item['name']}/`"
-        if item["summary"]:
-            line += f" — *{item['summary']}*"
-        lines.append(line)
-    return "\n".join(lines) + "\n"
 
 
 # ---------------- radar invocation (D24 / D26) ----------------
@@ -267,6 +244,5 @@ __all__ = [
     "RADAR_TIMEOUT_SECONDS",
     "RadarInvocationError",
     "walk_with_anchors",
-    "format_repo_map_markdown",
     "invoke_radar_summary",
 ]

@@ -3,7 +3,7 @@ description: 检查高价值思考、方案、参考资料和贡献记录是否�
 metadata:
   formal_action_name: 知识沉淀检查
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Knowledge Check Workflow

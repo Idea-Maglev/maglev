@@ -25,7 +25,7 @@ Phase 0 + 6 Phase 持续情报净化循环。本文件定义领域无关的通�
 **目标**: 确定本轮研究对象和范围。
 
 **步骤**:
-1. 读取 `specs/10_reality/competitive_registry.yaml`
+1. 读取 `specs/10_reality/capability-evolution/evidence/competitive-registry.yaml`
 2. 解析 Creator 的自然语言指令，确定研究对象
 3. 若未指定具体对象：按"距上次研究时间最长" + "活跃度最高"推荐 Top 3 候选
 4. 确定本轮覆盖维度（mandatory 全覆盖 + 根据目标特性选择 exploratory）

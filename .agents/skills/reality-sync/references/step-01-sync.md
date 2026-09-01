@@ -12,7 +12,7 @@ description: 同步上下文
 1. **Read Core Reality**: 优先读取以下内容：
    - `specs/20_evolution/active/` 中的活跃主线 Spec
    - `issues/active/` 中的活跃任务
-   - `specs/10_reality/repository_map.md`
+   - `specs/10_reality/crosscutting/repository-map/overview.md`
    - `specs/10_reality/glossary.md`（若存在且非空，加载已确认术语到会话上下文）
    - `specs/20_evolution/board.md`（若存在，读取看板摘要：活跃需求数、各阶段分布、主导角色。不触发看板更新，仅展示缓存数据。若 `最后更新` 时间戳距今超过 7 天，追加提示 `⚠️ 看板数据已过期，建议运行 /board 刷新`）
 

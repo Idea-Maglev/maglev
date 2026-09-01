@@ -3,7 +3,7 @@ description: 启动方案设计 (Use spec-designer skill)
 metadata:
   formal_action_name: 方案设计
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Create Spec Workflow

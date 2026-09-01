@@ -19,8 +19,8 @@ next_step: null
 在执行文件搬迁前，逐项确认：
 
 1. ✅ Step 2 的 Reality 回写已执行（10_reality 有对应更新）
-2. ✅ spec README 已更新状态为 Archived
-3. ✅ 归档日志已填写到 spec README 中
+2. ✅ spec 索引页已更新状态为 Archived（标准结构使用 `00_index.md`；遗留主题可使用 `README.md`）
+3. ✅ 归档日志已填写到该索引页中
 4. ✅ 90_archive/README.md 索引条目已准备
 5. ✅ 测试证据链保留：若当前主题涉及正式测试文件（tests/），归档日志必须引用这些测试文件路径，防止归档后测试证据链断裂
 
@@ -28,14 +28,16 @@ next_step: null
 
 ## 动作
 
-1. 在 spec README 中填写归档日志（按模板）
-2. 更新 spec README 状态为 Archived
+1. 在 spec 索引页中填写归档日志（按模板）
+2. 更新 spec 索引页状态为 Archived
 3. 准备 90_archive/README.md 索引条目
 4. 执行 4 项门禁检查
 5. 全部通过后执行 mv
 6. 更新 20_evolution/active/README.md（移除条目）
 7. 更新 90_archive/README.md（新增索引行）
-8. 若步骤 5-7 全部成功，调用 `project-board` Skill 更新看板，将已归档需求从总看板中移除。若步骤 5-7 中任何一步失败，跳过看板更新并报告原因
+8. 若步骤 5-7 全部成功，调用 `project-board` Skill 更新看板，将已归档需求从总看板中移除。
+9. 若 step-04 已登记地图回填，在看板更新成功后调用 `maglev-map-maker` 生成并校验
+   `docs/ATLAS.md`。若步骤 5-8 中任何一步失败，跳过地图更新并报告原因。
 
 ## 跨分支归档编号冲突
 

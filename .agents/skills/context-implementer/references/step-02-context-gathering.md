@@ -43,6 +43,13 @@ nextStepFile: './step-03-execute.md'
 
 根据用户的直接指令：
 
+- 在 glob/grep 前先获得 `index-librarian` 导航收据，并先判定状态：
+  - `queried`: 允许继续，但优先围绕候选与叶子证据定位文件，而不是先做全域搜索。
+  - `not_needed`: 允许继续，但要说明为什么当前直接任务不依赖额外项目知识。
+  - `insufficient`: 停止在上下文收集，不得静默跳过；必须先进入受控升级链。
+  - `escalated`: 只允许在升级链收窄后的 scope 内继续收集，不得恢复成全仓库 glob/grep。
+  - `exhausted`: 停止继续扩大搜索范围；显式记录“当前知识不足”，并回到用户补一个区分知识域的线索。
+- 如需显式记录升级链，使用 `task_navigate.py` 的 `--escalation-step`、`--escalation-attempt`、`--scope-hint`、`--known-source-hint`、`--escalation-note` 与 `--exhausted` 参数，而不是自由文本声明“已经升级”。
 - 使用 glob/grep 搜索相关文件
 - 识别需要更改的具体文件
 - 注意文件位置和用途
@@ -74,6 +81,7 @@ nextStepFile: './step-03-execute.md'
 - 验收标准（从用户请求推断）
 - 操作顺序
 - 要触摸的文件
+- 若导航收据为 `exhausted`，计划不得伪装成“已确认文件范围”；必须把知识缺口写入计划并停止进入执行。
 
 ---
 
@@ -123,6 +131,7 @@ nextStepFile: './step-03-execute.md'
 - 注意依赖项
 - 创建带有任务和 AC 的心理计划
 - 用户确认准备继续
+- 若收据进入 `escalated` / `exhausted`，行为与记录符合升级链约束
 
 ## 失败模式
 
@@ -130,3 +139,5 @@ nextStepFile: './step-03-execute.md'
 - 在未识别要修改的文件的情况下继续
 - 未呈现计划供用户确认
 - 错过现有代码中的明显模式
+- 收据为 `insufficient` / `exhausted` 仍继续全域搜索
+- 用自由文本“已升级”代替结构化升级记录

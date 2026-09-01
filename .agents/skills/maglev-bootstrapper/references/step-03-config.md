@@ -17,8 +17,11 @@ next_step: references/step-04-ai-context-check.md
 2.  **Setup User Config**:
     *   Check if `.maglev/user.yaml` exists. If not, copy `user.example.yaml`.
 3.  **Setup Repository Map**:
-    *   Create `specs/10_reality/repository_map.md`.
-    *   If Adoption Mode, register the legacy `src` path in the map.
+    *   消费者项目初始化时不预置 Reality Profile、domains 或事实页。
+    *   `references/templates/maglev-core-v1/` 只属于 Maglev 源仓库，不得复制给消费者。
+    *   Create or update the Profile-governed repository-map entry only after the user confirms
+        at least one repository; do not invent a new Reality directory.
+    *   If Adoption Mode, register the legacy `src` path only after explicit confirmation.
 
 ## 完成 (Finalize)
 告知用户：

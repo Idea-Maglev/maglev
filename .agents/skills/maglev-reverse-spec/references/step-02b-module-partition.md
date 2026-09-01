@@ -1,80 +1,80 @@
 ---
-description: maglev-reverse-spec Step 2 Gate - Module Partition
+description: 将已审语义模块映射到目标项目的业务域
 ---
 
-# Step 2 Gate: Module Partition (模块切分)
+# 现实边界映射
 
 ## 目标
-在生成 reality 产物前，先把当前分析对象切分成稳定的模块单元，避免多个模块被写入同一个 reality 目录。
 
-## 核心规则
+在人工作出模块边界裁决后，把已接受的分析模块映射到目标项目自己的业务域和资料位置。
+本步骤不重新生成模块，不根据技术目录重新拆分，也不静默合并。
 
-### 1. 一次只生成一个模块目录
-- 一个 `module_slug` 对应一个 reality 目录
-- 一个 reality 目录只承载一个稳定模块单元
-- 禁止把多个功能、多个子域或多个入口直接混写到同一目录
+## 在流程中的位置
 
-### 2. 目录按模块现实组织，不按任务组织
-- 正确：`specs/10_reality/{module_slug}/`
-- 错误：`specs/10_reality/{task_slug}/`
-- 错误：`specs/10_reality/{project_slug}/` 下塞入多个模块
+本文件属于阶段 B。它只消费阶段 A 已接受的模块和边界审阅记录，负责目标项目内的业务域映射；
+阶段 A 不调用本文件，模块边界争议必须回到阶段 A 的人工审阅。
 
-### 3. 模块边界优先来自现实结构
-优先按以下信号切分模块：
-- 独立页面或独立用户任务
-- 独立 API 资源或独立业务对象
-- 独立状态机
-- 独立事件主题或消费链路
-- 独立配置域
-- 独立知识/资产子域
+## 三种边界
 
-## 执行逻辑
+- `source_unit`：材料来自哪个仓库、子模块、软件包或服务；
+- `module_slug`：本轮分析使用的工作名称；
+- `domain`：由业务对象、用户任务、流程、权限或数据责任定义的长期归属。
 
-### 1. 列出候选模块
-基于 Feature Map、入口信号、数据结构和调用链，先列出候选模块列表。
+三者必须分别记录，不能相互替代。
 
-### 2. 给每个候选模块生成 4 个字段
-- `module_name`
-- `module_slug`
-- `boundary_reason`
-- `primary_entry`
+## 映射依据
 
-### 3. 判断是否需要拆分
-若满足以下任一条件，应拆成多个模块：
-- 主对象不同
-- 主流程不同
-- 状态机不同
-- 用户任务不同
-- 运行时链路差异明显
+每个业务域至少要有一项可回查依据：
 
-### 4. 锁定本轮写入目标
-在真正生成 reality 文档前，必须先明确：
-- 本轮只写哪个 `module_slug`
-- 其他模块进入待处理列表
+- 独立业务对象；
+- 独立用户任务；
+- 独立流程或状态；
+- 独立权限边界；
+- 独立接口或事件责任；
+- 独立运营责任。
+
+只有子模块、目录、技术栈或代码层次时，保持来源地图或未知，不建立业务域。
+
+## 执行顺序
+
+1. 读取已接受的语义模块和边界审阅记录；
+2. 列出支撑该模块的来源单元；
+3. 说明业务域的边界理由、依据和证据；
+4. 选定本轮要写入的一个业务域；
+5. 把其他模块列为待处理，不在本轮顺手扩展；
+6. 如果发现需要拆分或合并，回到人工边界审阅。
 
 ## 输出格式
 
 ```yaml
 module_partition:
+  source_units:
+    - id: <来源单元>
+      path: <相对路径>
   selected_module:
-    module_name: Record Query
-    module_slug: record_query
-    boundary_reason: 独立查询入口、独立返回结构、独立列表交互
-    primary_entry: GET /api/records
+    module_name: <已审模块名称>
+    module_slug: <工作名称>
+    boundary_reason: <业务边界理由>
+    primary_entry: <主要入口>
+    source_units: [<来源单元>]
+  domain_mapping:
+    domain_id: <目标项目业务域>
+    boundary_reason: <业务边界理由>
+    boundary_basis:
+      - business_object
+      - user_task
+    source_units: [<来源单元>]
+    evidence_refs:
+      - <相对路径#锚点>
   pending_modules:
-    - module_name: Record Archive
-      module_slug: record_archive
-      boundary_reason: 独立状态流和写操作链路
-      primary_entry: POST /api/records/{id}/archive
+    - module_name: <待处理模块>
+      reason: <本轮未处理原因>
 ```
 
-## module_slug 规则
-- 使用稳定、可维护、面向现实对象的名称
-- 优先用模块名，而不是任务批次名
-- 避免使用 `reverse_`、`analysis_`、`task_`、`tmp_` 这类过程性前缀
-- 避免把整个项目名直接当成模块名，除非本轮 reality 的确只对应一个单体模块
+## 写入约束
 
-## 失败处理
-- 如果暂时无法切分清楚，先输出候选模块列表，不允许直接落盘
-- 如果多个入口共用同一主对象但流程不同，可先落到父模块，再在目录内按子模块章节拆分
-- 如果模块边界明显不清，应将边界问题写入 `Unknowns / Quests`
+目标项目若根据自己的资料契约或指定模板包采用固定业务域目录，应先按该契约建立入口骨架，
+再写事实正文。事实正文只能进入目标项目资料契约规定的业务域和资料槽位，不能把 `module_slug`
+或 `source_unit` 直接当成目录名。
+
+无法确认业务归属时，停止写入，保留未归类账本和求证入口。

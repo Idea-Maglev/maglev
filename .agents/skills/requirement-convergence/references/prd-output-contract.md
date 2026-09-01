@@ -56,6 +56,12 @@ prd_output_package:
           source_summary: "{来源表达的完整含义，不摘孤立关键词}"
           context_judgement: "{如何从完整上下文推导为该 AC；冲突、补充或取舍如何处理}"
           evidence: "{可回查位置 / 用户确认 / 会议或聊天摘要 / AI 对话摘要}"
+          provenance:
+            evidence_state: "observed | supported | inferred | unknown | blocked | historical"
+            basis: "{直接证据、用户决定、项目元数据或明确推断}"
+            evidence_refs:
+              - "{relative-path-or-baseline}"
+            confidence: "unassessed"
         - id: "AC-F1-2"
           criterion: "若 {前置条件}，则系统应 {响应行为}"
           source_summary: "{来源表达的完整含义，不摘孤立关键词}"
@@ -67,6 +73,11 @@ prd_output_package:
     - name: "{来源名称}"
       type: "doc | meeting | chat | design | code | user_confirmation | ai_dialog_summary"
       usage: "{该来源用于固定什么结论}"
+      evidence_state: "observed | supported | inferred | unknown | blocked | historical"
+      basis: "{来源为何能支持该结论；用户意图与外部事实必须区分}"
+      evidence_refs:
+        - "{relative-path-or-baseline}"
+      confidence: "unassessed"
 ```
 
 ## 字段解释
@@ -104,6 +115,9 @@ prd_output_package:
   - 本轮实际消费过的来源列表，用于说明需求依据从哪里来
   - 类型可以是文档、会议、聊天、设计稿、代码观察、用户确认或 AI 对话摘要
   - 不用于记录会话过程，只保留读者理解需求所需的来源、用途和可回查线索
+- `provenance`
+  - 用于防止来源角色和置信度隐式继承；用户确认只可直接确认意图或选择，不能替代外部事实证据
+  - `confidence` 默认 `unassessed`；`high / medium / low` 不是需求状态，也不能独立成为 Ready Gate 依据
 
 ## 质量要求
 

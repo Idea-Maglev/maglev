@@ -3,7 +3,7 @@ description: Maglev Gatekeeper - 执行代码校准、索引检查并生成 Comm
 metadata:
   formal_action_name: 提交信息生成
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -38,7 +38,7 @@ metadata:
 
         Verification:
         - [x] Test A Passed
-        
+
         Ref: #Issue-ID | Spec: feat-XXX
         ```
     *   **Traceability**: 必须填满 `Ref` 字段，关联 Issue 或 Spec 文件。

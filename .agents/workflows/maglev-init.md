@@ -3,7 +3,7 @@ description: 启动 Maglev 开发会话 (Daily) - 加载规则、地图和日志
 metadata:
   formal_action_name: 开发会话初始化
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 

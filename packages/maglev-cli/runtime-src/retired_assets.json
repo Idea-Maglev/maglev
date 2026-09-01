@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "retired_files": [
+    {
+      "path": ".maglev/protocols/collaboration.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/_internal/spec-pipeline/crystallize/step-01-split-files.md",
+          "scope": "distributed"
+        },
+        {
+          "path": "contributors/contribution_log.md",
+          "scope": "source-only"
+        }
+      ],
+      "reason": "协作协议内容已逐段迁移到当前 pipeline contract、贡献记录和技能维护边界。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".maglev/protocols/commit_standard.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/workflows/generate-commit-message.md",
+          "scope": "distributed"
+        },
+        {
+          "path": ".maglev/scripts/generate_commit_msg.py",
+          "scope": "source-only"
+        }
+      ],
+      "reason": "提交内容结构由当前 workflow 承担，脚本只保留执行辅助，不再分发旧提交总协议。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".maglev/protocols/specs_lifecycle.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/entry-router/SKILL.md",
+          "scope": "distributed"
+        },
+        {
+          "path": "specs/10_reality/README.md",
+          "scope": "source-only"
+        },
+        {
+          "path": "specs/20_evolution/active/README.md",
+          "scope": "source-only"
+        }
+      ],
+      "reason": "旧生命周期总协议已由 Reality 边界、active spec 规范和主流程 skills 拆回真实 owner。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/index-librarian/protocol/scripts/track_map.py",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-map-maker/scripts/generate_atlas.py",
+          "scope": "distributed"
+        },
+        {
+          "path": ".agents/skills/index-librarian/protocol/scripts/track_scan.py",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "人读地图统一由 maglev-map-maker 生成，index-librarian 只保留机器索引扫描与验证。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/reality-maturity-model.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-06-verify-output.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "成熟度模型不再参与 Reality 准入；质量由完整 Projection、独立 Validation 和 Admission 决定。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/step-05-reality-boost.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-04-cross-examination.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "Reality Boost 过程已由 Projection 对抗审查和独立 Validation 取代。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/templates/expert_review_queue_template.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-04-cross-examination.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "过程审查队列不再作为 Reverse 运行产物；审查结果进入 Projection findings。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/templates/reverse-output-template.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/wrapper-04-reality-projection.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "旧输出模板生成过程型文档，已由 Reality Contract 和 Projection handoff 取代。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/templates/rmm_scorecard_template.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-06-verify-output.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "评分卡不再作为质量准入协议。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/step-00b-output-profile.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-00b-dimension-ledger.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "输出模式选择已替换为适用维度账本。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/step-03b-intent-enrichment.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/step-03b-evidence-interpretation.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "意图补强阶段已替换为证据解释和 Unknown/Blocked 登记。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-reverse-spec/references/wrapper-04-spec-handoff.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-reverse-spec/references/wrapper-04-reality-projection.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "旧 Draft handoff 已替换为直接提交 Reality Projection。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    }
+  ]
+}

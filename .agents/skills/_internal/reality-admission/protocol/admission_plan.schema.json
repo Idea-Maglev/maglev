@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reality Projection Admission Plan",
+  "type": "object",
+  "required": [
+    "contract_version",
+    "projection_digest",
+    "base_commit",
+    "candidate_commit",
+    "reality_digest",
+    "change_digest",
+    "profile_version",
+    "validation_result_digest",
+    "changed_paths",
+    "validation",
+    "status",
+    "plan_digest"
+  ],
+  "properties": {
+    "contract_version": {"type": "string", "const": "reality-contract-v2"},
+    "projection_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "base_commit": {"type": "string", "minLength": 7},
+    "candidate_commit": {"type": "string", "minLength": 7},
+    "reality_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "change_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "profile_version": {"type": ["integer", "string", "null"]},
+    "intended_use": {"type": "array", "items": {"type": "string"}},
+    "validation_result_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "changed_paths": {"type": "array", "items": {"type": "string"}},
+    "validation": {"type": "object"},
+    "status": {"enum": ["ready", "failed", "blocked"]},
+    "plan_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

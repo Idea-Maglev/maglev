@@ -21,17 +21,29 @@
 
 检查时应以当前运行面事实为准：
 
-1. 主流程 skill runtime name
-   - `reality-sync`
-   - `spec-designer`
-   - `context-implementer`
-   - `integrated-validator`
-2. 兼容 workflow 入口
-   - `/standup`
-   - `/create-spec`
-   - `/quick-dev`
-   - `/validate-all`
-3. `workflow filename / slash entry` 与 `skill runtime name` 允许不同层命名，不应混为一谈。
+<!-- maglev:managed:mainline -->
+当前主链路（由治理注册表生成）：
+
+- `entry-router`
+- `reality-sync`
+- `requirement-convergence`
+- `spec-designer`
+- 执行分支：`context-implementer` | `code-execution-slot`
+- `integrated-validator`
+- `crystallization`
+- 横切能力：`knowledge-check`
+<!-- /maglev:managed:mainline -->
+
+<!-- maglev:managed:compatibility -->
+兼容 workflow 入口（由治理注册表生成）：
+
+- `/standup` → `reality-sync`
+- `/create-spec` → `spec-designer`
+- `/quick-dev` → `context-implementer`
+- `/validate-all` → `integrated-validator`
+<!-- /maglev:managed:compatibility -->
+
+补充说明：`workflow filename / slash entry` 与 `skill runtime name` 允许不同层命名，不应混为一谈。
 
 ## 统一检查维度
 

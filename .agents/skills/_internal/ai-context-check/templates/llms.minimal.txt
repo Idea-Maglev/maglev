@@ -15,24 +15,34 @@
 
 ## 2. 再理解 Maglev 入口
 
-当前主流程 skill runtime name：
+<!-- maglev:managed:mainline -->
+当前主链路（由治理注册表生成）：
 
+- `entry-router`
 - `reality-sync`
+- `requirement-convergence`
 - `spec-designer`
-- `context-implementer`
+- 执行分支：`context-implementer` | `code-execution-slot`
 - `integrated-validator`
+- `crystallization`
+- 横切能力：`knowledge-check`
+<!-- /maglev:managed:mainline -->
 
-兼容 workflow 入口：
+<!-- maglev:managed:compatibility -->
+兼容 workflow 入口（由治理注册表生成）：
 
-- `/standup`
-- `/create-spec`
-- `/quick-dev`
-- `/validate-all`
+- `/standup` → `reality-sync`
+- `/create-spec` → `spec-designer`
+- `/quick-dev` → `context-implementer`
+- `/validate-all` → `integrated-validator`
+<!-- /maglev:managed:compatibility -->
 
 说明：
 
 - skill runtime name 是运行面真实对象名。
 - workflow / slash entry 是兼容入口名，两者可以不同，不应混淆。
+- 本地能力优先：项目内 `.agents/skills` 是本项目优先使用的 skill 来源；任务入口先经过 `entry-router`，代码交付物先经过 `code-execution-slot`。
+- 外部或全局 skill 只能在用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后使用。
 
 ## 3. 初始化与升级
 

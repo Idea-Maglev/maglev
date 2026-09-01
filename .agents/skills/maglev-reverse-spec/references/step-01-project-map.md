@@ -1,69 +1,53 @@
 ---
-description: maglev-reverse-spec Step 2 Support - Project Map
+description: 逆向现状重建的入口与功能地图
 ---
 
-# Step 2 Support: Project Map (项目地图)
+# 入口与功能地图
 
 ## 目标
-在 Step 1 Evidence Acquisition 已完成的前提下，把已识别的入口线索整理成用户可理解的 `Feature Map`，为后续模块选择和入口分析服务。
 
-## 前置条件
-- 已完成 `step-01-evidence-acquisition.md`
-- 已有初版技术栈判断、入口类型判断和关键文件列表
-- 已明确当前项目更适合 `UI / API / Event / Data / CLI` 哪种入口
+把静态证据地图整理成用户可理解的阅读导航，帮助智能体从稳定入口继续深入。功能地图不是
+模块清单，也不负责决定业务边界。
 
-## 执行逻辑
+## 在阶段 A 中的位置
 
-### 1.1 汇总入口证据
-把 Step 1 中拿到的入口信号归并为可读列表，例如：
-- 页面 / 路由
-- API / Handler / Contract
-- Event Producer / Consumer
-- Schema / Model / Migration
-- Command / Job / Script
+本文件是入口地图的唯一整理位置。它只消费
+`step-01-evidence-acquisition.md` 产出的来源覆盖和定位种子，形成供后续阅读使用的入口导航；
+不重新盘点来源，不生成模块，也不进行边界审阅。
 
-### 1.2 生成 Feature Map
-每个入口至少包含：
-- `name`: 功能或入口名称
-- `entry_type`: `ui / api / event / data / cli`
-- `path_or_signal`: 路径、路由、事件名或结构线索
-- `source`: `router-inference / code-scan / schema-scan / test-evidence / runtime-artifact`
-- `confidence`: `high / medium / low`
+## 每个入口至少记录
 
-### 1.3 入口收敛
-根据项目形态做最小收敛：
-- 如果是 UI 明显主导项目，优先保留用户可见功能入口
-- 如果是纯服务项目，优先保留 API / Event / Data 入口
-- 如果入口很多，先标出核心入口和边缘入口，不要求一步穷尽
-
-### 1.4 进入下一步
-- 在进入具体分析前，先执行 `references/step-02b-module-partition.md`
-- UI 型入口可继续使用 `references/step-01b-router-analysis.md` 或 `references/step-02-page-analysis.md`
-- API / Event / Data 型入口可直接进入 `step-03-stack-trace.md` 或数据结构分析
-
-## 输出示例
-
-```json
-{
-  "features": [
-    {
-      "name": "PrimaryWorkspace",
-      "entry_type": "ui",
-      "path_or_signal": "/workspace",
-      "source": "router-inference",
-      "confidence": "high"
-    },
-    {
-      "name": "RecordQueryAPI",
-      "entry_type": "api",
-      "path_or_signal": "GET /api/records",
-      "source": "code-scan",
-      "confidence": "medium"
-    }
-  ]
-}
+```yaml
+features:
+  - name: <功能或入口名称>
+    entry_type: ui | api | job | cli | sdk | event | data
+    path_or_signal: <路径、命令、事件名或结构线索>
+    source_refs:
+      - <相对路径或基线提交>
+    knowledge_status: established | unknown | not_established | not_applicable
+    evidence_sufficiency: supported | partial | missing | blocked
+    basis: <判断依据>
 ```
 
+入口还没有经过原文核对时，知识状态不能标为 `established`；证据不足时保留
+`unknown`/`not_established` 与 `missing`，没有读取许可时保留 `blocked`。
+
+## 入口整理方式
+
+- 页面明显主导时，优先列用户可见页面和用户操作；
+- 接口服务优先列接口资源和处理入口；
+- 异步系统优先列任务、消费者、生产者和事件；
+- 命令行或开发工具优先列命令、参数和输出；
+- 数据系统优先列核心对象和生命周期；
+- 入口太多时先标出主要阅读起点，不要求一次穷尽。
+
+整理只决定阅读起点。需要确认具体处理过程时，再使用
+`step-01b-router-analysis.md`；存在页面时才使用 `step-02-page-analysis.md`。模块、公共内容
+和未归类项必须由阶段 A 总协议的直接阅读形成，并交给人工审阅。
+
 ## 失败处理
-- 若入口太分散，先输出“候选入口列表”，不要强行合并成单一主线
-- 若证据不足以命名功能，允许先用技术性名称占位，并标记为 `[INFERENCE]`
+
+- 入口分散时保留入口列表，不强行合并；
+- 入口名称无法确认时可使用技术占位名，但必须标为推断；
+- 没有稳定入口时保留未知，并写明还需要什么材料；
+- 不用目录结构、数量或命名替代入口证据。

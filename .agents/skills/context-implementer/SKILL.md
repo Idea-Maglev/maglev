@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-05-31
 ---
 
@@ -36,23 +36,23 @@ metadata:
 - 分析与研究产出
 - Maglev 自身 skill/协议维护（SKILL.md、AGENTS.md 等，即使含代码片段）
 
-它**不再负责**：
+它**不负责**：
 
-- ~~在方案清楚后直接编写产品代码~~ → 由 `superpowers-bridge` 委托 Superpowers 执行
+- 产品代码、修复和重构 → 由 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback
 - 吞并需求收敛
 - 代替方案设计
 - 跳过验证纪律直接交付
 
-## 与 superpowers-bridge 的分工
+## 与 code-execution-slot 的分工
 
 | 交付物类型 | 负责者 | 示例 |
 |-----------|--------|------|
-| 产品代码 | superpowers-bridge → SP | 实现新功能、修 bug、重构 |
+| 产品代码 | code-execution-slot | 实现新功能、修 bug、重构 |
 | 文档 | context-implementer | 写 spec、更新 README、记录思考 |
 | 配置 | context-implementer | 修改 yaml/json 配置 |
 | Maglev 治理 | context-implementer | 改 SKILL.md、AGENTS.md、catalog |
 | 分析产出 | context-implementer | 竞品分析、架构评估 |
-| 混合（代码+非代码） | 先 SP 后 CI | SP 做代码部分，CI 做文档/配置部分 |
+| 混合（代码+非代码） | 先 Slot 后 CI | Slot 做代码部分，CI 做文档/配置部分 |
 
 它的交付结果至少应包含：
 
@@ -71,7 +71,7 @@ metadata:
 ## 何时不使用
 
 - 需求和方案仍不清楚时
-- **spec 含代码交付物时** → 应路由到 `superpowers-bridge`
+- **spec 含代码交付物时** → 应路由到 `code-execution-slot`
 - 当前任务更适合先进入方案设计或综合验证时
 - 你不在 Maglev 项目上下文中
 

@@ -28,7 +28,7 @@
 
 ### 0. 破冰与定性 (Ice Breaking & Typing) 🆕
 *   **Check**: 首先确认项目类型："该项目是否包含前端界面？(Does this project have a UI?)"。
-*   **Result**: 
+*   **Result**:
     *   **Has UI**: 必须进入 "体验 (Experience)" 维度。
     *   **Headless**: 跳过 "体验" 维度，聚焦 API/Security。
 

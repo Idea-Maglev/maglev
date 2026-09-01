@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: runtime_internal
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 

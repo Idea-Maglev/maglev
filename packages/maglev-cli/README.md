@@ -87,17 +87,6 @@ npx @idea-maglev/maglev-cli version --json
 
 其中 `.maglev/sync_state.json` 是后续执行 `update` 的关键状态文件。
 
-## 公司私域环境
-
-如果你在 private enterprise 内部环境中使用 Maglev，通常需要先确认私域 npm 源、网络和权限。不要在当前业务项目里寻找私域安装文档；这些说明维护在 Maglev 源仓库中。
-
-你可以让智能体打开 Maglev 源仓库，查找 private enterprise 私域安装引导，重点确认：
-
-- 如何配置 `@idea-maglev` scope registry
-- 什么时候不需要登录私域 npm
-- 如何让智能体代为执行安装检查
-- 安装完成后如何恢复 npm 源配置
-
 ## 更多文档
 
 CLI 初始化后的业务项目不默认携带完整 Maglev 文档。需要进一步了解安装、更新、入口关系、私域配置或方法论时，请让智能体去 Maglev 源仓库查阅对应文档，而不是在当前业务项目里查找 `docs/guides/` 或 `docs/private/`。

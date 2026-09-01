@@ -3,7 +3,7 @@ description: 对后端实现结果做统一代码审查 (Legacy wrapper)
 metadata:
   formal_action_name: 后端代码审查
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Code Review Backend Workflow

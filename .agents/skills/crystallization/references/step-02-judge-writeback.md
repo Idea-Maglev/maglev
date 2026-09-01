@@ -10,18 +10,39 @@ next_step: references/step-03-close-active.md
 
 判断哪些变化应写进 `10_reality`，以及该写到哪里、写多细。
 
+## 0. 读取并映射 Reality Profile
+
+先读取 `specs/10_reality/00_profile.yaml`。它是唯一的目录与路径准入契约，不得按主题、读者或模块临时推导新骨架。
+
+对每条可写回事实记录：`primary_domain`、`owner_slot`、`knowledge_status`、`evidence_refs` 与目标路径。
+
+- 命中已登记域和槽位：写入受管路径；额外 Markdown 先登记到 Profile 的 `documents`。
+- 当前证据不足：保留在对应槽位的 `unknown`，不创建过程性目录。
+- 事实确实横跨两个或以上域：按 Profile 的 `crosscutting/` 规则写入。
+- 没有合法位置：停止写入并提出 Profile 版本升级和迁移；不得临时造目录。
+- 项目级入口页按 Pack manifest 的 `materialization.pages` 和 `target_path` 写入目标 Reality
+  根目录；禁止创建 manifest 未声明的目标容器目录。
+- 模块页面按 `module_root` 的目标路径写入已登记业务域；不得用技术目录、module slug 或
+  source unit 直接替代业务域。
+
+---
+
 ## 动作
 
 1. 列出当前主题已成立的变化。
 2. 判断哪些变化构成新事实。
-3. 判断写回位置：
-   - 哪个 reality 文档
-   - 哪个模块或章节
+3. 按 Profile 选择唯一的能力域、槽位和受管文档路径。
 4. 判断写回粒度：
    - 事实层
    - 结构层
    - 可发现性层
 5. 明确哪些内容不应写回 Reality，而应保留在 active 或归档中。
+6. 把选中的事实直接合并进当前分支的既有 Reality，并同步 Profile。
+7. 核对项目级入口页和模块页面的 materialization 结果，确认没有未声明的目标容器目录；
+8. 提交完整 Reality Projection，记录 base commit 与 candidate commit，供独立
+   Validator 在另一 worktree 中验证。
+9. 消费绑定同一 Projection 的三层 `reverse_review_result`，并调用 Admission dry-run。
+10. 仅在 Admission 返回 `accepted` 或 `no_change` Receipt 后进入 Step 3。
 
 ## 判定规则
 
@@ -31,14 +52,78 @@ next_step: references/step-03-close-active.md
 - 不得通过“引用 `90_archive` 中的主题 / 决策文档”来解释当前事实；Reality 应直接表达结晶后的现状。
 - `90_archive` 只保留历史依据价值，`20_evolution` 只保留进行中主题；两者都不是 Reality 的主体承载面。
 
-### 回写质量卡点（防堆砌）
+### 回写质量卡点（下限 + 上限）
 
-写入前必须逐项确认：
+写入前必须通过 floor 和 ceiling 双向检验。
 
-1. **能力级而非实现级**？描述的是"能做什么"，不是"内部怎么实现的"
-2. **合并而非追加**？应更新已有章节，而非新增章节
-3. **当前状态而非变更记录**？表述为"X 是 Y"，而非"X 从 A 改为 Y"或"X 已退役"
-4. **删除检验**？如果删掉这条，reality 的描述会不会出错？如果不会，不写入
+#### 写什么（下限 / floor）
+
+- 能力描述达到「接手者读完能向他人解释此功能如何使用」（可验证判据）
+- 对每个纳入的结构单元，若该维度存在则写清其关键事实：
+  - 有流程/状态 → 配 Mermaid 图
+  - 有对外接口 → 列路径/方法/参数/权限
+  - 有数据来源 → 写明来源（哪张表/谁同步/频率）
+  - （以上是"维度存在才写"的示例，不是必写清单）
+- 不过 floor = 空洞：读者读完无法回答"这个功能怎么用"
+
+#### 不写什么（上限 / ceiling）
+
+- 不写需求编号体系（F-x-x-x / AC-xxx）
+- 不写项目管理信息（估时/投入/交付范围表）
+- 不写变更过程（"从 A 改为 B"）
+- 不写探索记录与替代方案
+- 不过 ceiling = 堆砌：包含了过程性/项目管理性信息
+
+#### "能力级而非实现级"的准确含义
+
+- 排除的是**过程性/项目管理性**信息，不是接手开发者定位代码所需的实现事实
+- 当主题含实现维度时，reality 可以、且应当包含实现信息（如架构决策、关键数据流、部署拓扑）
+- 此表述的本意是"不写过程流水"，而非"不写技术细节"
+
+#### 判定辅助规则
+
+1. **合并而非追加**？应更新已有章节，而非新增章节
+2. **当前状态而非变更记录**？表述为"X 是 Y"，而非"X 从 A 改为 Y"
+3. **删除检验**？如果删掉这条，reality 的描述会不会出错？如果不会，不写入
+
+#### 不合格时怎么办
+
+- 不过 floor（空洞）→ 补充具体事实直到接手者能解释功能用法
+- 不过 ceiling（堆砌）→ 删除过程性信息直到只剩当前事实
+- 两端都不过 → 按判据修正后再写入，不直接落盘
+
+### 引用锚点（R-标记）
+
+当 reality 中的能力点需被下游（二期 spec / bug / commit）稳定引用，且已有章节锚点不足以稳定指向时，为其分配 R-标记。
+
+#### 格式
+
+```
+R-{MODULE}-{DOMAIN}-{SEQ}
+```
+
+- `MODULE`：模块简称（大写字母+数字）
+- `DOMAIN`：能力域简称（大写字母+数字）
+- `SEQ`：序号（纯数字，从 01 开始）
+
+#### 位置
+
+能力标题后以反引号展示：
+
+```markdown
+## 某能力名  `R-MOD-DOM-01`
+```
+
+#### 分配规则
+
+- 编号只增不改
+- 删除能力时标记废弃（`[DEPRECATED]`），编号不重用
+- 同一能力点只有一个 R-标记
+
+#### 纳入条件
+
+- 能力点**会被下游 spec/bug/commit 稳定引用**，且已有文档章节锚点不足以稳定指向 → 纳入
+- 无下游引用需求 → 不强制，不为标记而标记
 
 ## 输出格式
 
@@ -46,8 +131,16 @@ next_step: references/step-03-close-active.md
 - `writeback_targets`
 - `writeback_granularity`
 - `non_writeback_items`
+- `projection_ref`
+- `admission_receipt`
 
 ## 输出
 
 - 一份 Reality 回写判断
 - 一组不应回写的过程信息
+
+## 共享准入契约
+
+本步骤只消费共享 `reality-admission` 的 Reality Contract 与 Projection
+Admission Plan，不再维护私有 Reality 标准。R-标记可作为文档导航信息，
+但不是 Admission 的替代契约。

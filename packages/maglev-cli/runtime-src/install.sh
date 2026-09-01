@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-UPSTREAM_BASE=${MAGLEV_UPSTREAM_URL:-"https://raw.githubusercontent.com/Idea-Maglev/maglev/release"}
+UPSTREAM_BASE=${MAGLEV_UPSTREAM_URL:-"https://git.nevint.com/feiyu.gao/maglev/-/raw/release"}
 INSTALLER_URL="${UPSTREAM_BASE}/maglev_installer.py"
 TEMP_INSTALLER="/tmp/maglev_installer_$$.py"
 

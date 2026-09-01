@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -62,6 +62,11 @@ metadata:
 - 一旦 Ready Gate 通过，立即交接给下游对象。
 - 如果当前最小 handoff 不足以支撑下游消费，应在本技能内补齐稳定需求产物，再决定是否结束前段或进入方案设计。
 - 若未通过 Ready Gate，优先给出最小补齐项，而不是要求用户重讲一遍。
+- 正式来源、范围或 AC provenance 落笔前，先消费 `index-librarian` 导航收据；收据缺失、过期或为 `insufficient` 时不得静默继续。
+- 来源收据只证明导航或定位，不自动证明需求事实。用户明确决定可以固定“想要什么”，但用户转述的
+  仓库、实现或历史状态仍需按 `evidence_state`、`basis` 和 `evidence_refs` 标记；默认
+  `confidence: unassessed`，不得把 `current`、`approved`、`high` 或“未列出”自动升级为当前事实、
+  读取许可或明确排除。
 
 ## 判定纪律 (Decision Discipline)
 

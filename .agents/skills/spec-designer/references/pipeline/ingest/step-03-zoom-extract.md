@@ -37,6 +37,12 @@ output_facts: '{project-root}/.maglev/temp/input_facts.md'
 ### Scenario C: Full Scan (Idea/Doc/Legacy)
 **Condition**: `complexity == "high"` AND `has_spec == false`
 
+**导航前置条件**:
+*   `queried`: 继续读取命中的叶子证据，并把候选、理由、证据写入 `input_facts.md`。
+*   `not_needed`: 可以继续，但必须写明为什么当前提取阶段不依赖额外项目知识。
+*   `escalated`: 只能在升级链限定的 scope 内继续提取；不得恢复成全域扫描。
+*   `exhausted`: 停止提取，不得伪造正式来源；只允许显式记录当前知识不足并返回补线索。
+
 #### Type 1: Idea / Type 2: Docs
 *   参考原逻辑，直接生成 JSON 和 Facts。
 

@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
   version: "1.1"
 ---
@@ -16,19 +16,49 @@ metadata:
 # 综合验证 (Integrated Validator)
 
 > **Role**: [Quality Gatekeeper]
-> **Mission**: 通过多维度交叉比对，确保需求、设计、代码、测试四位一体的一致性。
+> **Mission**: 通过多维度交叉比对，确保需求、设计、代码、测试四位一体的一致性；
+> 在 Reality 场景中按独立的 structure/content/confidence 三层验证 Reality 资料，不替代共享
+> Reality Admission。
 
 ## ⚠️ 核心规则
 1.  **Orchestrator Pattern**: 复用质量层能力面，不重复输入审计、结果审查和测试设计逻辑。
 2.  **Relative Paths Only**: 所有文件引用使用项目相对路径。
 3.  **Guided Mode**: 每个 Step 后暂停，展示中间结果，等待用户确认。
-4.  **健康度评分**: 输出量化的一致性评分 (0-100%)。
+4.  **结果分支**: 普通研发验证可保留健康度评分；Reality 验证禁止用总分替代三层结论。
 
 ## 当前说明
 
 - 结构动作名：`综合验证`
 - 运行面名称：`integrated-validator`
 - 兼容 workflow 入口：`/validate-all`
+
+## Reality 边界
+
+当输入包含 `specs/10_reality` 或 Reality Projection 时：
+
+- 进入 `references/reality-validation-mode.md`，不进入普通的健康度评分报告；
+- 消费同一候选提交的 Work Contract、Module Map、Gate A/B、逐模块语义包和目标 Reality；
+- 分别输出 structure、content、confidence 三层结果，并保留流程、模板、逐模块和完整资料
+  的 findings；
+- 不得把综合验证报告直接当作 Reality Validation Result；
+- 只有报告明确绑定同一 candidate commit、完整 Reality digest、change digest、
+  Profile version、Contract version、Module Map 和两个 Gate digest 时，才可作为
+  Projection-bound source evidence 被下游消费；
+- 完整 Reality tree、既有 Reality 与本次 diff 的语义审查仍由独立 Validation Provider
+  和共享 Reality Admission 完成；
+- Reality 模式不运行项目、运行时采集或生成式扫描，不用目录数量、覆盖率或健康度分数替代
+  内容和事实审核。
+- 对首次 Profile 或 domain 变化，额外检查：
+  - `source_units` 只作为技术证据来源；
+  - 每个 domain 都有业务边界、`boundary_basis` 和证据引用；
+  - domain 不得仅由 submodule、repository、目录或技术栈命名解释；
+  - 一个 domain 跨多个 source unit 或一个 source unit 支撑多个 domain 时，映射必须有证据。
+  - 每个 domain 都具备 Contract 规定的 `README.md`、`capability/`、
+    `implementation/`、`interfaces/`、`operations/`、`verification/` 和 `evidence/`
+    入口；
+  - 事实正文位于 `{domain}/{owner_slot}/` 并已登记到 Profile `documents`；
+  - 拒绝 `domains/<id>.md`、`modules/<module_slug>.md` 和 domain 根目录单文件
+    这类旧形状，即使文件内容本身看起来完整。
 
 ## 交互模式 (Interaction)
 
@@ -62,11 +92,21 @@ sequenceDiagram
 **Goal**: 调用质量层能力面 + 内置扫描器，收集所有待验证的上下文。
 **Reference**: `references/step-01-collect-context.md`
 **Actions**:
+0. 先判断是否进入 Reality 模式；若输入包含 `specs/10_reality`、Reality Projection 或
+   `reverse_review_result`，改用 `references/reality-validation-mode.md` 的输入与步骤，跳过
+   普通扫描器和健康度评分。
 1.  调用 `spec-audit-surface` → 输入审计上下文
 2.  调用 `review-validation-surface` → 结果审查上下文
 3.  调用 `test-design-surface` → 测试设计上下文
 4.  扫描代码目录 → Code Context (实现的 Controllers, Services)
 5.  扫描测试目录 → Test Context (测试文件, 覆盖的场景)
+6.  汇总导航收据 → 检查 requirements、design、implementation 与 tests 的来源指纹和证据是否可追溯，并按状态复核：
+    - `queried`: 检查后续产物是否真的消费了命中候选与叶子证据。
+    - `not_needed`: 检查“为何不需要额外项目知识”的说明是否成立。
+    - `insufficient`: 不得被报告为成功；若后续仍推进，必须给出显式阻断或升级记录。
+    - `escalated`: 检查升级链步骤、attempt、basis 与后续收窄范围是否一致，防止“写了升级但仍全域推进”。
+    - `exhausted`: 不得被质量层解释为通过；只能被解释为“知识入口不足已被诚实暴露”。
+    - 如发现自由文本“已升级”但没有结构化字段或可回查依据，应记为 finding，而不是视作合格门禁。
 
 **Checkpoint**:
 > "上下文收集完成。
@@ -100,6 +140,9 @@ sequenceDiagram
 **Goal**: 输出结构化的验证报告。
 **Reference**: `references/step-03-generate-report.md`
 **Output**: `specs/{feature}/validation_report.md`
+
+Reality 模式不使用本节的健康度评分模板；改用 `reality-validation-mode.md` 规定的结构化
+结果，并交给 `review-validation-surface` 和 Reality Admission 消费。
 
 ---
 

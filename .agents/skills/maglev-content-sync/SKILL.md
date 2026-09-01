@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: specialized_support
   runtime_name_status: active_legacy_name
   distribution_scope: runtime_internal
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
   version: "1.0.0"
 ---
@@ -43,10 +43,31 @@ metadata:
 
 `maglev-content-sync` 的作用，就是在内容写作前先进行一次 **Re-grounding**。
 
+## 来源边界
+
+`maglev-content-sync` 必须先从当前事实层建立定义，再读取内容生产指南：
+
+### 当前事实（canonical）
+
+- `specs/10_reality/positioning.md`
+- `specs/10_reality/glossary.md`
+- `specs/10_reality/reality-knowledge/operations/agent-context.md`
+
+### 内容生产指南（editorial guide）
+
+- `docs/marketing/strategy/message_house.md`
+- `docs/marketing/strategy/audience_map.md`
+- `docs/marketing/strategy/content_style_guide.md`
+- `docs/marketing/registry/lifecycle.md`
+- `docs/marketing/registry/context_injection_protocol.md`
+- `docs/marketing/templates/`
+
+`docs/marketing/strategy/maglev_current_definition.md` 只是面向写作者的定义快照，不是事实源。它与 Reality 冲突时，以 Reality 为准。`docs/marketing/assets/`、`welcome.md`、`start_here.md` 和 `docs/publishing/` 不得作为当前事实来源。
+
 ## 核心能力
 
 1. **Definition Sync**
-   读取 `docs/marketing/strategy/maglev_current_definition.md`，同步当前可传播版本的 Maglev 定义。
+   先读取 Reality canonical sources，再读取 `maglev_current_definition.md` 进行受众化表达同步。
 
 2. **Message Sync**
    读取 `docs/marketing/strategy/message_house.md`，同步统一口径。
@@ -58,7 +79,7 @@ metadata:
    读取 `docs/marketing/strategy/content_style_guide.md`，同步文风、阅读体验与表达形式约束。
 
 5. **Boundary Guard**
-   在写作前显式指出本次内容最容易跑偏的边界。
+   在写作前显式指出本次内容最容易跑偏的边界，并阻止历史资产、发布包或未登记来源覆盖 Reality。
 
 ## 何时使用
 

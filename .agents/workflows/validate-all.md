@@ -3,7 +3,7 @@ description: 启动综合验证 (Use integrated-validator skill)
 metadata:
   formal_action_name: 综合验证
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Validate All Workflow

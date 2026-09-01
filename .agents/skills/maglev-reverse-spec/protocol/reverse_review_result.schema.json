@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reverse Review Result",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "result_id",
+    "overall_status",
+    "work_contract_digest",
+    "pack_binding",
+    "module_map_digest",
+    "gate_digests",
+    "semantic_review_package_digest",
+    "review_layers",
+    "reviewed_paths",
+    "findings",
+    "unknowns",
+    "evidence_refs",
+    "projection_digest",
+    "result_digest"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "result_id": {"type": "string", "minLength": 1},
+    "overall_status": {"enum": ["pass", "rework_required", "blocked"]},
+    "work_contract_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "pack_binding": {
+      "type": "object",
+      "required": [
+        "pack_id",
+        "manifest_digest",
+        "pack_digest",
+        "consumer_contract_version"
+      ],
+      "properties": {
+        "pack_id": {"type": "string", "minLength": 1},
+        "manifest_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "pack_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "consumer_contract_version": {
+          "type": "string",
+          "const": "reality-template-effect-pack-consumer/v1"
+        }
+      },
+      "additionalProperties": true
+    },
+    "module_map_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "gate_digests": {
+      "type": "object",
+      "required": ["gate_a", "gate_b"],
+      "properties": {
+        "gate_a": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "gate_b": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "semantic_review_package_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "review_layers": {
+      "type": "object",
+      "required": ["structure", "content", "confidence"],
+      "properties": {
+        "structure": {"$ref": "#/$defs/review_layer"},
+        "content": {"$ref": "#/$defs/review_layer"},
+        "confidence": {"$ref": "#/$defs/review_layer"}
+      },
+      "additionalProperties": true
+    },
+    "reviewed_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "findings": {"type": "array"},
+    "unknowns": {"type": "array"},
+    "evidence_refs": {"type": "array"},
+    "projection_digest": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "result_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "review_layer": {
+      "type": "object",
+      "required": ["status", "findings"],
+      "properties": {
+        "status": {"enum": ["pass", "fail", "blocked", "not_proven"]},
+        "findings": {"type": "array"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

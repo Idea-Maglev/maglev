@@ -41,7 +41,7 @@ files_to_modify: []
 | 01_requirements_interaction.md | 01_requirements.md | 02_design_interaction.md, 03_plan.md | — |
 | 02_design.md | 01_requirements.md | 03_plan.md, 代码 | 02_design_interaction.md |
 | 02_design_interaction.md | 01_requirements_interaction.md, 02_design.md | 03_plan.md, 前端代码 | — |
-| 03_plan.md | 02_design.md, 02_design_interaction.md | context-implementer | — |
+| 03_plan.md | 02_design.md, 02_design_interaction.md | code-execution-slot / context-implementer | — |
 
 ## 01. 需求契约 (-> 01_requirements.md)
 

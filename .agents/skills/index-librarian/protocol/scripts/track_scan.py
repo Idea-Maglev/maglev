@@ -9,8 +9,6 @@ to the appropriate scanner based on track.type:
   - repo-entry  → scan_repo_entry (depth_limit=1 hard cap, D8)
   - code-tree   → scan_code_tree (full impl)
 
-Unknown/removed types (spec-tree, docs-tree) → error with migration hint.
-
 Design authority: specs/20_evolution/active/unified_doc_tree_indexer/02_design.md
 Execution authority: THIS FILE.
 """
@@ -32,9 +30,12 @@ import _track_resolver  # noqa: E402
 import _code_tree_helpers as cth  # noqa: E402
 from common.index_gen import (  # noqa: E402
     discover_indexable_dirs,
+    find_collapsed_leaf_dirs,
     generate_or_update_index,
     build_summary,
 )
+from common.ignore import IndexIgnorePolicy  # noqa: E402
+from common.profile_layout import profile_managed_directories  # noqa: E402
 
 # Hard caps (D8 / D25)
 REPO_ENTRY_MAX_DEPTH = 1
@@ -67,12 +68,26 @@ def _scan_dir_tree(track: dict[str, Any]) -> int:
         return 0
 
     max_depth = track.get("max_depth", 4)
-    ignore = set(track.get("ignore") or ["_meta"])
+    ignore = IndexIgnorePolicy(
+        repo_root,
+        set(track.get("ignore") or ["_meta"]),
+        _track_resolver.get_indexing_config(repo_root),
+    )
+    skip_index_dirs = set(track.get("skip_index_dirs") or [])
+    collapse_single_file_dirs = set(track.get("collapse_single_file_dirs") or [])
     entity_type = track.get("entity_type", "document")
     child_type_cfg = track.get("child_type", "auto")
 
     # Phase 1: discover all indexable directories
-    dirs = discover_indexable_dirs(root_dir, ignore, max_depth)
+    dirs = discover_indexable_dirs(
+        root_dir,
+        ignore,
+        max_depth,
+        skip_index_dirs,
+        collapse_single_file_dirs,
+    )
+    profile_managed = profile_managed_directories(root_dir)
+    dirs = [path for path in dirs if path not in profile_managed]
 
     # Phase 2: generate/update INDEX.md (bottom-up order)
     created = 0
@@ -80,7 +95,13 @@ def _scan_dir_tree(track: dict[str, Any]) -> int:
     for dir_path in dirs:
         index_existed = (dir_path / "INDEX.md").exists()
         wrote = generate_or_update_index(
-            dir_path, root_dir, entity_type, child_type_cfg, ignore
+            dir_path,
+            root_dir,
+            entity_type,
+            child_type_cfg,
+            ignore,
+            repo_root,
+            collapse_single_file_dirs,
         )
         if wrote:
             if index_existed:
@@ -88,14 +109,24 @@ def _scan_dir_tree(track: dict[str, Any]) -> int:
             else:
                 created += 1
 
-    # Phase 3: write summary YAML
+    # Phase 3: remove obsolete leaf indexes only after parent records collapse them.
+    pruned = 0
+    for dir_path in find_collapsed_leaf_dirs(
+        root_dir, ignore, max_depth, collapse_single_file_dirs
+    ):
+        index_path = dir_path / "INDEX.md"
+        if index_path.is_file():
+            index_path.unlink()
+            pruned += 1
+
+    # Phase 4: write summary YAML
     summary = build_summary(track, root_dir, repo_root, dirs)
     out_path = _resolve_output_path(track)
     _write_yaml(out_path, summary)
 
     print(
         f"[track-scan] dir-tree {track['id']}: {len(dirs)} dirs "
-        f"(created={created}, updated={updated}) → {out_path}"
+        f"(created={created}, updated={updated}, pruned={pruned}) → {out_path}"
     )
     return 0
 
@@ -127,13 +158,19 @@ def _scan_repo_entry(track: dict[str, Any]) -> int:
         "Makefile",
         "Dockerfile",
     ]
-    ignore = set(track.get("ignore") or cth.DEFAULT_IGNORE_DIRS)
+    ignore = IndexIgnorePolicy(
+        repo_root,
+        set(track.get("ignore") or cth.DEFAULT_IGNORE_DIRS),
+        _track_resolver.get_indexing_config(repo_root),
+    )
 
     def _path_blocked(p: Path) -> bool:
         # Skip hidden dirs (start with .) and ignored dirs anywhere on path
         rel = p.relative_to(root_dir).as_posix()
+        parent = root_dir
         for part in rel.split("/")[:-1]:  # exclude filename itself
-            if part.startswith(".") or part in ignore:
+            parent /= part
+            if ignore.should_ignore_directory(parent):
                 return True
         return False
 
@@ -183,8 +220,10 @@ def _scan_code_tree(track: dict[str, Any]) -> int:
         return 0
 
     # 第一段：锚点导航（继承 smart_map.py 防爆参数 D25）
-    ignore_dirs = frozenset(
-        track.get("ignore") or cth.DEFAULT_IGNORE_DIRS
+    ignore_dirs = IndexIgnorePolicy(
+        repo_root,
+        set(track.get("ignore") or cth.DEFAULT_IGNORE_DIRS),
+        _track_resolver.get_indexing_config(repo_root),
     )
     anchor_files = frozenset(
         track.get("anchor_files") or cth.DEFAULT_ANCHOR_FILES
@@ -248,11 +287,6 @@ def _scan_code_tree(track: dict[str, Any]) -> int:
 
 # ---------- dispatch ----------
 
-_REMOVED_TYPES = {
-    "docs-tree": "dir-tree",
-    "spec-tree": "dir-tree",
-}
-
 DISPATCH = {
     "dir-tree": _scan_dir_tree,
     "repo-entry": _scan_repo_entry,
@@ -262,32 +296,28 @@ DISPATCH = {
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--track-id", required=True)
+    target = parser.add_mutually_exclusive_group(required=True)
+    target.add_argument("--track-id")
+    target.add_argument("--all", action="store_true", help="scan every enabled track")
     parser.add_argument("--debug", action="store_true")
     args = parser.parse_args()
 
-    track = _track_resolver.resolve(args.track_id)
-    if track is None:
-        return 0
-
-    track_type = track["type"]
-    handler = DISPATCH.get(track_type)
-
-    if handler is None:
-        if track_type in _REMOVED_TYPES:
-            new_type = _REMOVED_TYPES[track_type]
-            print(
-                f"[track-scan] ERROR: type '{track_type}' has been removed. "
-                f"Migrate registry.yaml to type: {new_type}",
-                file=sys.stderr,
-            )
-            return 2
-        print(f"[track-scan] warn: no dispatch for type {track_type!r}, skip")
-        return 0
-
-    if args.debug:
-        print(f"[track-scan] debug: track={json.dumps(track, ensure_ascii=False)}")
-    return handler(track)
+    tracks = (
+        _track_resolver.list_tracks()
+        if args.all
+        else [_track_resolver.resolve(args.track_id)]
+    )
+    exit_code = 0
+    for track in (track for track in tracks if track is not None):
+        track_type = track["type"]
+        handler = DISPATCH.get(track_type)
+        if handler is None:
+            print(f"[track-scan] warn: no dispatch for type {track_type!r}, skip")
+            continue
+        if args.debug:
+            print(f"[track-scan] debug: track={json.dumps(track, ensure_ascii=False)}")
+        exit_code = max(exit_code, handler(track))
+    return exit_code
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ metadata:
   top_level_capability: 现实结晶
   object_kind: workflow
   lifecycle_chain: crystallization
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Crystallization Workflow

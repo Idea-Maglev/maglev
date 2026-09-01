@@ -5,7 +5,7 @@ metadata:
   top_level_capability: 整体接入
   object_kind: workflow
   lifecycle_chain: system_enablement
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Update Workflow

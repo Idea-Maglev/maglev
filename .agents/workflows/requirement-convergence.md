@@ -5,7 +5,7 @@ metadata:
   top_level_capability: 需求收敛
   object_kind: workflow
   lifecycle_chain: main_flow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Requirement Convergence Workflow

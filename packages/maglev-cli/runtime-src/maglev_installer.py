@@ -10,6 +10,8 @@ import argparse
 import hashlib
 import json
 import os
+import posixpath
+import re
 import shutil
 import subprocess
 import sys
@@ -19,34 +21,116 @@ import urllib.request
 from datetime import datetime, timezone
 
 
-DEFAULT_UPSTREAM = os.environ.get("MAGLEV_UPSTREAM_URL", "https://raw.githubusercontent.com/Idea-Maglev/maglev/release")
+DEFAULT_UPSTREAM = os.environ.get("MAGLEV_UPSTREAM_URL", "https://git.nevint.com/feiyu.gao/maglev/-/raw/release")
 MAGLEV_DIR = ".maglev"
 STATE_FILE = os.path.join(MAGLEV_DIR, "sync_state.json")
 CONFIG_FILE = os.path.join(MAGLEV_DIR, "config.json")
+EXTENSION_SOURCES_FILE = os.path.join(MAGLEV_DIR, "extensions.sources.yaml")
+DEFAULT_EXTENSION_SOURCE_ID = "maglev-official"
+DEFAULT_EXTENSION_SOURCE_NAME = "Maglev Official Extensions"
+DEFAULT_EXTENSION_SOURCE_TYPE = "git"
+DEFAULT_EXTENSION_SOURCE_URL = "git@git.nevint.com:maglev/maglev-extensions-registry.git"
+DEFAULT_EXTENSION_SOURCE_REF = "master"
+DEFAULT_INDEXING_CONFIG = {
+    "ignore_dirs": [".agent", ".claude", ".codex", ".github"],
+    "ignore_hidden_dirs": True,
+    "inherit_gitignore": True,
+}
+PROJECT_INDEX_REGISTRY_PATH = ".agents/skills/index-librarian/protocol/registry.yaml"
+PROJECT_OWNED_RUNTIME_FILES = {
+    PROJECT_INDEX_REGISTRY_PATH,
+}
 MANIFEST_NAME = "manifest.json"
+RETIREMENT_MANIFEST_SCHEMA_VERSION = 2
+RETIREMENT_STATUSES = {
+    "RETIRE",
+    "KEEP-MODIFIED",
+    "KEEP-REFERENCED",
+    "KEEP-NO-BASELINE",
+    "MISSING",
+    "SCAN-ERROR",
+    "DELETE-FAILED",
+}
+RETIREMENT_TERMINAL_STATUSES = {"RETIRE", "MISSING"}
+RETIREMENT_SUCCESSOR_SCOPES = {"distributed", "source-only"}
+RETIREMENT_REPORT_FILE = os.path.join(MAGLEV_DIR, "retirement_report.json")
+RETIREMENT_SCAN_ROOTS = (
+    "AGENTS.md",
+    "llms.txt",
+    "README.md",
+    "docs",
+    "specs",
+    ".agents",
+    ".maglev",
+)
+RETIREMENT_SCAN_EXCLUDED_PREFIXES = (
+    ".maglev/temp/",
+    ".maglev/runtime/",
+    "docs/superpowers/",
+    "docs/thinking/90_archive/",
+    "public_artifacts/",
+    "specs/90_archive/maglev_protocol_retirement/",
+)
+RETIREMENT_SCAN_EXCLUDED_PATHS = {
+    ".maglev/sync_state.json",
+    ".maglev/retirement_report.json",
+    "packages/maglev-cli/dist/manifest.json",
+}
+RETIREMENT_BINARY_SIGNATURES = (
+    b"\x7fELF",
+    b"MZ",
+    b"\xcf\xfa\xed\xfe",
+    b"\xfe\xed\xfa\xcf",
+    b"\xce\xfa\xed\xfe",
+    b"\xfe\xed\xfa\xce",
+    b"\xca\xfe\xba\xbe",
+    b"\xbe\xba\xfe\xca",
+    b"\xca\xfe\xba\xbf",
+    b"\xbf\xba\xfe\xca",
+    b"PK\x03\x04",
+    b"\x1f\x8b",
+    b"BZh",
+    b"%PDF-",
+    b"\x89PNG\r\n\x1a\n",
+    b"\xff\xd8\xff",
+    b"GIF8",
+    b"RIFF",
+    b"SQLite format 3\x00",
+)
+# maglev:managed:mainline
+# source: specs/_meta/documentation-governance.json sha256: 9118d62d09dae8ea50318052d9cd05de172269b51ec198d3bde2679186e427e9
 CURRENT_RUNTIME_NAMES = [
+    "entry-router",
     "reality-sync",
+    "requirement-convergence",
     "spec-designer",
     "context-implementer",
+    "code-execution-slot",
     "integrated-validator",
+    "crystallization",
+    "knowledge-check",
 ]
+# /maglev:managed:mainline
+# maglev:managed:legacy
 LEGACY_RUNTIME_NAMES = [
     "maglev-standup",
     "maglev-create-spec",
     "maglev-quick-dev",
     "maglev-cross-validate",
 ]
+# /maglev:managed:legacy
+# maglev:managed:compatibility
 WORKFLOW_ENTRYPOINTS = [
     "/standup",
     "/create-spec",
     "/quick-dev",
     "/validate-all",
 ]
+# /maglev:managed:compatibility
 PRIVATE_CONTAMINATION_MARKERS = [
     "specs/20_evolution/active/",
     "runtime_naming_governance",
     "task_ai_tooling_compatibility_followup",
-    "task_public_distribution_channel",
     ".maglev_build",
 ]
 
@@ -100,6 +184,36 @@ def print_error(msg):
     print(f"{Colors.FAIL}❌ {msg}{Colors.ENDC}")
 
 
+class GitSourceProbeError(Exception):
+    def __init__(self, code, message):
+        super().__init__(message)
+        self.code = code
+
+
+class RetirementManifestError(ValueError):
+    pass
+
+
+class RetirementScanError(ValueError):
+    pass
+
+
+def render_default_extension_sources_yaml(url=DEFAULT_EXTENSION_SOURCE_URL, ref=DEFAULT_EXTENSION_SOURCE_REF):
+    return (
+        "version: 1\n"
+        "sources:\n"
+        f"  - id: {DEFAULT_EXTENSION_SOURCE_ID}\n"
+        f"    name: {DEFAULT_EXTENSION_SOURCE_NAME}\n"
+        f"    type: {DEFAULT_EXTENSION_SOURCE_TYPE}\n"
+        f"    url: {url}\n"
+        f"    ref: {ref}\n"
+        "    enabled: true\n"
+    )
+
+
+DEFAULT_EXTENSION_SOURCES_YAML = render_default_extension_sources_yaml()
+
+
 def compute_sha256(file_path):
     if not os.path.exists(file_path):
         return None
@@ -110,6 +224,271 @@ def compute_sha256(file_path):
     return digest.hexdigest()
 
 
+def normalize_relative_path(path):
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError("path must be a non-empty string")
+    normalized = path.replace("\\", "/")
+    if normalized.startswith("/") or (len(normalized) > 1 and normalized[1] == ":"):
+        raise ValueError("path must be relative")
+    parts = [part for part in normalized.split("/") if part not in ("", ".")]
+    if not parts or ".." in parts:
+        raise ValueError("path contains traversal")
+    return "/".join(parts)
+
+
+def safe_project_path(relative_path, project_root="."):
+    normalized = normalize_relative_path(relative_path)
+    root_real = os.path.realpath(os.path.abspath(project_root))
+    candidate = os.path.join(os.path.abspath(project_root), *normalized.split("/"))
+    candidate_real = os.path.realpath(candidate)
+    try:
+        common = os.path.commonpath([root_real, candidate_real])
+    except ValueError as error:
+        raise ValueError("path is outside project root") from error
+    if common != root_real:
+        raise ValueError("path is outside project root")
+    if os.path.lexists(candidate) and os.path.islink(candidate):
+        raise ValueError("symbolic links are not eligible for retirement")
+    return candidate, normalized
+
+
+def _is_historical_reference(relative_path, line):
+    normalized_path = relative_path.replace("\\", "/")
+    if normalized_path in RETIREMENT_SCAN_EXCLUDED_PATHS:
+        return True
+    if any(normalized_path.startswith(prefix) for prefix in RETIREMENT_SCAN_EXCLUDED_PREFIXES):
+        return True
+    lower_line = line.lower()
+    return any(
+        marker in lower_line
+        for marker in (
+            "historical-only",
+            "historical evidence",
+            "migration evidence",
+            "source-disposition",
+            "处置证据",
+            "退役",
+        )
+    )
+
+
+def _is_binary_reference_candidate(sample):
+    return b"\x00" in sample or any(sample.startswith(signature) for signature in RETIREMENT_BINARY_SIGNATURES)
+
+
+MARKDOWN_LINK_TARGET_RE = re.compile(
+    r"!?[^\[]*\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))",
+)
+
+
+def _resolved_markdown_target(target, source_path):
+    target = urllib.parse.unquote(target.strip()).split("#", 1)[0].split("?", 1)[0]
+    if not target or target.startswith(("#", "mailto:", "http://", "https://", "//")):
+        return None
+    if target.startswith("/"):
+        resolved = target.lstrip("/")
+    else:
+        source_dir = posixpath.dirname(source_path)
+        resolved = posixpath.normpath(posixpath.join(source_dir, target))
+    if resolved == "." or resolved.startswith("../") or "/../" in resolved:
+        return None
+    try:
+        return normalize_relative_path(resolved)
+    except ValueError:
+        return None
+
+
+def _line_references_retired_path(line, source_path, retired_path):
+    if retired_path in line:
+        return True
+    for match in MARKDOWN_LINK_TARGET_RE.finditer(line):
+        target = match.group(1) or match.group(2)
+        if target and _resolved_markdown_target(target, source_path) == retired_path:
+            return True
+    return False
+
+
+def _iter_reference_files(project_root, include_roots=None, excluded_paths=None):
+    root = os.path.abspath(project_root)
+    excluded = set(excluded_paths or ())
+    roots = include_roots or RETIREMENT_SCAN_ROOTS
+    yielded = set()
+
+    for include_root in roots:
+        normalized_root = normalize_relative_path(include_root)
+        absolute_root = os.path.join(root, *normalized_root.split("/"))
+        if not os.path.exists(absolute_root):
+            continue
+        if os.path.isfile(absolute_root):
+            candidates = [absolute_root]
+        elif os.path.isdir(absolute_root):
+            candidates = []
+            for current_root, dirs, files in os.walk(absolute_root):
+                dirs[:] = [
+                    directory
+                    for directory in dirs
+                    if directory not in {
+                        ".git",
+                        "__pycache__",
+                        ".pytest_cache",
+                        ".mypy_cache",
+                        ".ruff_cache",
+                        "node_modules",
+                    }
+                ]
+                for filename in sorted(files):
+                    candidates.append(os.path.join(current_root, filename))
+        else:
+            raise RetirementScanError("reference root is not a regular file or directory")
+
+        for candidate in candidates:
+            relative_path = os.path.relpath(candidate, root).replace(os.sep, "/")
+            if relative_path in excluded or relative_path in yielded:
+                continue
+            if relative_path in RETIREMENT_SCAN_EXCLUDED_PATHS:
+                continue
+            if any(relative_path.startswith(prefix) for prefix in RETIREMENT_SCAN_EXCLUDED_PREFIXES):
+                continue
+            yielded.add(relative_path)
+            yield candidate, relative_path
+
+
+def scan_active_references(
+    retired_path,
+    project_root=".",
+    include_roots=None,
+    excluded_paths=None,
+):
+    normalized_retired_path = normalize_relative_path(retired_path)
+    exclusions = set(excluded_paths or ())
+    exclusions.add(normalized_retired_path)
+    references = []
+
+    try:
+        files = _iter_reference_files(project_root, include_roots, exclusions)
+        for absolute_path, relative_path in files:
+            try:
+                with open(absolute_path, "rb") as file:
+                    sample = file.read(8192)
+                    if _is_binary_reference_candidate(sample):
+                        continue
+                    file.seek(0)
+                    for line_number, raw_line in enumerate(file, 1):
+                        line = raw_line.decode("utf-8")
+                        if not _line_references_retired_path(
+                            line,
+                            relative_path,
+                            normalized_retired_path,
+                        ):
+                            continue
+                        if _is_historical_reference(relative_path, line):
+                            continue
+                        references.append({
+                            "path": relative_path,
+                            "line": line_number,
+                            "kind": "active-navigation",
+                        })
+            except (OSError, UnicodeError) as error:
+                raise RetirementScanError(
+                    f"unable to read reference candidate {relative_path}: {error}"
+                ) from error
+    except OSError as error:
+        raise RetirementScanError(f"unable to scan reference roots: {error}") from error
+
+    return references
+
+
+def scan_retired_file(
+    path,
+    retirement=None,
+    baselines=None,
+    project_root=".",
+    include_roots=None,
+):
+    retirement = retirement or {}
+    baselines = baselines or {}
+    result = {
+        "path": path,
+        "status": "SCAN-ERROR",
+        "reason": "",
+        "references": [],
+        "successors": retirement.get("successors", []),
+    }
+
+    try:
+        absolute_path, normalized_path = safe_project_path(path, project_root)
+    except ValueError as error:
+        result["reason"] = str(error)
+        return result
+
+    result["path"] = normalized_path
+    if not os.path.exists(absolute_path):
+        result["status"] = "MISSING"
+        result["reason"] = "retired file is already absent"
+        return result
+    if not os.path.isfile(absolute_path) or os.path.islink(absolute_path):
+        result["reason"] = "retired path is not a regular file"
+        return result
+
+    baseline = baselines.get(normalized_path) or baselines.get(path)
+    if not baseline:
+        result["status"] = "KEEP-NO-BASELINE"
+        result["reason"] = "no baseline hash is recorded"
+        return result
+
+    current_hash = compute_sha256(absolute_path)
+    if current_hash != baseline:
+        result["status"] = "KEEP-MODIFIED"
+        result["reason"] = "current hash differs from recorded baseline"
+        result["current_hash"] = current_hash
+        result["baseline_hash"] = baseline
+        return result
+
+    try:
+        references = scan_active_references(
+            normalized_path,
+            project_root=project_root,
+            include_roots=include_roots,
+        )
+    except RetirementScanError as error:
+        result["reason"] = str(error)
+        return result
+
+    result["references"] = references
+    if references:
+        result["status"] = "KEEP-REFERENCED"
+        result["reason"] = "active references still point to retired path"
+        return result
+
+    result["status"] = "RETIRE"
+    result["reason"] = "baseline matches and no active references were found"
+    return result
+
+
+def apply_retirement_plan(plan, project_root=".", dry_run=False):
+    applied = []
+    for item in plan:
+        result = dict(item)
+        if result.get("status") != "RETIRE":
+            applied.append(result)
+            continue
+        if dry_run:
+            result["action"] = "would-delete"
+            applied.append(result)
+            continue
+
+        try:
+            absolute_path, _ = safe_project_path(result["path"], project_root)
+            os.remove(absolute_path)
+            result["action"] = "deleted"
+        except (OSError, ValueError) as error:
+            result["status"] = "DELETE-FAILED"
+            result["reason"] = str(error)
+            result["action"] = "kept"
+        applied.append(result)
+    return applied
+
+
 def _read_text_if_exists(path):
     if not os.path.exists(path):
         return None
@@ -117,11 +496,172 @@ def _read_text_if_exists(path):
         return file.read()
 
 
+def _default_project_registry_content():
+    return """# Index Protocol — Project Registry
+# 项目级索引边界声明；由 init / 显式迁移生成，后续由项目自行维护
+# 注意：该文件属于项目实例配置，不应被框架 update 静默覆写
+
+protocol_version: "3.0"
+
+tracks:
+  - id: specs
+    type: dir-tree
+    root: specs/
+    output: specs/_meta/index.yaml
+    entity_type: spec-topic
+    child_type: auto
+    max_depth: 4
+    ignore:
+      - _meta
+      - context
+      - ref
+
+  - id: docs
+    type: dir-tree
+    root: docs/
+    output: docs/_meta/index.yaml
+    entity_type: document
+    child_type: auto
+    max_depth: 4
+    ignore:
+      - _meta
+
+  # repo-entry / code-tree 必须由项目按自身边界显式启用。
+  # 不在消费者项目初始化时默认生成仓库地图，避免把 Maglev 管理资产
+  # 与业务仓库事实混入存量项目逆向上下文。
+  # 需要仓库入口索引时，请从以下模板显式追加：
+  # - .agents/skills/index-librarian/protocol/registry.example.repo-entry.yaml
+  # - .agents/skills/index-librarian/protocol/registry.example.code-tree.yaml
+"""
+
+
+def _looks_like_bundled_registry_template(content):
+    if not content:
+        return False
+    return (
+        "id: skills" in content
+        or "id: tests-knowledge" in content
+        or "# Index Protocol — Module & Track Registry" in content
+    )
+
+
+def _parse_scp_like_git_url(url):
+    match = re.match(r"^(?P<user>[^@/:\s]+)@(?P<host>[^:/\s]+):(?P<repo_path>.+)$", url)
+    if not match:
+        return None
+    return {"host": match.group("host"), "repo_path": match.group("repo_path")}
+
+
+def _trim_leading_slashes(value):
+    return value.lstrip("/") if isinstance(value, str) else ""
+
+
+def _derive_https_from_git_url(url):
+    scp_like = _parse_scp_like_git_url(url)
+    if scp_like:
+        return f"https://{scp_like['host']}/{scp_like['repo_path']}"
+
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme != "ssh" or not parsed.hostname:
+        return None
+
+    repo_path = _trim_leading_slashes(parsed.path)
+    return f"https://{parsed.hostname}/{repo_path}" if repo_path else None
+
+
+def _derive_ssh_from_git_url(url):
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.hostname:
+        return None
+
+    repo_path = _trim_leading_slashes(parsed.path)
+    return f"git@{parsed.hostname}:{repo_path}" if repo_path else None
+
+
+def build_git_source_candidates(url):
+    candidates = [{"url": url, "strategy": "original"}]
+    ssh_to_https = _derive_https_from_git_url(url)
+    https_to_ssh = _derive_ssh_from_git_url(url)
+    if ssh_to_https:
+        candidates.append({"url": ssh_to_https, "strategy": "ssh_to_https"})
+    if https_to_ssh:
+        candidates.append({"url": https_to_ssh, "strategy": "https_to_ssh"})
+
+    deduped = []
+    seen = set()
+    for candidate in candidates:
+        candidate_url = candidate.get("url")
+        if not candidate_url or candidate_url in seen:
+            continue
+        deduped.append(candidate)
+        seen.add(candidate_url)
+    return deduped
+
+
+def probe_git_remote(url, ref):
+    code, stdout, stderr = _run_git(["-c", "safe.bareRepository=all", "ls-remote", url, ref])
+    if code == 0:
+        return
+    detail = (stderr or stdout or "").strip()
+    message = f"unable to reach git source {url}"
+    if detail:
+        message = f"{message}: {detail}"
+    raise GitSourceProbeError("git_probe_failed", message)
+
+
+def format_git_source_probe_failure(original_url, ref, failures):
+    attempted = "\n".join(
+        f"{index + 1}. [{failure['strategy']}] {failure['url']} -> {failure['message']}"
+        for index, failure in enumerate(failures)
+    )
+    return "\n".join(
+        [
+            f"unable to configure git source {original_url} at ref {ref}",
+            f"attempted candidates:\n{attempted}" if attempted else "no candidate could be probed",
+        ]
+    )
+
+
+def resolve_git_source_input(url, ref=DEFAULT_EXTENSION_SOURCE_REF, probe=probe_git_remote):
+    normalized_url = url.strip() if isinstance(url, str) else ""
+    normalized_ref = ref.strip() if isinstance(ref, str) and ref.strip() else DEFAULT_EXTENSION_SOURCE_REF
+    if not normalized_url:
+        raise GitSourceProbeError("source_invalid", "git source requires url")
+
+    failures = []
+    for candidate in build_git_source_candidates(normalized_url):
+        try:
+            probe(candidate["url"], normalized_ref)
+            return {
+                "url": candidate["url"],
+                "ref": normalized_ref,
+                "probe_strategy": candidate["strategy"],
+                "attempted_candidates": failures
+                + [{"url": candidate["url"], "strategy": candidate["strategy"], "status": "pass"}],
+            }
+        except GitSourceProbeError as error:
+            failures.append(
+                {
+                    "url": candidate["url"],
+                    "strategy": candidate["strategy"],
+                    "status": "fail",
+                    "code": error.code,
+                    "message": str(error),
+                }
+            )
+
+    raise GitSourceProbeError(
+        "git_source_probe_failed",
+        format_git_source_probe_failure(normalized_url, normalized_ref, failures),
+    )
+
+
 def _minimal_agents_outline():
     return [
         "AGENTS.md 至少应包含：项目目标、关键目录、AI 协作约束、写作硬规则。",
         "可按四段来写：`项目理解`、`Maglev 使用方式`、`协作约束`、`写作与产物纯净`。",
         "在 `Maglev 使用方式` 里写清当前主流程运行名：reality-sync、spec-designer、context-implementer、integrated-validator。",
+        "写清本地 skill 优先级：项目内 `.agents/skills` 和 `entry-router` 优先，外部或全局 skill 只能显式调用或经 `code-execution-slot` 选择后使用。",
     ]
 
 
@@ -130,6 +670,7 @@ def _minimal_llms_outline():
         "llms.txt 至少应包含：项目背景、主流程 skill runtime name、兼容 workflow 入口、init/update 入口说明。",
         "如果保留 /standup、/create-spec、/quick-dev、/validate-all，请明确它们是兼容 workflow 入口。",
         "不要把 workflow 入口名写成当前 skill runtime name。",
+        "明确已接入 Maglev 的项目应优先使用项目内 `.agents/skills`，外部或全局 skill 不得自动绕过 Maglev 主流程。",
     ]
 
 
@@ -152,6 +693,12 @@ def _minimal_agents_example():
             "",
             "- 当前主流程 skill runtime name：reality-sync、spec-designer、context-implementer、integrated-validator",
             "- 兼容 workflow 入口：/standup、/create-spec、/quick-dev、/validate-all",
+            "",
+            "### Skill 优先级协议",
+            "",
+            "- 已接入 Maglev 的项目中，项目内 `.agents/skills` 是本项目优先使用的 skill 来源。",
+            "- 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback。",
+            "- 外部或全局 skill 不得自动绕过 Maglev 主流程；只有用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后，才可使用。",
             "",
             "## 协作约束",
             "",
@@ -204,6 +751,12 @@ def _minimal_llms_example():
             "- /validate-all",
             "",
             "说明：workflow 入口是兼容入口，不等于当前 skill runtime name。",
+            "",
+            "本地能力优先：",
+            "- 项目内 `.agents/skills` 是本项目优先使用的 skill 来源。",
+            "- 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot`。",
+            "- 外部或全局 skill 只能在用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后使用。",
+            "",
             "初始化和升级时，请同步维护 AGENTS.md 和 llms.txt。",
             "",
             "产物纯净（前置 hint）：",
@@ -254,6 +807,22 @@ def check_ai_context_assets(project_root="."):
     has_runtime_name = any(token in combined_text for token in CURRENT_RUNTIME_NAMES)
     has_workflow_entry = any(token in combined_text for token in WORKFLOW_ENTRYPOINTS)
     has_init_update = any(token in lower_text for token in ["init", "update", "初始化", "升级", "更新"])
+    has_local_skill_source = any(
+        token in combined_text
+        for token in [".agents/skills", "项目内 skill", "本地 skill", "本地能力优先"]
+    )
+    has_entry_router = "entry-router" in combined_text
+    has_code_execution_slot = "code-execution-slot" in combined_text
+    has_external_skill_boundary = (
+        any(token in combined_text for token in ["外部", "全局", "external", "global"])
+        and any(token in combined_text for token in ["不能绕过", "不得自动", "明确指定", "选择后", "受控"])
+    )
+    has_local_skill_precedence = (
+        has_local_skill_source
+        and has_entry_router
+        and has_code_execution_slot
+        and has_external_skill_boundary
+    )
 
     if has_project_context and has_structure_context and has_maglev_context and (has_runtime_name or has_workflow_entry):
         report["sufficiency"]["status"] = "sufficient"
@@ -285,6 +854,12 @@ def check_ai_context_assets(project_root="."):
         report["drift"]["status"] = "drifted"
         report["drift"]["reasons"].append("缺少会话纪律（maglev-discipline）引用，执行加固未激活。")
 
+    if not has_local_skill_precedence:
+        report["drift"]["status"] = "drifted"
+        report["drift"]["reasons"].append(
+            "缺少 Maglev 本地 skill 优先级协议：项目内 .agents/skills、entry-router 与 code-execution-slot 的优先关系未说明。"
+        )
+
     contamination_hits = [token for token in PRIVATE_CONTAMINATION_MARKERS if token in combined_text]
     if contamination_hits:
         report["contamination"]["status"] = "contaminated"
@@ -302,6 +877,7 @@ def check_ai_context_assets(project_root="."):
         report["examples"]["llms.txt"] = _minimal_llms_example()
     if report["drift"]["status"] == "drifted":
         report["suggestions"].append("将旧 runtime name 更新为当前运行名，并区分 skill runtime name 与 workflow 兼容入口。")
+        report["suggestions"].append("在 AGENTS.md / llms.txt 补充本地 skill 优先级协议，防止外部或全局 skill 自动绕过 Maglev 主流程。")
         report["examples"].setdefault("AGENTS.md", _minimal_agents_example())
         report["examples"].setdefault("llms.txt", _minimal_llms_example())
     if report["contamination"]["status"] == "contaminated":
@@ -931,14 +1507,231 @@ class MaglevInstaller:
             print_error(f"manifest.json 解析失败: {error}")
             sys.exit(2)
 
+    def _retirement_entries(self):
+        schema_version = self.manifest.get("manifest_schema_version")
+        if schema_version is None:
+            return []
+        if isinstance(schema_version, bool) or not isinstance(schema_version, int):
+            raise RetirementManifestError(
+                f"manifest_schema_version must be an integer: {schema_version}"
+            )
+        if schema_version < RETIREMENT_MANIFEST_SCHEMA_VERSION:
+            return []
+        if schema_version != RETIREMENT_MANIFEST_SCHEMA_VERSION:
+            raise RetirementManifestError(
+                f"unsupported manifest_schema_version: {schema_version}"
+            )
+
+        entries = self.manifest.get("retired_files")
+        if not isinstance(entries, list):
+            raise RetirementManifestError("retired_files must be a list")
+
+        normalized_entries = []
+        seen_paths = set()
+        for entry in entries:
+            if not isinstance(entry, dict):
+                raise RetirementManifestError("retired_files entries must be objects")
+            try:
+                path, normalized_path = safe_project_path(entry["path"], os.getcwd())
+            except (KeyError, ValueError) as error:
+                raise RetirementManifestError(f"invalid retired path: {error}") from error
+            del path
+            if normalized_path in seen_paths:
+                raise RetirementManifestError(f"duplicate retired path: {normalized_path}")
+            seen_paths.add(normalized_path)
+            if entry.get("disposition") != "RETIRE":
+                raise RetirementManifestError(
+                    f"unsupported retired disposition: {entry.get('disposition')}"
+                )
+            successors = entry.get("successors")
+            if not isinstance(successors, list) or not successors:
+                raise RetirementManifestError(
+                    f"retired entry requires successors: {normalized_path}"
+                )
+            normalized_successors = []
+            successor_paths = set()
+            for successor in successors:
+                if not isinstance(successor, dict):
+                    raise RetirementManifestError(
+                        f"invalid successor for {normalized_path}"
+                    )
+                try:
+                    _, successor_path = safe_project_path(
+                        successor["path"], os.getcwd()
+                    )
+                except (KeyError, ValueError) as error:
+                    raise RetirementManifestError(
+                        f"invalid successor for {normalized_path}: {error}"
+                    ) from error
+                scope = successor.get("scope")
+                if scope not in RETIREMENT_SUCCESSOR_SCOPES:
+                    raise RetirementManifestError(
+                        f"unsupported successor scope for {normalized_path}: {scope}"
+                    )
+                if successor_path in successor_paths:
+                    raise RetirementManifestError(
+                        f"duplicate successor for {normalized_path}: {successor_path}"
+                    )
+                successor_paths.add(successor_path)
+                normalized_successors.append({
+                    "path": successor_path,
+                    "scope": scope,
+                })
+
+            introduced_in = entry.get("introduced_in")
+            if not isinstance(introduced_in, str) or not introduced_in:
+                raise RetirementManifestError(
+                    f"retired entry missing introduced_in: {normalized_path}"
+                )
+            normalized_entry = dict(entry)
+            normalized_entry["path"] = normalized_path
+            normalized_entry["successors"] = normalized_successors
+            normalized_entries.append(normalized_entry)
+
+        return normalized_entries
+
+    def _ensure_retirement_successors(self, entries):
+        manifest_files = {
+            item.get("path"): item
+            for item in self.manifest.get("files", [])
+            if isinstance(item, dict) and isinstance(item.get("path"), str)
+        }
+        failures = {}
+
+        for entry in entries:
+            for successor in entry["successors"]:
+                if successor["scope"] != "distributed":
+                    continue
+                successor_path = successor["path"]
+                item = manifest_files.get(successor_path)
+                if item is None:
+                    failures[entry["path"]] = (
+                        f"distributed successor missing from manifest: {successor_path}"
+                    )
+                    continue
+                try:
+                    safe_project_path(successor_path, os.getcwd())
+                except ValueError as error:
+                    failures[entry["path"]] = str(error)
+                    continue
+
+                expected_hash = item.get("sha256")
+                current_hash = compute_sha256(successor_path)
+                if current_hash == expected_hash:
+                    continue
+                if self.args.dry_run:
+                    if self.args.local_dist:
+                        source_path = os.path.join(self.args.local_dist, successor_path)
+                        if not os.path.exists(source_path):
+                            failures[entry["path"]] = (
+                                f"local successor source missing: {source_path}"
+                            )
+                            continue
+                        if compute_sha256(source_path) != expected_hash:
+                            failures[entry["path"]] = (
+                                f"local successor hash mismatch: {successor_path}"
+                            )
+                            continue
+                    print(f"  [DRY-RUN] Would download successor: {successor_path}")
+                    continue
+                if not self._download_file(successor_path, expected_hash):
+                    failures[entry["path"]] = (
+                        f"unable to download successor: {successor_path}"
+                    )
+                    continue
+                if compute_sha256(successor_path) != expected_hash:
+                    failures[entry["path"]] = (
+                        f"successor hash mismatch after download: {successor_path}"
+                    )
+        return failures
+
+    def _build_retirement_plan(self, entries, baselines, successor_failures):
+        plan = []
+        for entry in entries:
+            result = scan_retired_file(
+                entry["path"],
+                retirement=entry,
+                baselines=baselines,
+                project_root=os.getcwd(),
+            )
+            if entry["path"] in successor_failures and result["status"] == "RETIRE":
+                result["status"] = "SCAN-ERROR"
+                result["reason"] = successor_failures[entry["path"]]
+            plan.append(result)
+        return plan
+
+    def _print_retirement_results(self, results, dry_run=False):
+        print_info(
+            "\n[RETIREMENT] 旧运行时协议退役"
+            + (" (DRY-RUN)" if dry_run else "")
+        )
+        for result in results:
+            suffix = ""
+            if result.get("references"):
+                suffix = " | references=" + ", ".join(
+                    f"{item['path']}:{item['line']}"
+                    for item in result["references"]
+                )
+            print(f"  [{result['status']}] {result['path']}: {result['reason']}{suffix}")
+
+    def _record_retirement_results(self, results):
+        history = list(self.local_state.get("retirement_history", []))
+        retirement_baselines = dict(self.local_state.get("retirement_baselines", {}))
+        version = self.manifest.get("version")
+        for result in results:
+            key = (result["path"], version)
+            history = [
+                item for item in history
+                if (item.get("path"), item.get("version")) != key
+            ]
+            history.append({
+                "path": result["path"],
+                "status": result["status"],
+                "version": version,
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "reason": result.get("reason", ""),
+                "references": result.get("references", []),
+            })
+            if result["status"] in RETIREMENT_TERMINAL_STATUSES:
+                retirement_baselines.pop(result["path"], None)
+            elif result.get("baseline_hash"):
+                retirement_baselines[result["path"]] = result["baseline_hash"]
+        self.local_state["retirement_history"] = history
+        if retirement_baselines:
+            self.local_state["retirement_baselines"] = retirement_baselines
+        else:
+            self.local_state.pop("retirement_baselines", None)
+
+    def _pending_retirement_entries(self, entries):
+        history = {}
+        for item in self.local_state.get("retirement_history", []):
+            if not isinstance(item, dict):
+                continue
+            key = (item.get("path"), item.get("version"))
+            history[key] = item.get("status")
+
+        version = self.manifest.get("version")
+        pending = []
+        for entry in entries:
+            key = (entry["path"], version)
+            if history.get(key) in RETIREMENT_TERMINAL_STATUSES and not os.path.exists(entry["path"]):
+                continue
+            pending.append(entry)
+        return pending
+
     def do_init(self):
         print_info("\n[3/6] 🚀 全量下载执行")
         files = self.manifest.get("files", [])
         success_count = 0
+        project_owned_count = 0
 
         for idx, item in enumerate(files, 1):
             path = item["path"]
             expected_hash = item["sha256"]
+            if path in PROJECT_OWNED_RUNTIME_FILES:
+                project_owned_count += 1
+                print(f"  [=] PROJECT-OWNED: {path} (由当前项目初始化生成)")
+                continue
             if self.args.dry_run:
                 print(f"  [DRY-RUN] Would download: {path}")
                 success_count += 1
@@ -948,12 +1741,16 @@ class MaglevInstaller:
                 success_count += 1
 
         print()
-        print_success(f"已下载 {success_count}/{len(files)} 个资产集。")
+        downloadable_count = len(files) - project_owned_count
+        print_success(f"已下载 {success_count}/{downloadable_count} 个发行资产。")
+        if project_owned_count:
+            print_success(f"已跳过 {project_owned_count} 个项目实例文件，改由初始化流程生成。")
 
         print_info("\n[4/6] 🏗️ 构建目录骨架")
         self.create_skeleton_dirs()
         self.ensure_gitignore()
         self.ensure_ai_context_files()
+        self.ensure_project_index_registry()
 
         print_info("\n[5/6] 📝 交互式项目配置")
         self.interactive_questionnaire()
@@ -977,9 +1774,16 @@ class MaglevInstaller:
         with open(STATE_FILE, "r", encoding="utf-8") as file:
             self.local_state = json.load(file)
 
+        try:
+            retirement_entries = self._retirement_entries()
+            retirement_entries = self._pending_retirement_entries(retirement_entries)
+        except RetirementManifestError as error:
+            print_error(f"退役清单不受支持，已保留旧文件: {error}")
+            raise SystemExit(2)
+
         local_version = self.local_state.get("last_synced_version")
         remote_version = self.manifest.get("version")
-        if local_version == remote_version and not self.args.force:
+        if local_version == remote_version and not self.args.force and not retirement_entries:
             print_success("当前已是最新版本，无需更新。")
             disc_result = ensure_discipline_pointer(os.getcwd(), dry_run=self.args.dry_run)
             if disc_result["agents_md"] == "injected":
@@ -997,6 +1801,13 @@ class MaglevInstaller:
             return
 
         baselines = self.local_state.get("file_baselines", {})
+        retirement_baselines = dict(self.local_state.get("retirement_baselines", {}))
+        for entry in retirement_entries:
+            path = entry["path"]
+            if path not in retirement_baselines and baselines.get(path):
+                retirement_baselines[path] = baselines[path]
+        retirement_scan_baselines = dict(baselines)
+        retirement_scan_baselines.update(retirement_baselines)
         files = self.manifest.get("files", [])
         stats = {"NEW": 0, "SKIP": 0, "OVERWRITE": 0, "CONFLICT": 0}
 
@@ -1005,6 +1816,10 @@ class MaglevInstaller:
 
         for item in files:
             path = item["path"]
+            if path in PROJECT_OWNED_RUNTIME_FILES:
+                stats["SKIP"] += 1
+                print(f"  [=] PROJECT-OWNED: {path} (保留项目实例配置)")
+                continue
             remote_hash = item["sha256"]
             base_hash = baselines.get(path)
             if not base_hash:
@@ -1039,6 +1854,28 @@ class MaglevInstaller:
             f"\n  📊 统计: 新增 {stats['NEW']} | 覆盖更新 {stats['OVERWRITE']} | "
             f"冲突备份 {stats['CONFLICT']} | 无变化跳过 {stats['SKIP']}"
         )
+
+        retirement_results = []
+        if retirement_entries:
+            successor_failures = self._ensure_retirement_successors(retirement_entries)
+            retirement_plan = self._build_retirement_plan(
+                retirement_entries,
+                retirement_scan_baselines,
+                successor_failures,
+            )
+            retirement_results = apply_retirement_plan(
+                retirement_plan,
+                project_root=os.getcwd(),
+                dry_run=self.args.dry_run,
+            )
+            self._print_retirement_results(
+                retirement_results,
+                dry_run=self.args.dry_run,
+            )
+            if not self.args.dry_run:
+                self.local_state["retirement_baselines"] = retirement_baselines
+                self._record_retirement_results(retirement_results)
+
         self.print_release_notes("UPDATE")
         self.save_state()
         disc_result = ensure_discipline_pointer(os.getcwd(), dry_run=self.args.dry_run)
@@ -1052,6 +1889,14 @@ class MaglevInstaller:
         print_ai_context_report(ai_context_report, "UPDATE")
         submodule_report = check_submodule_repos(os.getcwd())
         print_submodule_report(submodule_report, "UPDATE")
+        protected_retirements = [
+            result for result in retirement_results
+            if result["status"] not in {"RETIRE", "MISSING"}
+        ]
+        if protected_retirements:
+            print_warning(
+                "部分旧协议未退役；文件已保留，后续 update 将继续重试退役门禁。"
+            )
         print_success(f"\n🚀 Maglev 更新完毕! 新版本 {remote_version}")
         if getattr(self.args, "sync_submodules", False):
             run_sync_to_recorded_flow(os.getcwd(), self.args)
@@ -1304,27 +2149,123 @@ class MaglevInstaller:
         self.project_config["maglev_version"] = self.manifest.get("version")
         self.project_config["upstream_url"] = self.upstream_url
         self.project_config["repositories"] = self.repositories
+        self.project_config.setdefault("indexing", dict(DEFAULT_INDEXING_CONFIG))
         self.project_config["created_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
         with open(CONFIG_FILE, "w", encoding="utf-8") as file:
             json.dump(self.project_config, file, indent=2, ensure_ascii=False)
             file.write("\n")
 
-        repo_map_path = "specs/10_reality/repository_map.md"
-        if os.path.exists(os.path.dirname(repo_map_path)):
-            with open(repo_map_path, "w", encoding="utf-8") as file:
-                file.write("# Repository Map (仓库映射)\n\n")
-                file.write("> 本文件记录当前 Maglev 治理范围内的所有代码仓库。\n\n")
-                file.write("## 代码仓库列表\n\n")
-                file.write("| 仓库名称 | 路径 | 管理方式 | 状态 | 描述 |\n")
-                file.write("| :--- | :--- | :--- | :--- | :--- |\n")
-                for repo in self.repositories:
-                    file.write(
-                        f"| {repo['name']} | `{repo['local_path']}` | "
-                        f"{repo.get('management_mode', 'clone')} | "
-                        f"{repo.get('repo_status', 'unknown')} | "
-                        f"{repo['description']} |\n"
+        if not self.repositories:
+            self.ensure_default_extension_sources()
+            return
+
+        repo_map_profile_path = "crosscutting/repository-map/repositories.md"
+        repo_map_path = os.path.join("specs", "10_reality", repo_map_profile_path)
+        os.makedirs(os.path.dirname(repo_map_path), exist_ok=True)
+        with open(repo_map_path, "w", encoding="utf-8") as file:
+            file.write("---\n")
+            file.write("knowledge_status: established\n")
+            file.write("evidence_refs: [\".maglev/config.json\"]\n")
+            file.write("---\n\n")
+            file.write("# 受管仓库清单\n\n")
+            file.write("本页记录当前 Maglev 治理范围内的代码仓库及其接入方式。\n\n")
+            file.write("| 仓库名称 | 路径 | 管理方式 | 状态 | 描述 |\n")
+            file.write("| :--- | :--- | :--- | :--- | :--- |\n")
+            for repo in self.repositories:
+                file.write(
+                    f"| {repo['name']} | `{repo['local_path']}` | "
+                    f"{repo.get('management_mode', 'clone')} | "
+                    f"{repo.get('repo_status', 'unknown')} | "
+                    f"{repo['description']} |\n"
+                )
+
+        profile_path = "specs/10_reality/00_profile.yaml"
+        if os.path.exists(profile_path):
+            try:
+                with open(profile_path, "r", encoding="utf-8") as file:
+                    profile = json.load(file)
+                documents = profile.setdefault("documents", [])
+                if not any(item.get("path") == repo_map_profile_path for item in documents):
+                    documents.append(
+                        {
+                            "path": repo_map_profile_path,
+                            "owner_domain": "crosscutting",
+                            "owner_slot": "repository-map",
+                            "purpose": "List the repositories managed by the initialized project.",
+                            "knowledge_status": "established",
+                            "evidence_refs": [".maglev/config.json"],
+                        }
                     )
+                    with open(profile_path, "w", encoding="utf-8") as file:
+                        json.dump(profile, file, indent=2, ensure_ascii=False)
+                        file.write("\n")
+            except (OSError, ValueError):
+                print_warning("无法登记仓库清单到 Reality Profile；已保留清单文件。")
+
+        self.ensure_default_extension_sources()
+
+    def ensure_project_index_registry(self):
+        registry_path = PROJECT_INDEX_REGISTRY_PATH
+        existing = _read_text_if_exists(registry_path)
+        default_content = _default_project_registry_content()
+
+        if self.args.dry_run:
+            if existing is None:
+                print(f"  [DRY-RUN] Would create {registry_path} (project-owned registry instance)")
+            elif _looks_like_bundled_registry_template(existing):
+                print(f"  [DRY-RUN] Would replace bundled {registry_path} with project-owned registry instance")
+            else:
+                print(f"  [DRY-RUN] Would preserve existing {registry_path}")
+            return
+
+        if existing is not None and not _looks_like_bundled_registry_template(existing):
+            print_success(f"保留现有项目级索引配置 {registry_path}。")
+            return
+
+        os.makedirs(os.path.dirname(registry_path), exist_ok=True)
+        with open(registry_path, "w", encoding="utf-8") as file:
+            file.write(default_content)
+            if not default_content.endswith("\n"):
+                file.write("\n")
+        print_success(f"已生成项目级索引配置 {registry_path}。")
+
+    def ensure_default_extension_sources(self):
+        if self.args.dry_run:
+            if not os.path.exists(EXTENSION_SOURCES_FILE):
+                print(
+                    f"  [DRY-RUN] Would create {EXTENSION_SOURCES_FILE} with the default Maglev official source"
+                )
+            return
+
+        if os.path.exists(EXTENSION_SOURCES_FILE):
+            return
+
+        resolved_source = {"url": DEFAULT_EXTENSION_SOURCE_URL, "ref": DEFAULT_EXTENSION_SOURCE_REF}
+        probe_error = None
+        try:
+            resolved_source = resolve_git_source_input(DEFAULT_EXTENSION_SOURCE_URL, DEFAULT_EXTENSION_SOURCE_REF)
+        except GitSourceProbeError as error:
+            probe_error = error
+
+        os.makedirs(MAGLEV_DIR, exist_ok=True)
+        with open(EXTENSION_SOURCES_FILE, "w", encoding="utf-8") as file:
+            file.write(render_default_extension_sources_yaml(resolved_source["url"], resolved_source["ref"]))
+
+        if probe_error is None and resolved_source["url"] != DEFAULT_EXTENSION_SOURCE_URL:
+            print_success(
+                "已写入默认官方扩展源配置 .maglev/extensions.sources.yaml，并自动选通可访问协议。"
+            )
+            return
+
+        print_success("已写入默认官方扩展源配置 .maglev/extensions.sources.yaml。")
+        if probe_error is not None:
+            print_warning("默认官方扩展源自动选通未完成；初始化已继续完成，并已写入 canonical 官方源。")
+            print_warning(f"探测详情：{probe_error}")
+            print_warning(
+                "如需手动调整，可运行 `npx @idea-maglev/maglev-extension-cli sources add --id maglev-official "
+                "--type git --url <可访问URL> --ref master --json`。"
+            )
 
     def save_state(self):
         if self.args.dry_run:
@@ -1335,6 +2276,8 @@ class MaglevInstaller:
         baselines = {}
         for item in self.manifest.get("files", []):
             path = item["path"]
+            if path in PROJECT_OWNED_RUNTIME_FILES:
+                continue
             local_hash = compute_sha256(path)
             if local_hash:
                 baselines[path] = local_hash
@@ -1344,6 +2287,10 @@ class MaglevInstaller:
             "last_synced_time": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "file_baselines": baselines,
         }
+        if self.local_state and self.local_state.get("retirement_history"):
+            state["retirement_history"] = self.local_state["retirement_history"]
+        if self.local_state and self.local_state.get("retirement_baselines"):
+            state["retirement_baselines"] = self.local_state["retirement_baselines"]
         with open(STATE_FILE, "w", encoding="utf-8") as file:
             json.dump(state, file, indent=2, ensure_ascii=False)
             file.write("\n")

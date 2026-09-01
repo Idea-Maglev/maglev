@@ -14,17 +14,15 @@ next_step: references/step-04-render-board.md
 
 ### 1. 读取项目级配置
 
-检查 `specs/10_reality/team.md` 是否存在。
+检查 `.maglev/team.yaml` 是否存在。
 
-若存在，解析 YAML frontmatter 中的 team 配置：
+若存在，解析 YAML 中的 team 配置：
 
 ```yaml
----
 team:
   vo: { name: "张三", title: "产品经理" }
   tp: { name: "李四", title: "前端工程师" }
   xg: { name: "王五", title: "测试工程师" }
----
 ```
 
 若不存在，标记 `team_config = null`（后续仅展示角色代号）。

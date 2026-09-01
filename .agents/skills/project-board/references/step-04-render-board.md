@@ -60,14 +60,14 @@ description: 渲染看板视图并持久化到仓库
 
 #### 2d. 需求明细表
 
-在 Mermaid 下方输出详情表，**使用人话**：
+在 Mermaid 下方输出 `## 活跃需求` 详情表，**使用人话**：
 
 ```markdown
-## 需求明细
+## 活跃需求
 
 | 需求 | 意图 | 进度 | 主导 | 信心度 | 导航 |
 |------|------|------|------|--------|------|
-| {name} | {intent_summary} | {progress_emoji} | {role} ({person}) | {confidence} | [详情]({relative_path}/) |
+| {name} | {intent_summary} | {progress_emoji} | {role} ({person}) | {confidence} | [详情](active/{name}/) |
 ```
 
 - `进度` 列使用 emoji 进度条：如 `✅→✅→⏳→⬜→⬜`

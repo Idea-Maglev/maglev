@@ -19,6 +19,7 @@ next_step: references/step-03-select-route.md
 3. 判断当前是否已经有稳定输入可进入：
    - `方案设计（spec-designer）`
    - `上下文实施（context-implementer）`
+   - `代码执行插槽（code-execution-slot）`
    - `综合验证（integrated-validator）`
 4. 避免因为用户表达模糊，就由入口对象自己继续长篇访谈。
 

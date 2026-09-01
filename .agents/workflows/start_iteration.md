@@ -3,7 +3,7 @@ description: 快速进入 Maglev 项目迭代对话，加载上下文并确立�
 metadata:
   formal_action_name: 迭代启动
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 

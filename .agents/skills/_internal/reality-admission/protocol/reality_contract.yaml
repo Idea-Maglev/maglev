@@ -1,0 +1,164 @@
+# Reality Contract — 机器可追溯协议
+#
+# 角色边界（关键原则）：
+# - 本契约只定义客观可追溯性事实（frontmatter 身份字段、证据状态枚举、来源引用
+#   字段、Profile 声明一致性），供准入脚本做辅助验证。
+# - 脚本不得对 Reality 页面的内容结构做直接限制：不规定章节、标题、措辞模式或
+#   篇幅。页面结构与写法由本轮选定的 Reality 模板包（templates/reality-packs/
+#   registry.yaml）唯一决定。
+# - 脚本发现占位符等残留时只输出非阻断提示，指引作者回到模板包反思修复，而不是
+#   把内容改写成脚本期望的形状。
+schema_version: 2
+contract_version: reality-contract-v2
+canonical_fact_types:
+  product_logic:
+    default_slots: [capability]
+  ui_surface:
+    default_slots: [implementation]
+  api_contract:
+    default_slots: [interfaces]
+  event_contract:
+    default_slots: [interfaces]
+  cli_contract:
+    default_slots: [interfaces]
+  data_model:
+    default_slots: [implementation]
+  database_table:
+    default_slots: [implementation]
+  workflow_state:
+    default_slots: [capability, implementation]
+  system_topology:
+    default_slots: [implementation, operations]
+  operational_surface:
+    default_slots: [operations]
+  access_policy:
+    default_slots: [interfaces, operations]
+domain_boundary_contract:
+  required_fields:
+    - boundary_reason
+    - boundary_basis
+    - evidence_refs
+  allowed_basis:
+    - business_object
+    - user_task
+    - workflow
+    - data_ownership
+    - permission_boundary
+    - product_outcome
+    - api_contract
+    - event_contract
+    - operational_responsibility
+  source_units_field: source_units
+  forbidden_fields:
+    - owner_submodules
+    - owner_repositories
+layout_contract:
+  version: 1
+  domain_entry_files:
+    - README.md
+    - capability/INDEX.md
+    - implementation/INDEX.md
+    - interfaces/INDEX.md
+    - operations/INDEX.md
+    - verification/INDEX.md
+    - evidence/INDEX.md
+  crosscutting_entry_files:
+    - README.md
+    - repository-map/INDEX.md
+    - interfaces/INDEX.md
+    - evidence/INDEX.md
+    - risks/INDEX.md
+  domain_slots:
+    - capability
+    - implementation
+    - interfaces
+    - operations
+    - verification
+    - evidence
+  additional_page_pattern: "{domain}/{owner_slot}/{fact_slug}.md"
+  forbidden_legacy_shapes:
+    - "domains/*.md"
+    - "modules/*.md"
+project_entry_contract:
+  target_scope: project_root
+  required_files:
+    - README.md
+    - glossary.md
+    - product-architecture.md
+    - system-dependencies.md
+    - stakeholders.md
+  evidence_rule: "missing required project-entry evidence remains unknown or blocked; it does not omit the page"
+source_reference_contract:
+  required_fields:
+    - source_unit
+    - role
+    - baseline
+    - relative_path
+    - anchor
+    - evidence_state
+    - locator_quality
+  allowed_roles:
+    - intent
+    - design_protocol
+    - implementation
+    - verification
+  allowed_locator_quality:
+    - exact_symbol
+    - exact_anchor
+    - exact_test
+    - exact_line
+    - file
+    - section
+    - unresolved
+  allowed_evidence_states:
+    - established
+    - unknown
+    - not_established
+    - not_applicable
+  evidence_sufficiency_field: evidence_sufficiency
+  allowed_evidence_sufficiency:
+    - supported
+    - partial
+    - missing
+    - blocked
+  status_semantics:
+    knowledge_status: "当前结论在 Reality 页面中的成立状态"
+    evidence_state: "该 SourceRef 指向的来源定位或事实状态；使用同一组 canonical 值，但不代替结论状态"
+    evidence_sufficiency: "当前 claim 的直接证据完整程度；不代替结论状态"
+knowledge_statuses:
+  - established
+  - unknown
+  - not_established
+  - not_applicable
+evidence_sufficiency:
+  - supported
+  - partial
+  - missing
+  - blocked
+evidence_rules:
+  evidence_must_be_tracked_in_candidate_commit: true
+dimension_statuses:
+  - covered
+  - not_applicable
+  - unknown
+  - blocked
+required_frontmatter:
+  - reality_id
+  - title
+  - owner_domain
+  - owner_slot
+  - fact_type
+  - knowledge_status
+  - scope
+  - claim_refs
+  - evidence_refs
+# 非阻断辅助提示：准入脚本发现以下残留标记时只输出 WARN，不阻断准入；
+# 修复路径是回到模板包对照反思，而不是把页面拟合成本契约的结构。
+content_purity_forbidden_markers:
+  - TODO
+  - TBD
+  - FIXME
+  - 待补充
+  - <待补>
+  - <占位符>
+  - placeholder

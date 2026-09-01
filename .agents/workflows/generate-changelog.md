@@ -6,7 +6,7 @@ metadata:
   object_kind: workflow
   lifecycle_chain: specialized_support
   distribution_scope: private_only
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
   distribution: private
 ---

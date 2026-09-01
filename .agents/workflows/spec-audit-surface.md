@@ -3,7 +3,7 @@ description: 在实施前对 requirements 与 spec cluster 做统一输入质量
 metadata:
   formal_action_name: Spec 审计
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Spec Audit Surface Workflow

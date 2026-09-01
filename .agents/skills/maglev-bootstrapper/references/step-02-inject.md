@@ -7,16 +7,16 @@ next_step: references/step-03-config.md
 # Step 2: Structure Injection (骨架注入)
 
 ## 目标
-物理创建 Maglev 标准目录结构。
+物理创建消费者项目的空白治理目录结构，不复制 Maglev 源仓库的 Reality、地图或事实页。
 
 ## 动作
 1.  **Inject Core**:
-    *   Copy `.agents/` -> Root.
-    *   Copy `.maglev/` -> Root.
-    *   Create `specs/`, `docs/`, `issues/`, `tests/`.
+    *   Copy 能力资产 `.agents/` -> Root.
+    *   Copy 运行规则 `.maglev/` -> Root，但不复制 Maglev 源仓库的实例数据。
+    *   Create empty `specs/`, `docs/`, `issues/`, `tests/`.
 2.  **Handle Mode**:
     *   **Greenfield**: Create `code_storages/` directory.
-    *   **Adoption**: 
+    *   **Adoption**:
         *   Ask user: "Should I move existing `src` to `code_storages/` (Recommended) or keep it in Root (Legacy Mode)?"
         *   If Legacy Mode, note this for config step.
 
@@ -35,9 +35,9 @@ next_step: references/step-03-config.md
 
 2. **展示给用户确认**（不直接写入）
 
-3. **用户确认后**追加到 repository_map.md 的 §5 AI 引导摘要
+3. **仅在用户确认登记至少一个仓库后**追加到 `crosscutting/repository-map/repositories.md` 的 AI 引导摘要区
 
-摘要格式参见 `specs/10_reality/repository_map.md` §5 摘要模板。每个仓库摘要控制在 20 行以内。
+摘要写入 `specs/10_reality/crosscutting/repository-map/repositories.md`。没有登记仓库时不得创建该文件。
 
 ## 交互示例
 AI: "Injecting Maglev core structures..."

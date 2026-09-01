@@ -3,7 +3,7 @@ description: 启动上下文实施 (Use context-implementer skill)
 metadata:
   formal_action_name: 上下文实施
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Quick Dev Workflow

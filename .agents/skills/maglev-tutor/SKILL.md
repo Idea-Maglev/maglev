@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: specialized_support
   runtime_name_status: active_legacy_name
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
   version: "2.0 (User & Maker Edition)"
 ---

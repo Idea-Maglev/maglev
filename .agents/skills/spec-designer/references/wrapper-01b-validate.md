@@ -20,7 +20,7 @@ nextStepFile: './wrapper-02-draft.md'
         > - **[R]etry**: 我去修复一下上下文/输入，重新验证。(推荐)
         > - **[F]orce**: 我已知晓风险，强制生成。(At your own risk)
         > - **[A]bort**: 停止任务。"
-    
+
 2.  **逻辑分支**:
     *   **[R]**: 重新加载 `{sub_workflow}`。
     *   **[F]**: 继续流程，加载 `{nextStepFile}`。

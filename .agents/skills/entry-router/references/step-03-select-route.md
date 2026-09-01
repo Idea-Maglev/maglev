@@ -16,9 +16,10 @@ next_step: references/step-04-handoff.md
    - 现状不清 -> `现状同步（reality-sync）`
    - 需求边界不稳 -> `requirement-convergence`
    - 已有稳定输入、需要方案 -> `方案设计（spec-designer）`
-   - 已有明确改动目标、需要实现 -> `上下文实施（context-implementer）`
+   - 已有明确代码改动目标、需要实现 -> `代码执行插槽（code-execution-slot）`
+   - 已有明确非代码改动目标、需要实现 -> `上下文实施（context-implementer）`
    - 已有代码/结果、需要系统验证 -> `综合验证（integrated-validator）`
-   - 需要地图或导航 -> `maglev-map-maker`
+   - 需要项目地图、仓库地图或 Atlas -> `maglev-map-maker`
    - 需要仓库导览或学习 -> `maglev-tutor`
    - 任务收尾、知识资产检查 -> `知识沉淀检查（knowledge-check）`
    - 成果已验证、需写回现实并收口 -> `现实结晶（crystallization）`
@@ -32,7 +33,7 @@ next_step: references/step-04-handoff.md
 
 - `现状同步（reality-sync）` 优先于任何依赖当前现状的中后段对象。
 - `requirement-convergence` 优先于 `方案设计（spec-designer）`，只要边界还不稳。
-- `方案设计（spec-designer）` 优先于 `上下文实施（context-implementer）`，只要仍缺方案设计。
+- `方案设计（spec-designer）` 优先于实施入口，只要仍缺方案设计。
 - `综合验证（integrated-validator）` 只在已有结果可验证时进入。
 - `知识沉淀检查（knowledge-check）` 优先于 `现实结晶（crystallization）`，除非用户明确要求写回 reality 或收口 active。
 - `现实结晶（crystallization）` 只在有已验证成果需要固化时进入。
@@ -43,7 +44,7 @@ next_step: references/step-04-handoff.md
 在路由到下游对象之前，必须检查以下纪律条件：
 
 1. **新需求 / 新功能 → 必须在 feature 分支上**
-   - 如果当前在 main/master 分支，且路由目标是 `requirement-convergence`、`spec-designer`、`context-implementer` 之一（意味着即将开始新工作），必须先提示用户创建 feature 分支。
+   - 如果当前在 main/master 分支，且路由目标是 `requirement-convergence`、`spec-designer`、`code-execution-slot`、`context-implementer` 之一（意味着即将开始新工作），必须先提示用户创建 feature 分支。
    - 检查方式：`git branch --show-current`
    - 若在主分支上：暂停路由，先告知用户需要切换分支，待确认后再继续。
 

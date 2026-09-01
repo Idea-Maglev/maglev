@@ -3,7 +3,7 @@ description: 对实现结果做统一 review 与 validation (Use review-validati
 metadata:
   formal_action_name: Review 与验证
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Review Validation Surface Workflow

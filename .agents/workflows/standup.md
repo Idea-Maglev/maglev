@@ -3,7 +3,7 @@ description: 现状同步与会话启动 (Use reality-sync skill)
 metadata:
   formal_action_name: 现状同步
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Standup Workflow

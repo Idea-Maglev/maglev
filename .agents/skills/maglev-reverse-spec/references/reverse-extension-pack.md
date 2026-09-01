@@ -1,158 +1,54 @@
 ---
-description: maglev-reverse-spec Optional Extension Pack
+description: 按用途和证据按需补充逆向事实维度
 ---
 
-# Reverse Extension Pack
+# 按需补充维度
 
-## 目标
-让逆向结果既能足够完整，又不会因为一次性塞入太多内容而失焦。
+## 原则
 
-## 使用规则
-先完成核心层，再判断是否启用扩展层。
+补充维度不是默认清单。只有当本轮用途确实需要、且当前材料能够支持时才建立；不适用的
+维度只登记状态，不创建空页面。
 
-如果用户已经在 Step 00b 选择了输出档位，则按以下映射执行：
-- `Lean` -> Core Layer
-- `Standard` -> Core Layer + Recommended Layer
-- `Deep` -> Core Layer + Recommended Layer + 按证据启用 Extended Layer
+## 在流程中的位置
 
-### Core Layer
-每次逆向都应包含：
-- Feature Map
-- Evidence Log
-- Data Structure Map
-- Main Flow / State Trace
-- Unknowns / Quests
+本文件属于阶段 B 的按需补充。它只在阶段 A 边界已经接受后，为本轮用途选择事实核对维度；
+不能反过来触发阶段 A，也不能用新增维度重新划分模块。
 
-### Recommended Layer
-在以下情况默认启用：
-- 逆向结果将指导开发、重构或补测试
-- 目标模块存在明显状态流或多结构映射
-- 用户要求“严谨”“完整”“可交接”
+## 选择依据
 
-建议启用：
-- Domain Model
-- Dependency Topology
-- State Machine
-- Test Mapping
-- Change Risk
+开始事实核对时先回答：
 
-### Extended Layer
-只有在高复杂度或高风险场景启用：
-- Security Surface
-- Error Taxonomy
-- Runtime Behavior
-- Configuration Matrix
-- Observability Map
+- 这项维度是否影响本轮用途；
+- 现有材料是否能支持直接结论；
+- 产物是否会因此帮助交接、重构或验证；
+- 是否已经在其他页面表达，继续拆页是否只会重复。
 
-## 冗余识别规则
-如果出现以下情况，应提示用户可裁剪：
+## 常见补充方向
 
-1. 结构重复
-同一信息已经在 Data Dictionary、API Schema、State Machine 中重复出现。
+- 业务对象和术语；
+- 上下游关系和外部依赖；
+- 状态转换；
+- 并发、缓存、重试和后台任务；
+- 身份、权限、数据隔离和审计；
+- 错误传播、降级、回滚和补偿；
+- 配置、环境差异和开关；
+- 日志、指标、链路和告警；
+- 代码、需求和测试之间的对应关系；
+- 热点文件、脆弱边界和改动影响。
 
-2. 低收益扩展
-例如纯静态页面仍生成大量 Security/Runtime 内容。
+没有用途或证据时，不补充。
 
-3. 证据不足
-当前只有命名或少量注释，不足以稳定产出该维度。
+## 账本记录
 
-4. 与目标不匹配
-用户只是想了解模块用途，却生成了过多工程治理内容。
-
-## 推荐的启用交互
-逆向开始后，先给出一个扩展建议摘要：
-
-```markdown
-[Extension Suggestion]
-- 必选: Core Layer
-- 推荐: Domain Model, State Machine, Test Mapping
-- 可选: Security Surface, Observability Map
-
-当前判断:
-- 项目复杂度: High
-- 证据完整度: Medium
-- 目标用途: 计划用于后续重构
-
-建议选择:
-- `Lean`: 仅 Core
-- `Standard`: Core + Recommended
-- `Deep`: Core + Recommended + 部分 Extended
+```yaml
+dimension_ledger:
+  - dimension: <维度>
+    status: covered | not_applicable | unknown | blocked
+    rationale: <适用理由或不适用理由>
+    evidence_refs:
+      - <相对路径#锚点>
+    stopping_condition: <停止条件>
 ```
 
-## 各扩展维度说明
-
-### 1. Domain Model
-适合有明确业务概念、术语不统一、对象关系复杂的系统。
-输出：
-- 核心业务对象
-- 术语对齐
-- 聚合与边界
-
-### 2. Dependency Topology
-适合服务多、基础设施重、外部依赖复杂的系统。
-输出：
-- 上下游依赖图
-- 同步/异步边界
-- 外部依赖风险
-
-### 3. State Machine
-适合存在显式状态字段、审批流、任务流、会话流的系统。
-输出：
-- 状态集合
-- 转移条件
-- 非法状态与保护逻辑
-
-### 4. Runtime Behavior
-适合异步、并发、缓存、流式输出、后台任务场景。
-输出：
-- 并发模型
-- 缓存策略
-- 重试/补偿机制
-- 定时与后台任务
-
-### 5. Security Surface
-适合有租户、权限、数据隔离、审计要求的系统。
-输出：
-- 身份认证
-- 权限检查点
-- 敏感数据流向
-- 审计日志
-
-### 6. Error Taxonomy
-适合异常复杂、降级链路重要的系统。
-输出：
-- 错误类型
-- 用户可见错误
-- 系统内部异常传播
-- 回滚与补偿
-
-### 7. Configuration Matrix
-适合环境差异大、配置驱动强的系统。
-输出：
-- 配置项
-- 生效范围
-- 默认值
-- 环境差异
-
-### 8. Observability Map
-适合线上诊断成本高的系统。
-输出：
-- 日志点
-- 指标点
-- Trace 锚点
-- 告警建议
-
-### 9. Test Mapping
-适合需要补测试或做验证闭环的系统。
-输出：
-- 代码到测试映射
-- AC 到测试映射
-- 空白覆盖区
-
-### 10. Change Risk
-适合准备重构或要交接给别人改的系统。
-输出：
-- 热点文件
-- 脆弱边界
-- 改动半径
-- 高风险入口
+当所有适用维度都有明确状态，且本轮用途所需的事实和缺口已经清楚时停止。继续增加维度
+不代表质量更高。

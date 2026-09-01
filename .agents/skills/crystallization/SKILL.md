@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: crystallization
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -26,6 +26,7 @@ metadata:
 - 判断哪些变化应写回 `10_reality`
 - 判断当前 `20_evolution/active` 的状态如何收口
 - 触发地图与索引的可发现性回填
+- 确认逆向 Gate A/B、依赖批次和三层独立验证结果已经闭环
 
 它不负责：
 
@@ -85,9 +86,22 @@ metadata:
 ## 判定纪律 (Decision Discipline)
 
 - 只结晶“已经成立的变化”，不结晶进行中推演。
+- 结晶前先确认 `reverse_work_contract`、`reverse_module_map`、Gate A/B 和逐模块语义包
+  已绑定同一 baseline 与 Template Pack；再在当前隔离分支形成完整 Reality Projection，
+  消费绑定同一 candidate commit、完整 Reality digest 与 change digest 的
+  `reverse_review_result`。
+- 独立验证必须分别通过 structure、content、confidence 三层；普通健康度评分不能作为
+  Reality 结晶条件。
+- 回写受 floor/ceiling 双向质量卡点约束：floor = 接手者能解释功能用法；ceiling = 不含过程性/项目管理性信息。
 - 先判断是否写回，再判断写回到哪里。
 - `active` 的结束、继续、拆分必须给出唯一结论。
 - 地图和索引回填只在确实影响可发现性时触发，不机械调用。
+- 不维护私有 Reality 标准；所有 Projection、frontmatter、fact_type、证据和纯度检查
+  由 `.agents/skills/_internal/reality-admission/` 执行。
+- 先把新事实与既有 Reality 合并并提交为 candidate commit，再调用 Admission
+  `dry_run`；只有 `accepted` 或 `no_change` Receipt 后才能 close active。
+- 项目级入口页必须按 Pack 声明的 `target_path` 直接落到目标 Reality 根目录，不得额外创建未声明的容器目录；
+- Reality 回写不接入运行时采集，不把未授权脚本或样本执行结果混入事实证据。
 
 ## 生命周期边界 (Lifecycle Boundaries)
 
@@ -117,6 +131,8 @@ metadata:
 - `references/step-02-judge-writeback.md`
 - `references/step-03-close-active.md`
 - `references/step-04-backfill-discovery.md`
+- `.agents/skills/_internal/reality-admission/`（共享 Contract 与 Admission 内核）
+- `references/scripts/crystallization_check.py`（共享内核的兼容入口）
 
 ## 依赖与集成 (Integrations)
 

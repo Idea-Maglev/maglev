@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -108,6 +108,7 @@ metadata:
 - `requirement-convergence`
 - `方案设计（spec-designer）`
 - `上下文实施（context-implementer）`
+- `代码执行插槽（code-execution-slot）`
 - `综合验证（integrated-validator）`
 - `maglev-map-maker`
 - `maglev-tutor`

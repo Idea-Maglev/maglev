@@ -18,6 +18,13 @@ nextStepFile: './step-03-zoom-extract.md'
 *   **立即跳转** 到 `{nextStepFile}`。
 
 ### B. 执行制图 (Level 1 Scan)
+0.  **导航预检**:
+    *   先消费当前导航收据。
+    *   **If `queried`**: 仅围绕命中的目录或叶子证据做 Level 1 制图。
+    *   **If `not_needed`**: 可继续，但要在输出里说明为何此阶段不依赖额外项目知识。
+    *   **If `insufficient`**: 先走升级链；不得直接对整个 source 盲扫。
+    *   **If `escalated`**: 只允许在升级动作收窄后的 scope 内继续。
+    *   **If `exhausted`**: 停止 Level 1 制图，回到用户补线索或显式记录知识不足。
 1.  **Map (目录树)**:
     *   使用 `list_dir` 扫描 `{ingest_manifest.source}`。
     *   忽略: `test`, `mock`, `node_modules`, `dist`, `.git`。

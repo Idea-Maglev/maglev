@@ -3,7 +3,7 @@ description: 启动深度调研 (Use maglev-research skill)
 metadata:
   formal_action_name: 深度调研
   object_kind: workflow
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Research Workflow

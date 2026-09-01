@@ -1,96 +1,77 @@
 ---
 name: maglev-map-maker
-description: 项目地图生成器。基于仓库产物生成和更新项目全景地图。
+description: 项目地图生成器。组合 Reality、项目看板与 Git tracked tree，确定性生成并校验唯一的人读项目地图 docs/ATLAS.md。
 metadata:
   formal_action_name: 项目地图生成
   top_level_capability: 现状表达
-  system_layer: Infrastructure Layer
+  system_layer: Observation Layer
   lifecycle_chain: reality_expression
   runtime_name_status: active_legacy_name
   distribution_scope: runtime_internal
-  version: "2.0 (Confidence-Aware Edition)"
+  version: "3.0.0"
 ---
 
-# Maglev Map Maker (项目地图生成器)
-
-> 结构动作名：`项目地图生成`
-> 运行面名称：`maglev-map-maker`
-> 这不等于已经完成正式物理改名。
+# Maglev Map Maker（项目地图生成器）
 
 ## 核心职责
-本技能负责扫描项目产物 (Artifacts)，推断当前生命周期状态，并绘制 **中文 Mermaid 地图**。
-它**不依赖**其它技能的通知，而是直接观察文件系统，确保地图反映的是 **客观现实**。
 
-## 适用场景
-- **Daily Standup**: 每天早上看一眼，知道项目全貌。
-- **Onboarding**: 新人入职，看地图了解进度。
-- **Navigation**: 迷路时，用地图判断下一步该做什么。
-- **入口与治理协作**: 入口对象、现状同步和后段闭环对象会消费地图结果来理解项目状态。
+本技能负责生成唯一的人读项目地图 `docs/ATLAS.md`。它不再依赖 AI 手工扫描和自由推断，
+而是调用确定性脚本组合以下权威输入：
 
-## 技能产出
-*   **Unified Map**: 生成/更新 `docs/ATLAS.md` (项目全景地图)。包含嵌入的 Mermaid 图表，支持 GitHub/IDE 直接预览。
-*   **Dashboard Update**: (可选) 将核心状态图同步到根目录 `README.md`。
-*   **No More Standalone Files**: 不再生成散落的 `.mmd` 文件。
+- `specs/10_reality/crosscutting/repository-map/repositories.md`：受管仓库清单（若存在）
+- `specs/10_reality/00_profile.yaml`：Reality 能力域
+- `specs/20_evolution/board.md`：活跃需求和阶段状态（若存在）
+- Git tracked tree：仓库结构
 
----
+`docs/ATLAS.md` 是派生观察视图，不替代 Reality、项目看板、索引或业务代码事实。
 
-## 置信度标记 (Confidence Score)
+## 何时使用
 
-为了让下游消费者知道地图的可靠程度，**每次生成地图时必须包含元数据块**：
+- 用户说“生成项目地图”“生成仓库地图”“更新 Atlas”时。
+- 存量项目完成接入后，需要首次建立人读地图时。
+- 结晶导致 Reality、目录结构或活跃状态变化，且项目看板已刷新后。
+- 需要判断现有 Atlas 是否过期时。
 
-```markdown
-> **Meta**
-> - Last Updated: {YYYY-MM-DD HH:MM}
-> - Confidence: {High / Medium / Low}
-> - Confidence Reason: {简要说明}
+初始化与日常 `reality-sync` 不自动写地图；用户也不需要手动调用
+`index-librarian` 的内部脚本。
+
+## 执行契约
+
+```bash
+SCRIPT=".agents/skills/maglev-map-maker/scripts/generate_atlas.py"
+
+# 生成或更新
+./scripts/maglev-python "$SCRIPT" --root .
+
+# 只检查新鲜度，不写文件
+./scripts/maglev-python "$SCRIPT" --root . --check
 ```
 
-### 置信度判断标准
-| 等级 | 条件 | 说明 |
-| :--- | :--- | :--- |
-| **High** | `repository_map.md` 存在且包含有效仓库列表，`specs/` 结构清晰 | 地图基于确定性信息绘制。 |
-| **Medium** | `repository_map.md` 不存在但发现代码目录 (e.g., `src/`, `code/`) | 地图基于推断，可能有遗漏。 |
-| **Low** | 目录结构不规范，大量散落文件，无明确入口 | 地图主要基于猜测，建议人工审查。 |
+生成动作同时写入：
 
----
+- `docs/ATLAS.md`：唯一人读地图
+- `.maglev/temp/atlas-snapshot.json`：本次生成的结构化证据（不提交）
 
-## 状态推断逻辑 (ADSI)
-*   **🆕 仓库配置?** <- 优先读取 `specs/10_reality/repository_map.md` 获取代码仓库路径。
-*   **Structure?** <- `10_reality` 中的架构定义。
-*   **Design Phase?** <- 存在 `02_ui_design.md` 或 `XXX.fig` 引用。
-*   **Dev Phase?** <- 根据 `repository_map.md` 中的路径检查代码是否存在，或 fallback 到 `src/`, `code/`, `code_storages/`。
-*   **Tested?** <- 存在 `test/` 代码或 `test_report.md`。
+## 置信度
 
----
+| 等级 | 条件 |
+|:---|:---|
+| High | 仓库清单、Reality Profile、项目看板均可用 |
+| Medium | 当前 Git 仓库可用，且至少存在 Reality Profile 或项目看板 |
+| Low | 只能从 Git tracked tree 生成 |
 
-## ATLAS.md 输出模板
+## 判定纪律
 
-```markdown
-# 🗺️ Project Atlas (项目全景地图)
-
-> **Meta**
-> - Last Updated: 2026-02-09 14:00
-> - Confidence: Medium
-> - Confidence Reason: 发现 specs/ 和 src/ 并存，结构为混合型。
-
-## 1. 🌍 World Map (战略层)
-[Mermaid stateDiagram-v2 showing project phase]
-
-## 2. 🏔️ Terrain Map (地形层)
-[Mermaid flowchart showing module relationships]
-
-## 3. 🏙️ City Map (管线层)
-[Mermaid C4 or ER diagram]
-
-## 4. 🛤️ Street Map (执行层)
-[Active feature list with status]
-```
-
----
+- 项目阶段以 `project-board` 为 owner；本技能不重复猜测生命周期状态。
+- 仓库身份以 Reality 仓库清单为 owner；缺失时仅回退到当前 Git 根并降低置信度。
+- `.agents/`、`.maglev/`、`dist/`、vendor 等管理或生成目录不进入业务结构图。
+- `--check` 以 tracked path 和权威输入内容指纹判断新鲜度。
+- 旧的独立 Markdown 索引地图不是输入，也不得重新生成。
 
 ## 必需的参考资料
-*   工作流: `references/map.workflow.md`
-*   战略图绘制: `references/step-01-world.md`
-*   地形图绘制: `references/step-01b-terrain.md`
-*   管线图绘制: `references/step-02-city.md`
-*   执行图绘制: `references/step-03-street.md`
+
+- `references/map.workflow.md`
+- `references/step-01-world.md`
+- `references/step-01b-terrain.md`
+- `references/step-02-city.md`
+- `references/step-03-street.md`

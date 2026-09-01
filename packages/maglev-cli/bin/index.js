@@ -25,6 +25,18 @@ function readManifestVersion(distDir) {
   }
 }
 
+function ensureBundledVersion(distDir) {
+  const bundledVersion = readManifestVersion(distDir);
+  if (bundledVersion === packageJson.version) {
+    return true;
+  }
+
+  console.error('\x1b[31m❌ 错误: CLI 版本与包内发行物版本不一致，拒绝安装或更新。\x1b[0m');
+  console.error(`\x1b[31m   CLI: ${packageJson.version} / bundled-dist: ${bundledVersion || 'missing'}\x1b[0m`);
+  console.error('\x1b[31m   请重新构建并发布 npm 包，确保 package.json 与 dist/manifest.json 使用同一版本。\x1b[0m');
+  return false;
+}
+
 function resolveDistDir() {
   const bundledDist = path.join(__dirname, '../dist');
   if (hasRequiredDistArtifacts(bundledDist)) {
@@ -132,6 +144,10 @@ if (distMode === 'build-dist-mismatch') {
 if (!fs.existsSync(installerPath)) {
   console.error(`\x1b[31m❌ 错误: 离线安装器在包体中缺失: ${installerPath}\x1b[0m`);
   process.exit(1);
+}
+
+if (!ensureBundledVersion(localDist)) {
+  process.exit(2);
 }
 
 if (distMode === 'build-dist') {

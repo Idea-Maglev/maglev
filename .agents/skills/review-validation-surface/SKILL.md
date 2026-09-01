@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: runtime_internal
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -55,6 +55,22 @@ metadata:
 - 先判断“是否符合预期”，再判断“写得是否好”。
 - 要明确区分“合规偏差”“质量问题”“风险项”三类结果。
 - findings 只标记真正影响结果可信度与可交付性的缺口。
+
+## Reality 结果分支
+
+当输入包含 `10_reality`、Reality Projection 或逆向交接物时：
+
+- 不把结果压缩成普通实现 review 或单一评分；
+- 将合规、质量和风险 findings 分别映射到 `structure`、`content`、`confidence` 三层；
+- 复核项目级入口页面 materialization、模块页面契约、UIUX/前端最小覆盖、Claim/SourceRef、unknown/
+  blocked 和 Gate A/B 绑定；
+- 不重新划分模块、不代替 Gate A/B、不代替 Reality Validation 或 Admission；
+- 输出必须保留 candidate commit、baseline、Template Pack、Module Map、两个 Gate 和完整
+  Reality digest 的绑定。
+
+具体输入、检查边界和结果形状以
+[`integrated-validator` Reality Validation Mode](../integrated-validator/references/reality-validation-mode.md)
+为准；普通代码结果仍沿用本技能的原有流程。
 
 ## 必需的参考资料 (References)
 

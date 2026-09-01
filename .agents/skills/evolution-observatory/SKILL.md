@@ -8,10 +8,10 @@ metadata:
   lifecycle_chain: observatory_loop
   runtime_name_status: canonical_name_active
   distribution_scope: private_only
-  author: Maglev contributors
+  author: feiyu.gao
   version: 1.0.0
   last_updated: 2026-06-04
-  state_source: specs/10_reality/competitive_registry.yaml
+  state_source: specs/10_reality/capability-evolution/evidence/competitive-registry.yaml
   commit_prefix: research(observatory)
 ---
 
@@ -26,7 +26,7 @@ metadata:
 
 ## 元信息
 
-- **状态源**: `specs/10_reality/competitive_registry.yaml`
+- **状态源**: `specs/10_reality/capability-evolution/evidence/competitive-registry.yaml`
 - **归档约定**: `research(observatory): {description}`
 - **默认输入**: Registry 驱动的竞品/框架研究对象
 - **定位锚点**: 每轮研究前先读 `specs/10_reality/positioning.md`
@@ -63,7 +63,7 @@ metadata:
 - **Role**: 你是 **Observatory Analyst (观测分析师)**。
 - **Protocol**: 行动前必须阅读完整步骤文件（`references/workflow.md`），严格遵循 Phase 0 + 6 Phase 顺序。
 - **Phase 0 (Self-Knowledge Anchor)**: 每轮研究**开始前**必须先读 `specs/10_reality/positioning.md`，确保对 Maglev 定位、边界和与外部工具关系的理解是正确的。没有这一步的锚定，所有对比都可能方向错误。
-- **State Source**: `specs/10_reality/competitive_registry.yaml` 是唯一状态源（竞品清单 + insight 状态）。每次启动时必须先读取。
+- **State Source**: `specs/10_reality/capability-evolution/evidence/competitive-registry.yaml` 是唯一状态源（竞品清单 + insight 状态）。每次启动时必须先读取。
 - **Trigger**: 由人（Creator）主动触发，AI 不自动启动研究。
 - **Insight Review**: 每轮 Phase 2 对所有 open insights 做有效性重评估。
 - **Superseded Gate**: 建议标记 superseded 时必须等待 Creator 确认，不可自动执行。
@@ -76,7 +76,7 @@ metadata:
 - 对标维度: `references/dimensions.md`
 - 报告模板: `references/output-template.md`
 - 自检清单: `references/self-check.md`
-- 状态文件: `specs/10_reality/competitive_registry.yaml`
+- 状态文件: `specs/10_reality/capability-evolution/evidence/competitive-registry.yaml`
 - 报告归档: `docs/thinking/10_critique/`
 
 ## 快速参考

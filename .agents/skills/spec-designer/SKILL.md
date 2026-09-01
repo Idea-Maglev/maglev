@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
   version: "3.0 (Plain Speak Edition)"
 ---
@@ -46,6 +46,12 @@ metadata:
 - 关键约束与待验证点
 - 已落盘的 spec 输出
 
+## 实施交接
+
+- 代码交付物交给 `code-execution-slot`，由 Slot 解析 enabled 扩展或使用 agent-native fallback。
+- 纯文档、配置、分析和 Maglev 治理交付物交给 `context-implementer`。
+- 混合交付物先完成代码执行，再处理非代码部分，最终统一进入 `integrated-validator`。
+
 ## 何时使用 (When to use)
 
 - 需求边界已经稳定，需要进入方案设计时
@@ -66,6 +72,8 @@ metadata:
 - 只补设计所需前提，不无限扩展到前段问题定义
 - 输出必须能被后续实施和验证直接消费
 - 不把兼容入口 `/create-spec` 误解为当前运行名仍是旧值
+- 不把需求中的 `current`、`approved`、导航 `confidence` 或用户转述的外部事实直接当作设计事实；
+  关键范围和约束必须保留 `evidence_state`、`basis` 与 `evidence_refs`，默认 `confidence: unassessed`
 
 ## 必需的参考资料
 

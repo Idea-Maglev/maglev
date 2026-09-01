@@ -36,16 +36,39 @@
 ## Maglev 使用方式
 
 - 本项目已接入 Maglev。
-- 当前主流程 skill runtime name：
-  - `reality-sync`
-  - `spec-designer`
-  - `context-implementer`
-  - `integrated-validator`
-- 兼容 workflow 入口：
-  - `/standup`
-  - `/create-spec`
-  - `/quick-dev`
-  - `/validate-all`
+<!-- maglev:managed:mainline -->
+当前主链路（由治理注册表生成）：
+
+- `entry-router`
+- `reality-sync`
+- `requirement-convergence`
+- `spec-designer`
+- 执行分支：`context-implementer` | `code-execution-slot`
+- `integrated-validator`
+- `crystallization`
+- 横切能力：`knowledge-check`
+<!-- /maglev:managed:mainline -->
+
+<!-- maglev:managed:compatibility -->
+兼容 workflow 入口（由治理注册表生成）：
+
+- `/standup` → `reality-sync`
+- `/create-spec` → `spec-designer`
+- `/quick-dev` → `context-implementer`
+- `/validate-all` → `integrated-validator`
+<!-- /maglev:managed:compatibility -->
+
+### Skill 优先级协议
+
+- 已接入 Maglev 的项目中，项目内 `.agents/skills` 是本项目优先使用的 skill 来源。
+- 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback。
+- 外部或全局 skill 不得自动绕过 Maglev 主流程；只有用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后，才可使用。
+
+### Skill 优先级协议
+
+- 已接入 Maglev 的项目中，项目内 `.agents/skills` 是本项目优先使用的 skill 来源。
+- 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback。
+- 外部或全局 skill 不得自动绕过 Maglev 主流程；只有用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后，才可使用。
 
 ## 协作约束
 

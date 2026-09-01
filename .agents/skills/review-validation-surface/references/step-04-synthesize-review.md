@@ -14,7 +14,9 @@ next_step: null
 
 1. 合并 compliance 和 quality/risk findings。
 2. 区分 blocker、major、minor。
-3. 给出唯一下一步建议：
+3. 如果是 Reality 结果，分别汇总 `structure`、`content`、`confidence` 三层状态，并保留
+   candidate commit、baseline、Template Pack、Module Map、Gate A/B 和 Reality digest；
+4. 给出唯一下一步建议：
    - 继续推进
    - 先修正实现
    - 转交综合验证

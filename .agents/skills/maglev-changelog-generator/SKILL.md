@@ -70,9 +70,6 @@ metadata:
 
 ## 💥 破坏性变更 (Breaking Changes)
 - 历史同步入口已移除，请使用统一的 Python Installer 脚本代替。
-
----
-*注: 此更新日志由 Maglev Changerlog Generator 自动提炼。*
 ```
 
 ---

@@ -21,10 +21,11 @@ step_ai_context_check: references/step-04-ai-context-check.md
 ### 2. Inject (Step 02)
 - 根据 `mode` 复制文件结构。
 - **Source**: 当前仓库根目录下受治理的 `.agents/`、`.maglev/`、`docs/`、`specs/` 等资产，或正式 release 产物；不要再假设存在现役 `starter-kit/` 模板目录。
+- 面向消费者项目时，只复制能力和规则；实例数据、Maglev 源仓库 Reality、仓库地图和当前事实必须保持空白。
 
 ### 3. Config (Step 03)
 - 生成 `core_rules.md` (Context Injection).
-- 设置 `repository_map.md`.
+- 只有用户确认登记仓库后，才设置受管仓库清单 `crosscutting/repository-map/repositories.md`。
 
 ### 4. AI Context Check (Step 04)
 - 检查 `AGENTS.md` 与 `llms.txt` 是否达到最小可用标准。

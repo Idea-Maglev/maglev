@@ -24,6 +24,9 @@ next_step: null
    - 来源 → AC / Decision 的反向覆盖结果
    - AI 语义变更记录结果
    - AI 对话摘要与 `docs/thinking/` 分流结果
+6. 单独报告 `scope_completeness`：文档导航、索引 freshness 或导航 `confidence` 不能替代父仓库
+   清单、Contract source unit、baseline 和 owner 决策的逐项对齐。存在 `scope_conflict`、
+   `unlisted_not_permitted` 未决项或外部阻断时，Ready Gate 保持 `not_ready`，不能被总分冲销。
 
 ## 质量评分
 

@@ -1,64 +1,62 @@
 ---
-description: maglev-reverse-spec Step 4 Support - Stack Trace
+description: 逆向现状重建的调用链与处理链分析
 ---
 
-# Step 4 Support: Stack Trace (全栈追踪)
+# 调用链与处理链分析
 
 ## 目标
-从 Step 2 识别的 API 入口，追踪后端调用链：`Handler -> Service -> Repository -> Core Structure`。
 
-## 执行逻辑
+从已经确认的稳定入口继续追踪实际处理过程，说明入口如何经过页面、处理函数、服务、数据
+访问、事件或外部依赖，最终产生结果。
 
-### 3.1 Controller 定位
-根据 API 路径 (e.g., `/api/records`)，在后端代码中查找对应的 Handler。
+## 在流程中的位置
 
-### 3.2 Service & Repository 追踪
-递归追踪 Service 层和 Repository 层的调用。
+本文件属于阶段 B 的事实核对。它只消费阶段 A 已接受的入口和模块，不重新识别入口、不生成
+模块，也不改变边界。
 
-### 3.3 数据实体定位
-标记涉及到的数据结构定义位置，但详细的数据结构建模在 `step-03-data-structure-analysis.md` 中完成。
+## 分析方式
 
-### 3.4 输出格式 (Strict YAML)
-**注意**: 所有描述性文字（purpose, fields explanation）必须使用中文。
+1. 从入口文件和入口函数开始；
+2. 追踪直接调用，不因名称相似就扩大关系；
+3. 记录每一层的职责、输入、输出和异常分支；
+4. 标出同步、异步、外部依赖、缓存、重试和补偿；
+5. 回查相关数据结构和测试；
+6. 对无法确认的关系标为推断、未知或阻断。
+
+调用层次不固定。项目可能只有命令到处理函数，也可能包含页面、接口、服务、仓储、数据库
+和消息系统。
+
+## 输出格式
 
 ```yaml
-stack_trace:
-  api: GET /api/records
-  controller:
-    file: RecordController.java
-    method: listRecords()
-    lines: 25-40
-  service:
-    file: RecordServiceImpl.java
-    method: listRecords()
-  repository:
-    file: RecordRepository.java
-    method: findAll()
-  entities:
-    - name: Record
-      fields: [id, ownerId, state]
-      relation: "One to Many with RecordAttachment"
+processing_trace:
+  entry:
+    type: api
+    name: <入口名称>
+    signal: <路径、命令或事件>
+    refs:
+      - <相对路径#锚点>
+  steps:
+    - role: <页面、处理函数、服务、数据访问、事件或外部依赖>
+      name: <名称>
+      action: <实际行为>
+      inputs: [<输入>]
+      outputs: [<输出>]
+      refs:
+        - <相对路径#锚点>
+  branches:
+    - condition: <条件>
+      behavior: <分支行为>
+      refs:
+        - <相对路径#锚点>
+  unknowns:
+    - <无法确认的关系或行为>
 ```
 
-## Checkpoint 输出模板 (中文)
-```
-[CHECKPOINT - Step 3 Complete]
+## 边界
 
-✅ 后端追踪完成: GET /api/records
-
-🔗 调用链:
-Controller: RecordController.java
-    ↓
-Service: RecordServiceImpl.java
-    ↓
-Repository: RecordRepository.findAll()
-
-📊 数据模型:
-- Record [id, ownerId, state...]
-
-是否进入意图推测 (Intent) ? [Y/n]
-```
-
-## 复杂情况处理
-- **External**: 外部调用标记为 `[外部依赖]`。
-- **Async**: 消息队列标记为 `[异步事件]`。
+- 调用链只能说明静态实现关系，不能自动证明用户意图；
+- 外部依赖只记录当前代码能证明的调用和约定；
+- 测试只能作为验证依据；
+- 不根据调用数量或层级数量生成模块；
+- 发现业务问题时记录问题，不在此处修改实现。

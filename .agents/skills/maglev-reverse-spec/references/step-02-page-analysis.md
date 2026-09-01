@@ -1,78 +1,65 @@
 ---
-description: maglev-reverse-spec Step 2 Support - Page Analysis
+description: 逆向现状重建的页面与交互分析
 ---
 
-# Step 2 Support: Page Analysis (页面分析)
+# 页面与交互分析
 
-## 目标
-深入分析用户选定的页面，理解其 UI 结构、组件层次和 API 调用关系。
+## 适用条件
 
-## 前置条件
-- Step 1 已完成，用户已选择目标功能。
-- `feature_context.frontend` 已确定 (e.g., `PrimaryWorkspace.vue`)。
+只有在项目存在页面或用户交互时使用。没有页面的项目跳过本文件，直接分析接口、任务、
+命令、事件或数据入口。
 
-## 执行逻辑
+本文件是阶段 A 的可选阅读步骤。它只补充页面和交互事实，供语义审阅包引用；不重新生成
+入口地图，不决定模块边界，也不替代用户边界审阅。
 
-### 2.1 组件树解析 (Component Tree)
-读取页面文件，提取：
-- **组件引用**: `import XxxComponent from ...`
-- **模板结构**: `<template>` 中的主要 DOM 结构
-- **Props / State**: `props`, `data()`, `ref()` 等
+## 要回答的问题
 
-输出示例 (YAML):
+- 用户从哪里进入；
+- 页面展示和操作什么；
+- 页面有哪些状态；
+- 用户操作触发了哪些直接请求或事件；
+- 页面数据如何映射到接口和后端处理；
+- 相关测试验证了什么，缺少什么。
+
+## 阅读内容
+
+### 页面结构
+
+记录页面文件、直接引用的组件、主要区域、输入输出和页面状态。只写能从原文确认的内容。
+
+### 交互与请求
+
+记录页面加载、提交、点击、刷新、分页、错误处理等触发点，以及对应的接口或事件。
+
 ```yaml
-component_tree:
-  root: PrimaryWorkspace.vue
-  children:
-    - name: RecordTable
-      type: table
-      props: [columns, rows, loading]
+page_analysis:
+  entry:
+    path: <页面路径或路由>
+    refs:
+      - <相对路径#锚点>
+  structure:
+    - name: <区域或组件>
+      purpose: <可由实现确认的作用>
+      refs:
+        - <相对路径#锚点>
+  interactions:
+    - trigger: <用户操作或页面生命周期>
+      action: <实际调用或状态变化>
+      refs:
+        - <相对路径#锚点>
+  states:
+    - name: <状态>
+      condition: <进入条件>
+      visible_behavior: <可观察行为>
+      refs:
+        - <相对路径#锚点>
 ```
 
-### 2.2 API 调用提取 (API Calls)
-扫描页面及其子组件中的 HTTP 调用：
-- `axios.get/post/put/delete`
-- `fetch()`
-- `useFetch()` / `useQuery()`
-- `useFetch()` / `useQuery()` (如果是 React Query / SWR)
+### 角色分离
 
-输出示例 (YAML):
-```yaml
-api_calls:
-  - method: GET
-    path: /api/records
-    purpose: 获取记录列表 # 必须使用中文描述
-```
+- 页面实现说明当前实现；
+- 产品材料说明目标意图；
+- 测试说明验证依据；
+- 三者缺一时保留未知或阻断。
 
-### 2.3 事件流识别 (Event Flow)
-识别关键用户交互：
-- 按钮点击 (`@click`)
-- 表单提交 (`@submit`)
-- 生命周期 (`onMounted`)
-
-输出示例 (YAML):
-```yaml
-event_flow:
-  - trigger: 页面加载
-    action: 调用 GET /api/records
-  - trigger: 点击归档按钮
-    action: 调用 POST /api/records/{id}/archive
-```
-
-## Checkpoint 输出模板 (中文)
-```
-[CHECKPOINT - Step 2 Complete]
-
-✅ 页面分析完成: `PrimaryWorkspace.vue`
-
-📦 组件结构:
-- RecordTable (数据表格)
-- Pagination (分页控件)
-
-🌐 API 调用:
-- GET /api/records -> 获取记录列表
-- POST /api/records/{id}/archive -> 归档记录
-```
-
-## 纯后端项目处理
-如果 Step 1 未检测到前端，跳过此步骤，直接进入 Step 3。
+页面分析不能单独决定模块，也不能把组件目录直接提升为业务边界。

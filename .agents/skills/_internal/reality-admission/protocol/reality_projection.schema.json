@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Committed Reality Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "contract_version",
+    "projection_digest",
+    "repository",
+    "reality",
+    "change",
+    "intended_use"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "contract_version": {"type": "string", "const": "reality-contract-v2"},
+    "projection_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "repository": {
+      "type": "object",
+      "required": ["base_commit", "candidate_commit"],
+      "properties": {
+        "base_commit": {"type": "string", "minLength": 7},
+        "candidate_commit": {"type": "string", "minLength": 7}
+      },
+      "additionalProperties": false
+    },
+    "reality": {
+      "type": "object",
+      "required": ["root", "profile_id", "profile_version", "digest", "file_count"],
+      "properties": {
+        "root": {"type": "string", "minLength": 1},
+        "profile_id": {"type": ["string", "null"]},
+        "profile_version": {"type": ["integer", "string", "null"]},
+        "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "file_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "change": {
+      "type": "object",
+      "required": ["digest", "paths"],
+      "properties": {
+        "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "paths": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "intended_use": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "additionalProperties": false
+}

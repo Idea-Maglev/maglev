@@ -1,6 +1,6 @@
 ---
 name: crystallization
-description: 在综合验证后完成现实回写、active 收口与可发现性回填
+description: 在完整 Reality Projection 验证后完成准入、active 收口与可发现性回填
 output_folder: .agents/skills/crystallization
 ---
 
@@ -19,8 +19,9 @@ output_folder: .agents/skills/crystallization
 ## 进入条件 (Entry Conditions)
 
 - 当前主题已完成主要实施
-- 已具备进入后段闭环的必要依据
+- 已能在隔离分支形成完整 Reality Projection，并可创建独立验证 worktree
 - 需要判断 Reality 回写、active 收口或可发现性回填
+- 已有逆向 Work Contract、Module Map、Gate A/B 和逐模块语义包，或明确记录本主题不经过逆向链
 
 ## 退出条件 (Exit Conditions)
 
@@ -43,4 +44,20 @@ output_folder: .agents/skills/crystallization
 
 ## 初始化
 
-1. 阅读 `references/step-01-confirm-readiness.md`
+1. 读取 Reality Profile，把成立事实与既有 Reality 合并到同一受控分支；
+   Admission 不再代替 Producer 写入。
+2. 若当前结果来自逆向链，先核对 Gate A 的模块边界和依赖顺序、Gate B 的项目级入口页面与首个模块
+   纵切片，以及后续逐模块语义包；任何缺失都在 Step 1 标为 `not_ready_to_crystallize`，
+   不能用“已有页面”替代。
+3. 阅读 `references/step-01-confirm-readiness.md`
+
+## 跨会话交接纪律
+
+当一个会话只完成了部分结晶时，交接产物必须包含以下四项：
+
+1. **进度清单**：哪些模块/结构单元已完成、哪些待做
+2. **约束清单**：目录结构、命名规范、标记格式等已确立的规则
+3. **质量标杆引用**：指定一个已完成模块作为参照（具体文件路径 + 期望信息密度）
+4. **验证清单**：后续会话完成新模块后必须执行的检查项
+
+> ⚠️ 缺少质量标杆引用 = 下一会话大概率产出质量不一致产物。

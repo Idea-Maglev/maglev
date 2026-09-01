@@ -25,6 +25,15 @@ next_step: references/step-03-ready-gate.md
    - `prd_document`
 6. 判断最小 handoff 是否足够：
    - 若不足，明确为什么需要稳定需求文档作为额外基线
+7. 对来源和关键断言做 provenance 分层：
+   - 用户明确决定：可直接固定意图或本轮选择，但只对“要做什么”具权威；
+   - 用户转述的外部事实：标记为 `supported` 或 `unknown`，不得直接写成仓库/实现事实；
+   - 当前一手材料：标记为 `observed`，附相对路径或 baseline；
+   - 历史批准、旧产物和失败输出：标记为 `historical`，不得作为当前输入；
+   - AI 推导或相似性判断：标记为 `inferred`；
+   - 未授权、不可访问或范围冲突：标记为 `blocked` 或 `scope_conflict`。
+   - `confidence` 默认是 `unassessed`；只有 `evidence_state`、`basis` 和 `evidence_refs`
+     齐全时才允许填写其他值。
 
 ## 判定规则
 

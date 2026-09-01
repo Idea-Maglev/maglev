@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: governance_loop
   runtime_name_status: active_legacy_name
   distribution_scope: runtime_internal
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-06-13
 ---
 

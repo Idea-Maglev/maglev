@@ -204,7 +204,7 @@ Scout 模式流程完成。如需继续发现新技能，请重新触发 Skill S
    ```
    📦 准备将 {object_name} 部署到 {object_path}
       并更新 `.agents/private-catalog.yaml`。
-   
+
    确认部署？（确认后操作不可撤销）
    ```
 3. **执行部署**：用户确认后，依次执行部署、溯源记录、清单更新。

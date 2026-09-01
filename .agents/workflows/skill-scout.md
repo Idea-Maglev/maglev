@@ -5,7 +5,7 @@ metadata:
   top_level_capability: 能力进化
   object_kind: workflow
   lifecycle_chain: governance_loop
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 # Skill Scout Workflow

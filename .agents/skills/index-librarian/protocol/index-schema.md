@@ -1,266 +1,140 @@
-# Index Schema — 索引结构规则定义
+# Index Schema
 
-> 设计权威: 本文件定义索引节点的 frontmatter schema 和结构规则。
-> 执行权威: `scripts/track_verify.py` — 如有矛盾以脚本实际行为为准。
-> 来源: specs/20_evolution/active/unified_doc_tree_indexer/02_design.md
+> 执行权威：`scripts/track_scan.py` 与 `scripts/track_verify.py`。本文件只描述现行 `tracks` v3 契约。
 
----
+## 1. Track 类型
 
-## 0. Track 抽象与作用域
-
-自 protocol_version `3.0` 起，索引能力按 **track** 声明，每个 track 以 `registry.yaml` 中的一条 `tracks` 条目驱动一类索引/地图产物。一个仓库可同时挂多个 track。
-
-### 0.1 三类 Track
-
-| `type` | 适用对象 | 驱动脚本 | 产物形态 | 本文件 schema 适用范围 |
+| `type` | 对象 | scan 产物 | map 产物 | 本 schema 是否适用 |
 |:---|:---|:---|:---|:---|
-| `dir-tree` | 任意目录树 (specs/, docs/, 自定义) | `track_scan.py` / `track_verify.py` | `INDEX.md` 网络 + summary YAML | ✅ 完整适用 |
-| `repo-entry` | 仓库根目录 | 同上 | `repo-entry.yaml` (锚点) + `repo-map.md` (人读地图) | ❌ 不产生 `INDEX.md`，不走本 schema |
-| `code-tree` | `packages/` / `src/` 代码树 | 同上 | `code-tree.yaml`（anchors + radar_summary 两段式） | ❌ 不产生 `INDEX.md`，不走本 schema |
+| `dir-tree` | 任意文档、规格或知识目录树 | 相邻 `INDEX.md` 网络 + summary YAML | INDEX 网络本身 | 是 |
+| `repo-entry` | 仓库或能力入口目录 | 锚点 YAML | 无 | 否 |
+| `code-tree` | 代码子树 | 锚点 YAML + 可选 radar 摘要 | 无 | 否 |
 
-> **已移除**: `spec-tree` 和 `docs-tree` 已合并为 `dir-tree`（protocol v3.0）。
+每个 registry 条目必须有 `id`、`type`、`root`。`enabled` 缺省为 `true`；设为 `false` 时不参与任何执行。`output`、`ignore`、`max_depth` 等字段按 type 选用。多个 track 的 `output` 必须唯一，完整例子见 `registry.example.*.yaml`。旧字段 `map_output` 暂时兼容读取，但不会生成文件。
 
-### 0.2 Schema 适用边界
+`dir-tree` 可用 `skip_index_dirs` 指定不写自身 `INDEX.md` 的相对目录。`.` 表示 track 根目录；该目录仍会遍历子目录，不会排除整棵子树。`collapse_single_file_dirs` 可声明一组相对 `root` 的 glob，仅当目录没有 README、没有其他可见子项且只剩一个可索引文件时，父级 `INDEX.md` 直接记录该叶文件，叶目录自身不再保留 `INDEX.md`。
 
-本文件第 §1-§6 章节定义的 frontmatter / stats / body table / INDEX.md 规则，**仅适用于 `dir-tree`** 类型。
+## 2. INDEX 节点
 
-`repo-entry` 与 `code-tree` 是"代码层与仓库层"扩展能力：
+`dir-tree` 中的每个可索引目录由 `track_scan.py` 写入 `INDEX.md`。该文件是机器可消费的导航节点，包含：
 
-- **不**为目录写 `INDEX.md`、**不**走 entity-index frontmatter，因此本 schema 整体不适用。
-- 产物 schema 由对应脚本契约约束。
-- `code-tree` 的 `radar_summary` 段是机读结构（hotspot/cycles/unused 摘要），失败时降级为 `{skipped: true, reason: ...}`，不阻断主流程。
+```yaml
+type: entity-index
+scope: root|collection
+entity_type: document
+child_count: 3
+knowledge_schema_version: 1
+knowledge_records: []
+```
 
-### 0.3 Track 声明（驱动方式）
+- `child_count` 描述直接子项数。
+- `scope` 由生成器根据目录层级决定。
+- `knowledge_records` 记录直接子文件和可导航子目录；它们的内容与正文知识导航表必须由同一次 scan 生成。
+- 命中 `collapse_single_file_dirs` 的叶目录不会成为独立目录节点；其唯一文件会直接折叠到父目录记录中。
+- `knowledge_records` 服务机器消费，允许保留有限的补充 topic；当前生成器对每条记录最多保留 6 个 topic，避免把正文结构整段搬进索引。
+- 正文 `知识导航` 表服务人读，只展示前 4 个 topic；超出部分以 `(+N)` 折叠，防止目录节点退化成长摘要列表。
+- `INDEX.md`、summary YAML、`repo-entry.yaml` 和 `code-tree.yaml` 都是脚本独占产物，不能手工编辑。
 
-实际启用何种 track 由仓库内 `registry.yaml` 的 `tracks` 段声明，每个 track 至少包含 `id` / `type` / `root` / `output`。完整字段见 `registry.example.<type>.yaml` 模板。
+## 3. 知识记录
 
-行为对等性矩阵（`spec-tree` 与 `docs-tree` 在 INDEX 网络维度等价；其余 track 走各自最小契约）由验证脚本（`track_verify.py`）收口。
+文件记录至少包含可定位路径、摘要、主题、证据、解析状态与内容指纹：
 
----
+```yaml
+- id: file:docs/guides/getting-started.md
+  path: docs/guides/getting-started.md
+  kind: file
+  summary: "帮助读者完成首次设置。"
+  topics: ["getting", "started"]
+  evidence: [docs/guides/getting-started.md#Getting-Started]
+  parse_status: indexed
+  content_fingerprint: "sha256..."
+```
 
-## 1. 统一类型
+目录记录额外使用 `kind: directory`、`directory_index` 与 `navigation_role: route`。命中目录记录后，消费者应继续读取其 `directory_index` 或叶子证据；目录摘要不能替代叶子事实。
 
-所有索引节点使用统一类型 `entity-index`，通过 `scope` 区分层级：
+被 `collapse_single_file_dirs` 折叠的目录不会产出 `kind: directory` 记录。消费者直接命中其叶文件记录，证据与内容指纹也以该文件为准。
 
-| scope | 含义 | 位置示例 |
+`topics` 的目标是“降低定位成本”，不是复制正文结构。当前生成器会优先保留以下类型：
+
+- 标题中的能力名、对象名、问题名、关键边界词
+- 有明确检索价值的短语，如 `接入与治理`、`最小闭环怎么跑`
+
+当前生成器会主动过滤或压缩以下类型：
+
+- 中文碎片切词与孤立虚词
+- 低信息短语，如 `没有`、`而是`
+- 文章组织句，如“先看一个真实样本”“先说一个更接近真实的场景”
+- 超出密度上限的后续 heading
+
+私密、敏感或被项目 ignore policy 排除的路径不得写入内容摘要或指纹。无法安全解析的文件必须明确以 `degraded` 或 `excluded` 表示原因。
+
+## 4. 验证边界
+
+`track_verify.py` 对 `dir-tree` 验证产物存在、frontmatter 的关键字段、知识记录与当前目录的指纹一致性，以及证据路径可达性。它不判断摘要是否足够贴合用户意图；该语义判断由 `task_navigate.py` 和消费者完成。
+
+不通过时，先运行同一 track 的 scan。若问题仍存在，再修改 registry、目录内容或生成器，而不是手改产物。
+
+## 5. 导航收据契约
+
+`task_navigate.py` 生成的 receipt 是“知识入口判断事实”，不是“任务成功证明”。当前 receipt 至少包含：
+
+```yaml
+schema_version: 1
+status: queried
+task_fingerprint: "sha256..."
+query:
+  task_intent: "..."
+  known_sources: []
+  missing_questions: []
+  scope: "."
+sources:
+  docs/path.md: "sha256..."
+candidates: []
+missing_categories: []
+events: []
+created_at: "2026-07-21T10:00:00+00:00"
+```
+
+### 5.1 `status` 枚举
+
+导航收据的 `status` 当前定义为 5 态：
+
+| `status` | 含义 | 是否允许直接继续下游 |
 |:---|:---|:---|
-| `root` | 模块入口 (唯一) | `meetings/INDEX.md` |
-| `year` | 年度分区 | `meetings/2026/INDEX.md` |
-| `month` | 月度分区 | `meetings/2026/04/INDEX.md` |
-| `collection` | 逻辑分组 | `comms/groups/INDEX.md` |
+| `not_needed` | 当前步骤经判断不依赖额外项目知识，或已有来源足够 | 是，但应说明为何不需要导航补充 |
+| `queried` | 已返回有限、可解释候选，后续应继续读叶子证据或目录下钻 | 是 |
+| `insufficient` | 首次导航不足，当前 query 没有形成足够可靠候选 | 否；必须进入升级链 |
+| `escalated` | 已进入 `insufficient` 的受控升级链，正在执行补救动作 | 否；只能继续升级或回到 `queried` / `not_needed` |
+| `exhausted` | 升级链已走完，当前仍无法形成足够可靠候选 | 否；必须显式保留不足，不得伪造来源充分 |
 
-叶子节点 (实际实体) 使用各自的 `type`（如 `meeting`, `p2p-contact`），不属于索引体系。
+`insufficient`、`escalated`、`exhausted` 的区别必须清楚：
 
-## 2. Frontmatter Schema
+- `insufficient` = 第一次承认“当前导航不够”
+- `escalated` = 正在补救，不允许伪装成已拿到来源
+- `exhausted` = 最小补救动作已穷尽，当前只能显式暴露不足
 
-### 2.1 必填字段 (所有 scope)
+### 5.2 升级链最小字段
 
-```yaml
-type: entity-index                    # 固定值
-scope: root|year|month|collection     # 层级标识
-entity_type: "{模块自定义}"            # 由模块 root 声明
-child_count: N                        # 直接子节点数 (整数)
-stats:
-  total: N                            # 必填: 子节点 total 之和 (root/partition) 或 child_count (底层)
-updated: "YYYY-MM-DD"                 # 最后更新日期
-```
-
-### 2.2 Root 专属字段
+当 receipt 进入 `escalated` 或 `exhausted` 时，建议最少保留以下字段，避免“已经升级”沦为形式主义：
 
 ```yaml
-index_protocol_version: "1.0"         # 必须声明，表示已接入协议
-stats_schema:                         # 定义本模块的统计分桶
-  total:
-    rule: "count(*)"
-    type: computed
-  # ... 模块自定义分桶
-
-sort_key: "date"                      # 子节点排序依据 (默认: "name")
-sort_order: "asc"                     # asc | desc (默认: "asc")
-child_type: "directory"               # directory | file | mixed
+escalation:
+  step: refine_scope|reuse_hint|ask_user_hint|controlled_deep_scan
+  attempt: 1
+  basis:
+    scope_hint: "docs/thinking"
+    known_source_hint: ".agents/skills/index-librarian/SKILL.md"
+  note: "..."
 ```
 
-### 2.3 可选字段
+- `step` 表示当前补救动作类别，而不是自由文本总结。
+- `attempt` 表示当前已进行到第几次升级动作。
+- `basis` 记录触发升级所依赖的 scope、线索或用户补充锚点。
+- `note` 只用于补充不能结构化表达的最小原因，不应用来替代 `basis`。
 
-```yaml
-table_columns:                        # 声明后，脚本接管 body table 生成
-  - header: "..."
-    source: "frontmatter.{field}" | "computed.{name}"
-    fallback: "—"                     # 值不存在时的替代
-    format: "bool_emoji|date_short|truncate:N"
+### 5.3 收据消费边界
 
-custom_checks:                        # 模块特定验证 (仅 root)
-  - id: "M01"
-    name: "..."
-    scope: "module"
-    severity: "error|warning"
-    implementation: "script"
-    script_function: "check_function_name"
-```
-
-## 3. Stats 类型系统
-
-| 类型 | 特征 | 脚本处理 |
-|:---|:---|:---|
-| `computed` | 总是从实际文件数计算 | `count(*)` — 每次重算 |
-| `immutable` | 一旦设定不变 | `count(field != null)` — 直接计数 |
-| `dynamic` | 可能随时间变化 | 计数 + 标注 `status_changed_at` |
-
-### 3.1 Stats DSL 语法 (受限)
-
-```
-count(*)                              # 所有子节点
-count(field != null)                  # 字段存在
-count(field == null)                  # 字段不存在
-count(field == 'value')               # 字段等于值
-count(field != 'value')               # 字段不等于值
-count(f1 != null OR f2 != null)       # OR 组合 (最多2个条件)
-count(f1 == null AND f2 == null)      # AND 组合 (最多2个条件)
-```
-
-不支持: 正则、函数调用、嵌套表达式、三个以上条件组合。
-
-## 4. Body Table 规则
-
-- **有 `table_columns`**: 脚本根据声明从子节点 frontmatter 提取数据生成表格
-- **无 `table_columns`**: AI 负责 body table 内容（脚本仅验证行数和链接）
-
-### 4.1 Computed 字段
-
-| 名称 | 含义 |
-|:---|:---|
-| `computed.row_number` | 行号 (从 1 递增) |
-| `computed.relative_link` | `[→](./{dirname}/)` |
-| `computed.dirname` | 子节点目录名 |
-| `computed.duration_display` | `{duration_minutes}min` |
-| `computed.analysis_badge` | `✅` / `⚪` |
-| `computed.child_scope` | 子节点 scope |
-
-### 4.2 Format 修饰符
-
-| 修饰符 | 效果 |
-|:---|:---|
-| `bool_emoji` | true→✅, false→❌ |
-| `date_short` | YYYY-MM-DD → MM-DD |
-| `truncate:N` | 截断为 N 字符 |
-
-## 5. INDEX.md 文件规则
-
-- INDEX.md 仅存在于索引节点 (不在叶子实体上)
-- INDEX.md 由脚本独占管理 — 其他技能不得直接编辑
-- INDEX.md 删除后可通过 `index_init.py` 完全重建
-- frontmatter 是 AI/脚本的消费入口，body table 是人的阅读入口
-
----
-
-## 6. Maglev 增量字段（位段化与认知地图）
-
-> 来源：`specs/20_evolution/active/docs_knowledge_archival_methodology/02_design.md` §3.3
-> 作用范围：仅 `thinking` 模块当前生效；其他模块按需启用。
-> 校验状态：以下字段当前**未在脚本中强校验**，仅作为约定记录。后续由 `module_checks/thinking.py` 落实。
-
-### 6.1 Root 增量字段（`docs/thinking/INDEX.md`）
-
-```yaml
-segments:                              # 位段语义表（记忆宫殿房间）
-  - id: "30_philosophy"                # 必填，格式 \d{2}_[a-z_]+
-    room_name: "哲学殿"                  # 必填，中文房间隐喻
-    description: "..."                  # 必填，一句话
-    status: "active|planned"           # 必填
-
-cognitive_map:                          # F8 认知地图（可选启用，由 enabled 控制）
-  enabled: false                        # 当前 false；启用后由脚本聚合
-  output_path: "docs/_meta/knowledge_graph.json"
-
-migration_status:                       # 大型重组期间标记
-  phase3_in_progress|phase3_complete|stable
-```
-
-**约束**：
-- `segments[].id` 必须与实际子目录名一致；脚本应校验存在性
-- `room_name` 仅施加在位段层；叶子文档不要使用
-
-### 6.2 Leaf 增量字段（`docs/thinking/<segment>/<file>.md`）
-
-```yaml
-segment: "30_philosophy"               # 必填；与父目录 id 一致
-status: "draft|active|crystallized|archived"
-                                        # F1 LPM 四态映射；
-                                        # crystallized 之后才进入认知地图
-linked_to:                              # F8 跨位段引用（可选）
-  - "docs/thinking/50_alignment/maglev_vs_hermes_agent.md"
-superseded_by: null                    # 上位重写归档时填路径
-```
-
-**约束**：
-- `segment` 必填，内容必须等于父目录名
-- `status` 缺省视为 `draft`，警告级
-- `linked_to` 仅在 `status >= crystallized` 时纳入认知地图聚合
-- 不允许在叶子层声明 `room_name`、`segments`、`cognitive_map`
-
-### 6.3 强校验状态
-
-| 字段 | 当前 | 启用后 | 强校验来源 |
-|:---|:---|:---|:---|
-| `segments[]` | 软约束 | 强制 | `module_checks/thinking.py` |
-| `cognitive_map.enabled` | 软约束 | 强制（与脚本对齐） | `index_update.py` |
-| 叶子 `segment` | 软约束 | 强制（与父目录对齐） | `module_checks/thinking.py` |
-| 叶子 `status` | 软约束 | 警告级 | `module_checks/thinking.py` |
-| 叶子 `linked_to` | 软约束 | 引用合法性必须 PASS | `module_checks/thinking.py` |
-
-### 6.4 与上游 workbench 协议的差异
-
-- workbench 使用扁平 `active/archive/watching` 三态，无位段
-- Maglev 引入 9 位段 + 房间隐喻，**仅在位段层**施加隐喻，叶子保持工程化命名
-- 仅 Mermaid 静态图 + frontmatter 显式 `linked_to`，**不引入 GraphRAG / 向量检索**
-- 这些增量不影响协议核心契约（统一 entity-index 类型、stats DSL、INDEX 独占写权）
-
-### 6.5 `stats.total` 与 `child_count` 语义（thinking 模块决策）
-
-> **决策日期**：2026-04-27
-> **决策理由**：选择"所有叶子"语义可让指标诚实反映现状，避免因 frontmatter 补全工作未完成而让指标失真。frontmatter 补全（约 60 篇老叶子）独立作为 P2 卫生项推进。
-> **实现状态**：✅ 已落到 `index_update.py`（commit 时间同决策日）
-
-#### 6.5.1 `stats.total` 定义
-
-| Scope | 计算口径 | 实现 |
-|:---|:---|:---|
-| `root` | **所有叶子 .md 文件递归数**（不含 INDEX.md / README.md）；不要求 frontmatter 完整性 | `compute_stats` 检测 `has_sub_dirs` 后调用 `count_leaf_files_recursive` |
-| `collection` | **该 collection 下所有叶子 .md 文件递归数**（不含 INDEX.md / README.md） | 同上，作用域限于该 collection 子树 |
-
-**反例（不允许的口径）**：
-- ❌ 仅统计带完整 frontmatter 的合规叶子（会让指标随 frontmatter 补全进度跳变）
-- ❌ 含 INDEX.md（指标会反映"索引数"而非"内容数"）
-
-#### 6.5.2 `child_count` 定义
-
-| Scope | 口径 |
-|:---|:---|
-| `root` | 直接子节点数（叶子 .md + 直接子目录数；不含 INDEX.md） |
-| `collection` | 直接子节点数（同上） |
-
-**注意**：`child_count` 与 `stats.total` 在含子目录的 collection 下会出现差异（`child_count` 仅一级；`stats.total` 递归全树）。例如 `60_case` 有 14 直接叶子 + 14 子目录，`child_count = 28`，`stats.total = 46`。
-
-#### 6.5.3 修复历史
-
-| 偏差 | 原值 | 现值 | Commit |
-|:---|:---|:---|:---|
-| `thinking/INDEX.md` `stats.total` | 47（合规叶子） | 107 | P1 step 2（2026-04-27） |
-| `thinking/60_case/INDEX.md` `stats.total` | 28（手编） | 46 | 同上 |
-| `thinking/30_philosophy` 等纯叶子 collection | 不一致 | 全树递归 | 同上 |
-| `index_update.py` `child_count` 不含子目录 | mixed 错算 | 自动检测 mixed sum | 同上 |
-
-### 6.6 保留区目录约定（`_meta/`）
-
-模块根下下划线前缀目录为**保留区**，不计入索引、不进位段、不参与归档评估：
-
-| 目录 | 角色 | 写入者 | 读取者 | 是否进 stats |
-|:---|:---|:---|:---|:---|
-| `_meta/` | 机读元数据保留区 | 脚本独占（如 `cognitive_map.py`） | 脚本 / 工具链 | 否 |
-
-约束：
-- 三脚本 + `cognitive_map.py` 在 `count_leaf_files_recursive` / `get_child_dirs` / `collect_leaves` / `os.walk dirs` 同步排除该目录名。
-- 该约定由 lifecycle.md §6.1 和本节共同声明，修改一处必同步另一处。
-- 当前 `_meta/` 唯一产物：`docs/<module>/_meta/knowledge_graph.json`（F8 认知地图机读输出）。
-- 保留区命名规则：所有以 `_` 开头的顶层目录视为保留区，新增需先在本节登记。
-
+- `queried` 只能证明“这些来源值得先读”，不能证明“答案已被证实”。
+- 命中 `kind: directory` 的 route 候选时，消费者必须继续读取其 `directory_index` 或叶子证据；目录摘要不能直接充当事实来源。
+- `insufficient` / `escalated` / `exhausted` 都不得被质量层解释为成功，只能被解释为“知识入口判断的当前状态”。
+- `receipt_status()` 只校验 query 与 source fingerprint 是否过期；它不判断升级链是否走得充分。

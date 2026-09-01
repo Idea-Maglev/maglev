@@ -1,55 +1,72 @@
 ---
-description: maglev-reverse-spec Step 3 - Data Structure Analysis
+description: 逆向现状重建的数据结构分析
 ---
 
-# Step 3: Data Structure Analysis
+# 数据结构分析
 
 ## 目标
-把项目中的“数据承载体”系统化还原出来，让用户和 AI 能看清系统到底在操作什么对象，而不是只看到调用链。
 
-## 必须覆盖的结构类型
-1. 持久化结构: Table / Entity / Document / Migration
-2. 接口结构: DTO / Request / Response / Schema
-3. 前端结构: ViewModel / Store State / Form Model
-4. 运行时结构: Cache Object / Session Payload / Event Payload
-5. 派生结构: Aggregation / Projection / Mapper Output
+还原系统实际操作的对象、字段、关系、约束和生命周期，避免只看到调用链而看不清业务
+数据如何承载。
 
-## 解析维度
-每个关键结构至少回答：
-- 名称与角色
-- 定义位置
-- 核心字段
-- 字段约束: required / optional / enum / default / nullable
-- 结构关系: one-to-one / one-to-many / nested / derived
-- 生命周期: create / update / persist / expire / archive
-- 跨层映射: API -> Service -> DB / Store -> View
+## 在流程中的位置
+
+本文件属于阶段 B 的事实核对。它只补充已接受模块所需的数据事实；没有该类结构时跳过，
+不为阶段 A 生成模块或业务边界。
+
+## 适用结构
+
+根据项目实际情况选择：
+
+- 持久化结构：表、实体、文档、迁移；
+- 接口结构：请求、响应、数据传输对象、模式；
+- 页面结构：视图模型、状态、表单模型；
+- 运行结构：缓存对象、会话载荷、事件载荷；
+- 派生结构：聚合结果、投影、映射结果。
+
+没有该类结构时不创建空章节。
+
+## 每个关键结构至少回答
+
+- 名称和作用；
+- 定义位置；
+- 关键字段及字段作用；
+- 必填、可空、枚举、默认值和唯一性；
+- 与其他结构的关系；
+- 创建、更新、持久化、过期、归档和删除；
+- 在页面、接口、处理过程和存储之间如何映射；
+- 哪些字段语义仍未知。
 
 ## 输出格式
+
 ```yaml
 data_structures:
-  - name: Record
-    kind: entity
-    defined_in: backend/models/record.py
+  - name: <结构名称>
+    kind: entity | request | response | event | state | derived
+    defined_in: <相对路径#锚点>
     fields:
-      - name: id
-        type: string
-        required: true
-      - name: state
-        type: enum
-        required: true
+      - name: <字段名>
+        type: <类型>
+        required: true | false | unknown
+        meaning: <由证据支持的作用>
+        refs:
+          - <相对路径#锚点>
     relations:
-      - target: RecordAttachment
-        type: one-to-many
+      - target: <关联结构>
+        type: one_to_one | one_to_many | nested | derived
+        refs:
+          - <相对路径#锚点>
     lifecycle:
-      - create: create_record()
-      - update: update_record_state()
-    mappings:
-      - api_request: CreateRecordRequest
-      - api_response: RecordDetailResponse
+      - action: <生命周期动作>
+        refs:
+          - <相对路径#锚点>
+    unknowns:
+      - <无法确认的字段或关系>
 ```
 
-## 关键规则
-- 不只列字段名，要解释字段在业务中的作用
-- 不只看数据库，也要看前端状态和事件载荷
-- 发现“同名异义”或“多结构映射同一概念”时，必须显式标注
-- 对不确定字段语义，标记为 `[UNKNOWN]` 或进入 `Quest`
+## 关键边界
+
+- 不能只列字段名，必须说明能被证据支持的作用；
+- 不能只看数据库，也要看接口、页面状态和事件载荷；
+- 同名异义、多结构承载同一概念时要明确标出；
+- 不确定字段语义标为 `[UNKNOWN]`，不凭常见工程习惯补齐。

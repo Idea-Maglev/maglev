@@ -7,6 +7,10 @@ description: integrated-validator Step 3 - Generate Report
 ## 目标
 将 Step 2 的比对结果输出为结构化的验证报告。
 
+当输入是 Reality 资料、Reality Projection 或逆向审阅交接时，本步骤不生成健康度评分报告，
+必须转入 `references/reality-validation-mode.md`，分别输出 structure、content、confidence
+及其 findings。
+
 ## 输出路径
 ```
 specs/{feature}/validation_report.md

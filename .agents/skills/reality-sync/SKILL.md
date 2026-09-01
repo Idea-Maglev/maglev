@@ -8,7 +8,7 @@ metadata:
   lifecycle_chain: main_flow
   runtime_name_status: canonical_name_active
   distribution_scope: user_visible
-  author: Maglev contributors
+  author: feiyu.gao
   last_updated: 2026-03-30
 ---
 
@@ -60,6 +60,7 @@ reality-sync 通过 Reality / Risk / Action / Mode 四类同步，把会话起�
 
 - **背景纪律**：本 skill 执行期间持续遵循 `maglev-discipline` 红线（闭环验证 / 事实驱动 / 穷尽方法），每个 step 起始前先做 `[MAGLEV-DIAGNOSIS]` 自检
 - **启动期漂移哨兵**：reality-sync 启动时先跑 `./scripts/maglev-python --doctor` 进行运行时 preflight，再跑 `./scripts/maglev-python .agents/skills/index-librarian/protocol/scripts/track_verify.py --track-id skills`；若 preflight 失败，必须 surface `env_failed` 并给出安装 `uv` 或 Python>=3.11 的修复动作；若 verify exit ≠ 0，再 surface track 状态（`partial` / `failed`）并提示用户运行对应 `track_scan --track-id skills` 重建
+- **索引健康**：只检查入口索引是否可验证和新鲜，不自动发起任务级检索；任务级导航仍由后续受控阶段消费收据。
 
 ## 交互示例
 User: "Standup."

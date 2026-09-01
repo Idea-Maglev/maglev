@@ -1,76 +1,22 @@
 ---
 name: step-scan
-description: 索引管家 - 扫描步骤，调用 index_scan.py 获取模块地图
+description: 索引管家扫描步骤，调用 generic track_scan.py 生成或刷新索引产物
 next_step: references/verify.md
 ---
 
-# Step: Scan (扫描)
+# Step: Scan
 
-## 目标
-
-调用 `index_scan.py` 获取所有注册模块的健康状态，向用户展示模块地图。
-
-## 动作
-
-### 1. 调用扫描脚本
+扫描是唯一的索引产物写入步骤。使用 registry 中的 `tracks`，不要手工编辑 `INDEX.md`、summary YAML 或地图文件。
 
 ```bash
-./scripts/maglev-python .agents/skills/index-librarian/protocol/scripts/index_scan.py --format json
+PROTOCOL=".agents/skills/index-librarian/protocol"
+./scripts/maglev-python "$PROTOCOL/scripts/track_scan.py" --track-id <id>
+# 或扫描全部已启用 track
+./scripts/maglev-python "$PROTOCOL/scripts/track_scan.py" --all
 ```
 
-### 2. 解读 JSON 输出
+- exit `0`：产物已写入或 track 根不存在而被跳过。
+- exit `1`：部分产物写入；报告输出中的失败原因。
+- exit `2`：registry 或运行环境错误；先修复该错误，不要继续 verify。
 
-脚本返回 JSON 格式的模块地图:
-
-```json
-{
-  "timestamp": "...",
-  "registry_path": "...",
-  "modules": [
-    {
-      "name": "meetings",
-      "root_path": "meetings/",
-      "root_index": "meetings/INDEX.md",
-      "status": "ready|incomplete|missing",
-      "issues": ["缺少 index_protocol_version", ...]
-    }
-  ],
-  "summary": {
-    "total": 5,
-    "ready": 3,
-    "incomplete": 1,
-    "missing": 1
-  }
-}
-```
-
-### 3. 展示模块地图
-
-向用户展示可读的模块状态表:
-
-```
-📊 模块扫描结果
-
-| 模块 | 状态 | 说明 |
-|:---|:---|:---|
-| meetings/ | 🟢 ready | 协议已就绪 |
-| comms/ | 🔴 incomplete | 缺少 stats_schema |
-| domains/ | 🟡 bootstrap | 待接入 |
-| ... | ... | ... |
-
-共 5 个注册模块: 3 ready, 1 incomplete, 1 bootstrap
-```
-
-## Exit Code 处理
-
-| Code | 含义 | AI 动作 |
-|:---|:---|:---|
-| 0 | 所有模块健康 | 展示地图，提示可进入 verify |
-| 1 | 有不可用模块 | 展示地图，标注问题模块，建议先修复 |
-| 2 | registry.yaml 不存在 | 提示用户先执行 init 或检查路径 |
-
-## 状态流转
-
-- exit code 0 或 1 → 进入 `verify.md`（用户确认后）
-- exit code 2 → 停止，引导用户修复环境
-- 用户仅要求 scan → 展示地图后结束
+scan 成功后必须进入同一范围的 verify。扫描本身不证明 INDEX 内容仍与目录同步。

@@ -22,7 +22,9 @@ next_step: references/step-04-backfill-discovery.md
 
 ## 判定规则
 
-- `close`：当前主线目标已完成，且后续不再以当前 active 为主工作面。
+- `close`：当前主线目标已完成、三层独立 review 已通过、Admission Receipt 为 `accepted`
+  或 `no_change`，且后续不再以当前 active 为主工作面。没有成功 Receipt 或缺少三层结果时
+  不得 close。
 - `continue`：主线未结束，且继续沿当前 active 推进最清楚。
 - `split`：当前 active 已承载过多，后续应拆出新的主线或子主题。
 

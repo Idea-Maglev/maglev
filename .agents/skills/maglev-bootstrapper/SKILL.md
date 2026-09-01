@@ -19,7 +19,8 @@ metadata:
 
 ## 概览 (Overview)
 
-将 `maglev_init_guide.md` 的初始化流程自动化。它负责分析当前目录状态，注入 Maglev 核心结构，并**交互式收集代码仓库信息**。
+将 `maglev_init_guide.md` 的初始化流程自动化。它负责分析当前目录状态，注入 Maglev 能力与运行规则，
+并**交互式收集代码仓库信息**；消费者项目默认只得到空白实例，不会携带 Maglev 源仓库的 Reality 或事实。
 
 ## 何时使用 (When to use)
 
@@ -70,7 +71,8 @@ Skill 扮演 **[Architect]** 角色，执行以下阶段：
 | `./collabhub` | Backend | Spring Boot 协作平台后端 |
 ```
 
-**根据用户回答，生成/更新 `specs/10_reality/repository_map.md`**。
+**仅在用户确认登记至少一个仓库后，生成/更新
+`specs/10_reality/crosscutting/repository-map/repositories.md`，并在存在 Profile 时登记该页。**
 
 ### Phase 4: Verify (自检)
 
@@ -78,10 +80,10 @@ Skill 扮演 **[Architect]** 角色，执行以下阶段：
 
 ---
 
-## repository_map.md 输出格式
+## 受管仓库清单输出格式
 
 ```markdown
-# Repository Map (仓库映射)
+# 受管仓库清单
 
 > 本文件记录当前 Maglev 治理范围内的所有代码仓库。
 > **Last Updated**: {DATE}
@@ -116,5 +118,5 @@ User: "Initialize Maglev here."
 AI: "收到。启动 Bootstrapper。正在扫描目录结构..."
 AI: "检测到 2 个可能的代码目录：`./frontend`, `./backend`。请确认它们是代码仓库吗？分别是什么类型？"
 User: "是的，frontend 是 Vue 前端，backend 是 Go 后端。"
-AI: "已记录。正在生成 repository_map.md..."
+AI: "已记录。正在生成受管仓库清单..."
 ```
