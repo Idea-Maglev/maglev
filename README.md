@@ -41,7 +41,6 @@ npx @idea-maglev/maglev-cli update --dry-run
 
 当前 Maglev 可以理解成三层：
 
-- 当前规则：由 [.agents/skills/](.agents/skills/)、[.agents/workflows/](.agents/workflows/) 和 Reality 分层承载
 - 能力：定义具体能做什么，主要在 [.agents/skills/](.agents/skills/)
 
 同时，它已经具备一条可运行的分发链路：
@@ -49,7 +48,6 @@ npx @idea-maglev/maglev-cli update --dry-run
 - CLI 入口：[`@idea-maglev/maglev-cli`](packages/maglev-cli/package.json)
 - 初始化与更新执行核心：发行物中的 `maglev_installer.py`（当前由 npm 包内镜像携带）
 
-当前能力现状的统一说明见：
 
 
 ## 它能实际做什么
@@ -112,19 +110,6 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 如果你更关心这里的边界关系，继续看：
 
 
-## 推荐阅读路径
-
-如果你不想自己找，按下面几条路径看会比较顺。
-
-首次了解 Maglev：
-
-
-想先把项目跑起来：
-
-
-更关心老项目和存量系统：
-
-
 ## 仓库导航
 
 | 路径 | 作用 |
@@ -138,9 +123,7 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 如果你准备参与这个仓库，建议先看：
 
 - [主流程入口](.agents/skills/entry-router/SKILL.md)
-- [贡献记录](contributors/contribution_log.md)
-- [贡献记录](contributors/contribution_log.md)
 
-问题反馈使用 GitHub Issues：
+问题反馈目前使用仓库内路径：
 
-- [GitHub Issues](https://github.com/Idea-Maglev/maglev/issues)
+- [issues/](https://github.com/Idea-Maglev/maglev/issues)

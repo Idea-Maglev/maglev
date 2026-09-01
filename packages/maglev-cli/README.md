@@ -89,16 +89,14 @@ npx @idea-maglev/maglev-cli version --json
 
 ## 更多文档
 
-CLI 初始化后的业务项目不默认携带完整 Maglev 文档。需要进一步了解安装、更新、入口关系、私域配置或方法论时，请让智能体去 Maglev 源仓库查阅对应文档，而不是在当前业务项目里查找 `docs/guides/` 或 `docs/private/`。
+本仓库即 Maglev 的公开源。从以下入口继续：
 
-可以直接对智能体说：
-
-```text
-请到 Maglev 源仓库查看最新文档，帮我确认当前问题对应的安装、更新、入口或私域环境说明。不要假设当前业务项目里已经同步了 Maglev 的完整 docs 目录。
-```
-
+- [主流程入口](../../.agents/skills/entry-router/SKILL.md)
+- 能力目录：`.agents/skills/`（每个子目录一个能力）
+- 反馈：[GitHub Issues](https://github.com/Idea-Maglev/maglev/issues)
 ## 维护者说明
 
-这个 README 面向 npm 包使用者。维护者如果需要修改安装器、构建发行物或发布新版本，请回到 Maglev 源仓库阅读发布手册。
-
-不要直接编辑 `packages/maglev-cli/dist/` 下的构建产物；安装器源文件位于 `packages/maglev-cli/runtime-src/`，发行物由 `scripts/maglev_release.py` 生成。
+本 README 面向 npm 包使用者。维护者修改安装器或发行物时：源文件在
+`packages/maglev-cli/runtime-src/`，发行物由 `scripts/maglev_release.py`
+构建到本地（不自动推送分支、打标签或发布 npm）。
+不要直接编辑 `packages/maglev-cli/dist/` 下的构建产物。
