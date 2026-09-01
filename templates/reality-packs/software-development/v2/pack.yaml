@@ -1,0 +1,466 @@
+schema_version: reality-template-effect-pack/v2
+pack:
+  pack_id: software-development
+  version: 2.0.0
+  source_of_truth: true
+consumer_interface:
+  version: reality-template-effect-pack-consumer/v1
+  operations:
+  - resolve_pack
+  - resolve_asset
+  - resolve_page_contract
+assets:
+  pack.readme:
+    type: pack_readme
+    public_path: README.md
+    digest: sha256:0415119a051a04b545d95404e10c8f4dddd0f69ce704e74ecf0eb00c7e827446
+  methodology.catalog:
+    type: methodology
+    public_path: methodology-catalog.md
+    digest: sha256:5401bb1afd40d9e679eed279eb8e628f2e8e360abc570ab16e2b23e898ac6044
+  root.readme:
+    type: root_page_contract
+    public_path: root-pages/README.md
+    digest: sha256:37cb3a55cda4f6d42372bdd4cb572c64287fb4f99907ea41544be78a01fea04d
+  root.glossary:
+    type: root_page_contract
+    public_path: root-pages/glossary.md
+    digest: sha256:35fd9f38c36da934ccbe1bc597079f48ed6de9c2a8d743f0d85efeb06b96b6d7
+  root.product-architecture:
+    type: root_page_contract
+    public_path: root-pages/product-architecture.md
+    digest: sha256:e125429f82d2e5992e5efcfa9b3567822c7c6dfc145b74c268d925028b0fdd16
+  root.system-dependencies:
+    type: root_page_contract
+    public_path: root-pages/system-dependencies.md
+    digest: sha256:025e0e0d630d023c3b231f49beb536b424d12b5115ae2cc4f54fa5a834dc6789
+  root.stakeholders:
+    type: root_page_contract
+    public_path: root-pages/stakeholders.md
+    digest: sha256:370d17c9ecc4513333215d4133b6e954239b1c0cfffb5d546d4445e311009a98
+  page.capability.business-rules:
+    type: page_contract
+    public_path: page-contracts/capability/business-rules.md
+    digest: sha256:6feaf5608a09693d9e5db15d3691f25f2f3b8e372369167da98613f29fc99af9
+  page.capability.overview:
+    type: page_contract
+    public_path: page-contracts/capability/overview.md
+    digest: sha256:514349faa59155007b8413ef14b33b0dd96a43bf9311022a03cfcde2e7a49b24
+  page.capability.use-cases:
+    type: page_contract
+    public_path: page-contracts/capability/use-cases.md
+    digest: sha256:bcd8f209feb56a607e839654ccbcc422faa0d9f6a58841f2c897cf9572aadd98
+  page.capability.workflows:
+    type: page_contract
+    public_path: page-contracts/capability/workflows.md
+    digest: sha256:7b9d32c1692f75f2613ebaeb2f59724830cff25381c2ba8fb4aa3d9b27afc074
+  page.evidence.claim-register:
+    type: page_contract
+    public_path: page-contracts/evidence/claim-register.md
+    digest: sha256:1c03d2093315d66d19b0e5b2f218f0030362de39476fca4518fd76e36e273c03
+  page.evidence.requirement-traceability:
+    type: page_contract
+    public_path: page-contracts/evidence/requirement-traceability.md
+    digest: sha256:835961900446eb36c4226b1e41a9cde097638cb3fcae72c0fd63e8b678e1d3b3
+  page.evidence.source-map:
+    type: page_contract
+    public_path: page-contracts/evidence/source-map.md
+    digest: sha256:08d13098d5b3e60059a4ca979bbb03890176d53685d0d4db63a598bf5f82f28f
+  page.implementation.architecture:
+    type: page_contract
+    public_path: page-contracts/implementation/architecture.md
+    digest: sha256:29f00a3dee041f336ce678981b1e7c5f12ea05bf769f461c30d89613d9175d90
+  page.implementation.components:
+    type: page_contract
+    public_path: page-contracts/implementation/components.md
+    digest: sha256:26cb24bfeb42fd25620b0ffc0d688536a123eb8939d4ac45ef827c3bdefe66b8
+  page.implementation.data:
+    type: page_contract
+    public_path: page-contracts/implementation/data.md
+    digest: sha256:4de1e8c5725ffe7a3ba431d4e1eee818dc8345ce2f7002b0a57498fdcfae1d59
+  page.implementation.dependencies:
+    type: page_contract
+    public_path: page-contracts/implementation/dependencies.md
+    digest: sha256:452b82862002303ac7ad6a2410493b38ac67b7aafdd8ebd9d290a2a741a1709e
+  page.implementation.visual:
+    type: page_contract
+    public_path: page-contracts/implementation/visual.md
+    digest: sha256:3be498fd278b75bbc77b03fcf01865c9b90688ea5281db46fd9288be36f97c5a
+  page.interfaces.api:
+    type: page_contract
+    public_path: page-contracts/interfaces/api.md
+    digest: sha256:b9c2784574acf3ca3957710783a917d88ccb978f5918f33dbd99196d3c093401
+  page.interfaces.cli:
+    type: page_contract
+    public_path: page-contracts/interfaces/cli.md
+    digest: sha256:32151af665f4d303408111f20dfe0a43001d1f26b5348c2f271c9cb845716209
+  page.interfaces.events:
+    type: page_contract
+    public_path: page-contracts/interfaces/events.md
+    digest: sha256:d48b04aac7a1026bcaea20902145aa2d0ece61c63c013f62f0f6f8a17791d8ec
+  page.operations.configuration:
+    type: page_contract
+    public_path: page-contracts/operations/configuration.md
+    digest: sha256:c87dc8d0cbd4fd3037f440504a67833fd7df38ca7fe3088b8c0eb07f34f59f2d
+  page.operations.delivery-topology:
+    type: page_contract
+    public_path: page-contracts/operations/delivery-topology.md
+    digest: sha256:2487d75e7710037ad43264278d717f5fc420861c7ad1ddf22566afff7d3d4bf3
+  page.operations.errors:
+    type: page_contract
+    public_path: page-contracts/operations/errors.md
+    digest: sha256:09ca363b8d39af9f4d20736655afa54ea0ad8f9138b2222498b17b310398fe2f
+  page.operations.permissions:
+    type: page_contract
+    public_path: page-contracts/operations/permissions.md
+    digest: sha256:cb973a5692d9ce8de937224712a13e4c6ffaa90e00af4e997fdcb2d4987b51b3
+  page.operations.state-model:
+    type: page_contract
+    public_path: page-contracts/operations/state-model.md
+    digest: sha256:5a2887829a05b35faa55bd9fe0716ea538c8cabe9b6c834424bbf2e4edb361f9
+  page.verification.known-gaps:
+    type: page_contract
+    public_path: page-contracts/verification/known-gaps.md
+    digest: sha256:a722abff72bb577788e5b0575fc730fe57882958b453361d5b0743a89af885d7
+  page.verification.static-coverage:
+    type: page_contract
+    public_path: page-contracts/verification/static-coverage.md
+    digest: sha256:084d759afb72f9131fc90c496a54b1cb723e5664ea16b29e3460d94ba9b59db4
+  page.verification.test-matrix:
+    type: page_contract
+    public_path: page-contracts/verification/test-matrix.md
+    digest: sha256:667d2282297604775ac303c9486a7d3b7e59743d3eeb13dc45503afdf28f8f34
+pages:
+- id: root.readme
+  asset_id: root.readme
+  capability: contract_only
+- id: root.glossary
+  asset_id: root.glossary
+  capability: contract_only
+- id: root.product-architecture
+  asset_id: root.product-architecture
+  capability: contract_only
+- id: root.system-dependencies
+  asset_id: root.system-dependencies
+  capability: contract_only
+- id: root.stakeholders
+  asset_id: root.stakeholders
+  capability: contract_only
+- id: capability.business-rules
+  asset_id: page.capability.business-rules
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: capability.overview
+  asset_id: page.capability.overview
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: capability.use-cases
+  asset_id: page.capability.use-cases
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: capability.workflows
+  asset_id: page.capability.workflows
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: evidence.claim-register
+  asset_id: page.evidence.claim-register
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: evidence.requirement-traceability
+  asset_id: page.evidence.requirement-traceability
+  capability: composer_eligible
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: evidence.source-map
+  asset_id: page.evidence.source-map
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: implementation.architecture
+  asset_id: page.implementation.architecture
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: implementation.components
+  asset_id: page.implementation.components
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: implementation.data
+  asset_id: page.implementation.data
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: implementation.dependencies
+  asset_id: page.implementation.dependencies
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: implementation.visual
+  asset_id: page.implementation.visual
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: interfaces.api
+  asset_id: page.interfaces.api
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: interfaces.cli
+  asset_id: page.interfaces.cli
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: interfaces.events
+  asset_id: page.interfaces.events
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: operations.configuration
+  asset_id: page.operations.configuration
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: operations.delivery-topology
+  asset_id: page.operations.delivery-topology
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: operations.errors
+  asset_id: page.operations.errors
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: operations.permissions
+  asset_id: page.operations.permissions
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: operations.state-model
+  asset_id: page.operations.state-model
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: verification.known-gaps
+  asset_id: page.verification.known-gaps
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: verification.static-coverage
+  asset_id: page.verification.static-coverage
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+- id: verification.test-matrix
+  asset_id: page.verification.test-matrix
+  capability: contract_only
+  methodology_asset_id: methodology.catalog
+  positive_example_anchor: '#完整正向示例'
+  review_anchor: '#模板审阅项'
+materialization:
+  version: 1
+  scopes:
+    project_root: target Reality root
+    module_root: target module root (Profile domain directory)
+  pages:
+    root.readme:
+      target_scope: project_root
+      target_path: README.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    root.glossary:
+      target_scope: project_root
+      target_path: glossary.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    root.product-architecture:
+      target_scope: project_root
+      target_path: product-architecture.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    root.system-dependencies:
+      target_scope: project_root
+      target_path: system-dependencies.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    root.stakeholders:
+      target_scope: project_root
+      target_path: stakeholders.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    capability.overview:
+      target_scope: module_root
+      target_path: capability/overview.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    capability.business-rules:
+      target_scope: module_root
+      target_path: capability/business-rules.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    capability.use-cases:
+      target_scope: module_root
+      target_path: capability/use-cases.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    capability.workflows:
+      target_scope: module_root
+      target_path: capability/workflows.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    implementation.architecture:
+      target_scope: module_root
+      target_path: implementation/architecture.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    implementation.components:
+      target_scope: module_root
+      target_path: implementation/components.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    implementation.data:
+      target_scope: module_root
+      target_path: implementation/data.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    implementation.dependencies:
+      target_scope: module_root
+      target_path: implementation/dependencies.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    implementation.visual:
+      target_scope: module_root
+      target_path: implementation/visual.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    interfaces.api:
+      target_scope: module_root
+      target_path: interfaces/api.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    interfaces.cli:
+      target_scope: module_root
+      target_path: interfaces/cli.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    interfaces.events:
+      target_scope: module_root
+      target_path: interfaces/events.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    operations.configuration:
+      target_scope: module_root
+      target_path: operations/configuration.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    operations.delivery-topology:
+      target_scope: module_root
+      target_path: operations/delivery-topology.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    operations.errors:
+      target_scope: module_root
+      target_path: operations/errors.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    operations.permissions:
+      target_scope: module_root
+      target_path: operations/permissions.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    operations.state-model:
+      target_scope: module_root
+      target_path: operations/state-model.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    verification.known-gaps:
+      target_scope: module_root
+      target_path: verification/known-gaps.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    verification.static-coverage:
+      target_scope: module_root
+      target_path: verification/static-coverage.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    verification.test-matrix:
+      target_scope: module_root
+      target_path: verification/test-matrix.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    evidence.source-map:
+      target_scope: module_root
+      target_path: evidence/source-map.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+    evidence.requirement-traceability:
+      target_scope: module_root
+      target_path: evidence/requirement-traceability.md
+      required: false
+      applicability: conditional
+      missing_evidence: unknown
+    evidence.claim-register:
+      target_scope: module_root
+      target_path: evidence/claim-register.md
+      required: true
+      applicability: required
+      missing_evidence: unknown
+discoverability:
+  methodology_asset_id: methodology.catalog
+  page_contracts_have_embedded_positive_examples_and_review_items: true
+integrity:
+  manifest_digest: sha256:8e93a3a72770ed06879503a6292cfac836152761262637c4f3ddff6b21af05b9
+  pack_digest: sha256:7687d4fbbed15c0e92197a71400cb66f8440d7fcb807f6e78c972ed184fc0693

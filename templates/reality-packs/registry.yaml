@@ -1,0 +1,12 @@
+schema_version: reality-template-pack-registry/v1
+registry_id: reality-packs
+path_base: .
+default_pack_id: software-development
+
+# 所有 manifest_path 均相对于本登记入口所在目录。
+# 消费者必须按这里登记的路径读取 pack.yaml，不得遍历模板目录猜测。
+packs:
+  software-development:
+    manifest_path: software-development/v2/pack.yaml
+    status: production
+    source_of_truth: true
