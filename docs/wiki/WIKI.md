@@ -75,13 +75,13 @@
 
 Maglev 不是代码生成工具、IDE 或部署平台，而是编码工具的上游输入层与下游验证层：上游整理意图、边界和完成标准，下游检查实现是否仍与这些依据一致。
 
-事实依据：Maglev 定位与边界。
+事实依据：[Maglev 定位与边界](../../internal Reality/positioning.md)。
 
 ## 它解决什么问题
 
 AI Coding 提高了执行速度，但也会放大意图、设计、代码和验证之间的漂移。Maglev 用需求收敛、结构化 Spec、明确执行边界和交叉验证，把一次交付从“生成代码”变成“持续对齐并沉淀事实”。
 
-事实依据：Maglev 定位与边界。
+事实依据：[Maglev 定位与边界](../../internal Reality/positioning.md)。
 
 ## 它如何参与一次交付
 
@@ -108,8 +108,8 @@ flowchart LR
 
 ## 事实与边界
 
-- 当前事实与边界：`specs/10_reality`
-- 正式指南与操作资料：`docs/guides`
+- 当前事实与边界：`internal Reality`
+- 正式指南与操作资料：`source operation guides`
 - Wiki 按读者任务组织解释、评估和操作路径，不取代当前事实源。
 - 边界：
 - 不替代代码生成层，也不限定具体 IDE、Agent 或 provider。

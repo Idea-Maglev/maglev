@@ -11,7 +11,7 @@ generator: wiki_authoring
 
 > 面向需要决定“是否试点 Maglev、试点如何验收”的业务负责人和技术负责人。本页不替你给出收益数字，而是提供一套可以在具体项目中复核的评估方法。
 
-这套 Wiki 以 `specs/10_reality/` 的当前事实为锚点。页面可以帮助读者定位事实、静态契约和已知缺口，但页面本身不把设计存在写成运行效果，也不替代项目现场验证。
+这套 Wiki 以 `internal Reality/` 的当前事实为锚点。页面可以帮助读者定位事实、静态契约和已知缺口，但页面本身不把设计存在写成运行效果，也不替代项目现场验证。
 
 ## 先明确评估对象
 
@@ -124,7 +124,7 @@ Maglev 不是编码工具的替代品，而是编码工具的上游输入层和�
 是否扩大范围：是 / 否 / 需要补充证据
 ```
 
-- Maglev 定位与边界
-- 产品与模块架构
+- [Maglev 定位与边界](../../../internal Reality/positioning.md)
+- [产品与模块架构](../../../internal Reality/product-architecture.md)
 - [比较方法与替代方案](./comparisons.md)
 - [证据与验证边界](../evaluator/evidence-and-verification.md)

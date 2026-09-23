@@ -21,7 +21,7 @@ Reality 的页面结构与写法由本轮选定的 **Reality 模板包**（`temp
 
 ```bash
 maglev-python .agents/skills/crystallization/references/scripts/crystallization_check.py \
-  specs/10_reality
+  internal Reality
 ```
 
 脚本验证的角色边界：Admission 只做客观可追溯性校验（证据存在、摘要一致、身份唯一），

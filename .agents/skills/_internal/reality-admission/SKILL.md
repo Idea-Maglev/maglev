@@ -15,7 +15,7 @@ metadata:
 # Reality Admission
 
 Reality Admission 以 **Git 中已提交的完整 Reality 投影**为验证对象。Producer 先在
-受控分支或 worktree 中把新事实与既有 `specs/10_reality` 合并，并提交为候选
+受控分支或 worktree 中把新事实与既有 `internal Reality` 合并，并提交为候选
 revision；独立 Validation Provider checkout 同一 commit，验证完整 Reality、变更
 diff 与仓库证据。Admission 只确认该已验证 revision，绝不依赖被忽略的候选目录，
 也不会在验证后再写另一份 Reality。
@@ -32,13 +32,13 @@ core = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(core)
 
 projection = core.RealityProjection.from_repository(
-    "specs/10_reality",
+    "internal Reality",
     base_ref="<修改前 commit>",
     candidate_ref="HEAD",
     intended_use=["onboarding"],
 )
 validation = core.ValidationResult.from_mapping(validation_result)
-admission = core.Admission("specs/10_reality")
+admission = core.Admission("internal Reality")
 plan = admission.dry_run(projection, validation)
 receipt = admission.accept(plan)
 ```
@@ -63,7 +63,7 @@ receipt = admission.accept(plan)
 
 ```bash
 ./scripts/maglev-python .agents/skills/_internal/reality-admission/scripts/reality_admission.py \
-  --reality-root specs/10_reality \
+  --reality-root internal Reality \
   --base-ref <修改前-commit> \
   --candidate-ref HEAD \
   --intended-use onboarding \
@@ -76,7 +76,7 @@ CLI 也支持从标准输入读取 JSON，不要求创建项目内临时目录�
 ```bash
 cat validation-result.json | \
 ./scripts/maglev-python .agents/skills/_internal/reality-admission/scripts/reality_admission.py \
-  --reality-root specs/10_reality \
+  --reality-root internal Reality \
   --base-ref <修改前-commit> \
   --candidate-ref HEAD \
   --intended-use onboarding \

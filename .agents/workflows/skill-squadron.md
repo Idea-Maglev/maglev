@@ -19,7 +19,7 @@ metadata:
 
 当前输入面：
 
-- `.agents/private-catalog.yaml`
+- `public capability catalog`
 
 当前口径：
 
@@ -61,7 +61,7 @@ metadata:
 
 当前注意事项：
 
-- 若 `.agents/private-catalog.yaml` 的 active 对象或 relations 发生变化，应先重跑分组
+- 若 `public capability catalog` 的 active 对象或 relations 发生变化，应先重跑分组
 - `skill-squadron` 负责分组、编队与影响分析
 - 单个 `skill` 的具体 Patrol 扫描继续委托给 `skill-scout`
 - 主流程核心对象若仍处于 `active_legacy_name`，巡逻时应额外关注旧运行名是否继续制造理解成本

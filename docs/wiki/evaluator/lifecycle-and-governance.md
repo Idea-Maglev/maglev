@@ -15,7 +15,7 @@ Maglev 的主链把请求分诊、现状同步、需求收敛、方案设计、�
 
 ## 五阶段总览
 
-Maglev 把一次完整交付组织为五个阶段：需求收敛 → 方案设计 → 受控实施 → 综合验证 → 结晶归档。前一阶段的产出是后一阶段的进入条件，任何阶段不达标都会被挡回，而不是带着模糊继续往前走（出处：Maglev 范式架构）：
+Maglev 把一次完整交付组织为五个阶段：需求收敛 → 方案设计 → 受控实施 → 综合验证 → 结晶归档。前一阶段的产出是后一阶段的进入条件，任何阶段不达标都会被挡回，而不是带着模糊继续往前走（出处：[Maglev 范式架构](../../../source operation guides/10_concepts/maglev_paradigm_architecture.md)）：
 
 ```mermaid
 flowchart TD
@@ -25,7 +25,7 @@ flowchart TD
     C -->|"纯非代码"| C2["context-implementer<br/>产出：文档 / 配置 / 分析变更"]
     C1 --> D["④ 综合验证<br/>产出：四层一致性结论"]
     C2 --> D
-    D -->|"通过"| E["⑤ 结晶归档<br/>产出：现实回写 specs/10_reality"]
+    D -->|"通过"| E["⑤ 结晶归档<br/>产出：现实回写 internal Reality"]
     D -->|"发现漂移"| B
 ```
 
@@ -39,7 +39,7 @@ flowchart TD
 
 ## 阶段二：方案设计
 
-需求边界稳定后，spec-designer 通过受控对话与结构化流程形成可执行的技术方案。Maglev 把 Spec 当作中间表示（Spec as IR）：Spec 是真理，代码只是针对特定技术栈的渲染（出处：Maglev 范式架构）。阶段产出是结构化方案与质量规则齐备的 Spec——它既是下一阶段实施的输入，也是验证阶段的对照基准。方案层由人定骨架、AI 填充，主责在人机之间显式划分。
+需求边界稳定后，spec-designer 通过受控对话与结构化流程形成可执行的技术方案。Maglev 把 Spec 当作中间表示（Spec as IR）：Spec 是真理，代码只是针对特定技术栈的渲染（出处：[Maglev 范式架构](../../../source operation guides/10_concepts/maglev_paradigm_architecture.md)）。阶段产出是结构化方案与质量规则齐备的 Spec——它既是下一阶段实施的输入，也是验证阶段的对照基准。方案层由人定骨架、AI 填充，主责在人机之间显式划分。
 
 ## 阶段三：受控实施
 
@@ -56,13 +56,13 @@ integrated-validator 对 requirements ↔ spec ↔ code ↔ tests 做四层交�
 
 ## 阶段五：结晶归档
 
-验证通过后，crystallization 完成结晶条件确认与现实回写判定：有长期价值的结论回写到 `specs/10_reality` 当前事实层，回写受 floor / ceiling 双向质量卡点约束；完成生命周期的主题归档。阶段产出有两份：更新后的仓库事实，以及归档的主题记录。
+验证通过后，crystallization 完成结晶条件确认与现实回写判定：有长期价值的结论回写到 `internal Reality` 当前事实层，回写受 floor / ceiling 双向质量卡点约束；完成生命周期的主题归档。阶段产出有两份：更新后的仓库事实，以及归档的主题记录。
 
 至此，Spec 的完整生命周期——创建、使用、结晶、归档——形成闭环。大多数工具的文档写完即开始腐烂；这条链路里，仓库的"当前事实"只由验证过的结论维护。
 
 ## 入口分层：什么阶段用什么入口
 
-工作流的入口按项目阶段分层，不同阶段用不同入口（出处：Maglev 入口总览）：
+工作流的入口按项目阶段分层，不同阶段用不同入口（出处：[Maglev 入口总览](../../../source operation guides/20_operations/maglev_entrypoints.md)）：
 
 | 项目阶段 | 入口 | 说明 |
 |---------|------|------|
@@ -75,7 +75,7 @@ integrated-validator 对 requirements ↔ spec ↔ code ↔ tests 做四层交�
 
 ## 版本对用户意味着什么
 
-入口分层表里的版本与发版脚本回答的是维护者视角的"发没发、发了什么产物"；对使用者而言，每个版本"对用户意味着什么"由独立的发行知识承载，与发版流程分离（出处：发行知识能力）：
+入口分层表里的版本与发版脚本回答的是维护者视角的"发没发、发了什么产物"；对使用者而言，每个版本"对用户意味着什么"由独立的发行知识承载，与发版流程分离（出处：[发行知识能力](../../../internal Reality/release-knowledge/capability/overview.md)）：
 
 - **版本语义四分类**：版本说明按用户语义把变更分为新特性（能做以前不能做的事）、打磨（已有能力更好用）、缺陷修复（行为回归正确）、破坏性变更（升级前需要主动适配）四类。
 - **三件产物**：`.maglev_build/CHANGELOG.md` 是构建态镜像，随当次 release 构建分发；`docs/releases/<version>.md` 逐版归档，每版一档；`docs/releases/index.md` 维护版本索引与当前版本指针。
@@ -106,13 +106,13 @@ flowchart LR
 
 ## 会话入口：四类同步对齐"现在在哪"
 
-第一层是动态同步。用户说 "Standup."（`/standup` 兼容入口）时，[reality-sync](../../../.agents/skills/reality-sync/SKILL.md) 按 **Reality / Risk / Action / Mode 四类同步**对齐仓库真实状态，输出固定为 `[Space]`（当前主线与位置）、`[Mind]`（最近已确认的事实与阶段）、`[Risk]`（当前重要风险）、`[Action]`（1-3 个最优先动作）、`[Mode]`（单个推荐模式：Analyze / Implement / Verify / Release）五节。这一设计让人类开发者在新会话快速建立对仓库状态的可操作认知，也让 AI agent 在不读全仓的前提下获得会话起点的事实底座（能力事实见 会话现状同步能力）。
+第一层是动态同步。用户说 "Standup."（`/standup` 兼容入口）时，[reality-sync](../../../.agents/skills/reality-sync/SKILL.md) 按 **Reality / Risk / Action / Mode 四类同步**对齐仓库真实状态，输出固定为 `[Space]`（当前主线与位置）、`[Mind]`（最近已确认的事实与阶段）、`[Risk]`（当前重要风险）、`[Action]`（1-3 个最优先动作）、`[Mode]`（单个推荐模式：Analyze / Implement / Verify / Release）五节。这一设计让人类开发者在新会话快速建立对仓库状态的可操作认知，也让 AI agent 在不读全仓的前提下获得会话起点的事实底座（能力事实见 [会话现状同步能力](../../../internal Reality/session-reality-sync/capability/overview.md)）。
 
 同步不是凭印象作答。reality-sync 启动时先做运行时 preflight（`./scripts/maglev-python --doctor`），再验证 skills 索引（`track_verify`）；preflight 失败会显式暴露 `env_failed` 并给出修复动作，索引验证不通过则提示重建——而不是带着过期索引继续输出。索引健康检查只确认入口索引"可验证且新鲜"，任务级导航仍留给后续受控阶段消费收据。
 
 ## 静态上下文：AGENTS.md 与 llms.txt 双入口
 
-第二层是每会话常驻的静态上下文。跨平台 agent 从 AGENTS.md 获得会话入口——红线纪律、目录速查、定位锚点、managed 主链路区块、Skill 优先级协议；AI 代理从 llms.txt 获得上下文地图——身份定义、快速开始指令表、兼容入口与导航系统。两个文件分工明确：一个约束"进仓库后怎么行为"，一个回答"这个仓库里有什么、从哪开始"（构成与分工见 Agent 上下文入口）。
+第二层是每会话常驻的静态上下文。跨平台 agent 从 AGENTS.md 获得会话入口——红线纪律、目录速查、定位锚点、managed 主链路区块、Skill 优先级协议；AI 代理从 llms.txt 获得上下文地图——身份定义、快速开始指令表、兼容入口与导航系统。两个文件分工明确：一个约束"进仓库后怎么行为"，一个回答"这个仓库里有什么、从哪开始"（构成与分工见 [Agent 上下文入口](../../../internal Reality/agent-context-surface/operations/agent-context.md)）。
 
 这套上下文面的维护有一条完整的治理链，而不是靠人工自觉：
 
@@ -131,9 +131,9 @@ flowchart LR
 
 ## 事实可信度：证据绑定与四态
 
-前两层给出"起点"，第三层回答"凭什么信"。Maglev 的当前事实层 specs/10_reality/ 为每页登记 `reality_id`，claim 从页面 frontmatter 由脚本机械枚举，再以 digest 绑定证据文件——证据逐字节可复核，而不是一句"参见某文档"。
+前两层给出"起点"，第三层回答"凭什么信"。Maglev 的当前事实层 [internal Reality/](../../../internal Reality/README.md) 为每页登记 `reality_id`，claim 从页面 frontmatter 由脚本机械枚举，再以 digest 绑定证据文件——证据逐字节可复核，而不是一句"参见某文档"。
 
-每条事实的状态用四个词表达证据充分度，词表与语义由 术语表与 00_profile.yaml 持有：
+每条事实的状态用四个词表达证据充分度，词表与语义由 [术语表](../../../internal Reality/glossary.md)与 [00_profile.yaml](../../../internal Reality/00_profile.yaml) 持有：
 
 | 状态词 | 含义 | 证据充分度 | 它不表示 |
 | --- | --- | --- | --- |
@@ -142,15 +142,15 @@ flowchart LR
 | not_established | 有线索但证据不足 | partial：不得当 established 用 | 不是已成立事实，也不是被否决的结论 |
 | not_applicable | 页面/契约对该模块不适用 | 须记录判断依据 | 不是"没有证据"的委婉说法 |
 
-状态来自来源角色与证据，不来自叙述流畅度，也不表示运行时验证通过——这套口径的原始登记见 10_reality 读取限制。
+状态来自来源角色与证据，不来自叙述流畅度，也不表示运行时验证通过——这套口径的原始登记见 [10_reality 读取限制](../../../internal Reality/README.md)。
 
 ## 边界澄清：三层各自"不是什么"
 
 这套起点对齐机制的能力边界是刻意的，评估者最值得核对的正是这里：
 
-- **同步不保证输出事实质量**。reality-sync 能力页明文登记：四类内容的贴合度依赖当次索引状态，当前无运行质量记录机制；同步也不代用户做任务导航——它只把起点对齐，把起点变成结论之间的推理仍由后续受控阶段承担。
-- **上下文入口不承诺与源始终同步**。Agent 上下文面能力页登记了已知缺口：CLAUDE.md 适配层已观察到陈旧条目（生成器无删除分支），双入口内容并非永远与源一致。
-- **digest 一致不等于内容真实**。10_reality README显式声明："结构通过"不能包装成"内容真实"——证据绑定证明"这段话登记时与某个可复核的文件逐字节一致"，不证明文件内容本身正确；同理 `established` 也不等于运行时验证通过。
+- **同步不保证输出事实质量**。[reality-sync 能力页](../../../internal Reality/session-reality-sync/capability/overview.md)明文登记：四类内容的贴合度依赖当次索引状态，当前无运行质量记录机制；同步也不代用户做任务导航——它只把起点对齐，把起点变成结论之间的推理仍由后续受控阶段承担。
+- **上下文入口不承诺与源始终同步**。[Agent 上下文面能力页](../../../internal Reality/agent-context-surface/capability/overview.md)登记了已知缺口：CLAUDE.md 适配层已观察到陈旧条目（生成器无删除分支），双入口内容并非永远与源一致。
+- **digest 一致不等于内容真实**。[10_reality README](../../../internal Reality/README.md)显式声明："结构通过"不能包装成"内容真实"——证据绑定证明"这段话登记时与某个可复核的文件逐字节一致"，不证明文件内容本身正确；同理 `established` 也不等于运行时验证通过。
 
 换句话说，Maglev 在会话起点提供的是**可核对的起点与诚实的证据状态**，而不是"已验证为真"的承诺。这一取舍是本页与"Maglev 保证 AI 输出正确"这类表述之间的分界线。
 

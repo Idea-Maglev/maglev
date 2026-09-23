@@ -14,7 +14,7 @@ next_step: null
 
 - `patrol_report`：来自 `patrol-03-report.md` 的巡逻报告
 - `selected_opportunities`：用户选择的优化条目列表（来自 PatrolReport 的 `opportunities`）
-- `.agents/private-catalog.yaml`：项目级治理对象清单
+- `public capability catalog`：项目级治理对象清单
 
 ## 动作
 
@@ -41,7 +41,7 @@ next_step: null
 .agents/skills/{skill-name}/.backup/{version}/
 ```
 
-其中 `{version}` 为当前 `.agents/private-catalog.yaml` 中该条目的版本号（如 `1.0.0`）。
+其中 `{version}` 为当前 `public capability catalog` 中该条目的版本号（如 `1.0.0`）。
 
 **备份规则**：
 1. 创建备份目录 `.agents/skills/{skill-name}/.backup/{version}/`。
@@ -92,7 +92,7 @@ backup_meta:
 
 ### 5. 更新项目级治理对象清单
 
-校验通过后，更新 `.agents/private-catalog.yaml` 中对应条目的版本信息：
+校验通过后，更新 `public capability catalog` 中对应条目的版本信息：
 
 **更新字段**：
 - `version`：版本号递增（遵循语义化版本规范，小版本优化递增 patch 位，如 `1.0.0` → `1.0.1`；架构重构递增 minor 位，如 `1.0.0` → `1.1.0`）
@@ -167,7 +167,7 @@ backup_meta:
 2. **执行备份**：对每个确认执行的条目，先备份原有文件，向用户确认备份成功。
 3. **生成更新文件**：基于 DiffAnalysis 和原有 Adaptation Spec 生成更新后的文件。
 4. **校验文件结构**：执行完整性校验，确保更新后的文件结构合规。
-5. **更新清单**：校验通过后，更新 `.agents/private-catalog.yaml` 中的版本号和优化日期。
+5. **更新清单**：校验通过后，更新 `public capability catalog` 中的版本号和优化日期。
 6. **展示变更摘要**：向用户展示完整的变更摘要（修改文件列表 + 能力变化说明）。
 7. **结束流程**：Patrol 流程正常结束。
 
@@ -185,7 +185,7 @@ backup_meta:
 | 备份过程中文件复制失败 | 中止当前条目的优化操作，清理已创建的不完整备份目录，向用户提示"备份不完整，优化已中止"，跳过该条目。 |
 | 更新文件生成后校验失败（文件结构不合规） | 自动回滚：删除生成的更新文件，将备份目录中的文件恢复到原路径，向用户提示"校验失败，已自动回滚到备份版本 {version}"。 |
 | 回滚操作失败 | 向用户提示"回滚失败，请手动从备份目录 {backup_path} 恢复文件"，提供备份目录路径和文件列表。 |
-| `.agents/private-catalog.yaml` 更新失败 | 向用户提示"版本信息更新失败，请手动更新 `.agents/private-catalog.yaml` 中 {skill_name} 条目的 version 和 last_optimized 字段"，提供应更新的值。 |
+| `public capability catalog` 更新失败 | 向用户提示"版本信息更新失败，请手动更新 `public capability catalog` 中 {skill_name} 条目的 version 和 last_optimized 字段"，提供应更新的值。 |
 | 用户选择的优化条目在 PatrolReport 中不存在 | 向用户提示"未找到对应的优化条目，请重新选择"，展示当前 PatrolReport 中的有效条目列表。 |
 
 ## 备份策略说明

@@ -199,7 +199,7 @@ Maglev 增加的不是"再一层流程"，而是一份让后续动作对齐的�
 
 ---
 
-老项目文档缺失甚至过时时，**代码是唯一的真理**。接入策略是反向对齐（Code First Entry, Spec First Evolution）：不要求先补全文档再干活，而是让 AI 先"读"代码重建现状，再让 Spec 随迭代自然生长（策略出处：存量项目引入 Maglev）。底线是业务连续性：不要为了追求方法的纯洁性，而牺牲了业务的连续性。
+老项目文档缺失甚至过时时，**代码是唯一的真理**。接入策略是反向对齐（Code First Entry, Spec First Evolution）：不要求先补全文档再干活，而是让 AI 先"读"代码重建现状，再让 Spec 随迭代自然生长（策略出处：[存量项目引入 Maglev](../../../source operation guides/00_start/legacy_project_adoption.md)）。底线是业务连续性：不要为了追求方法的纯洁性，而牺牲了业务的连续性。
 
 ```mermaid
 flowchart LR
@@ -212,7 +212,7 @@ flowchart LR
 
 ## 三条接入路径怎么选
 
-接入 Maglev 有三条路径，按项目当前状态选，不要混着跑（出处：接入与集成能力）：
+接入 Maglev 有三条路径，按项目当前状态选，不要混着跑（出处：[接入与集成能力](../../../internal Reality/adoption-integration/capability/overview.md)）：
 
 | 你的处境 | 走哪条路径 | 它做什么 |
 | :--- | :--- | :--- |
@@ -224,13 +224,13 @@ flowchart LR
 
 ### 消费者隔离：接入的是空白实例
 
-无论走哪条路径，消费者项目默认只得到**空白 Maglev 实例**：不携带 Maglev 源仓库的 Reality、项目地图或事实页——那些是 Maglev 自己仓库的当前事实，不是你项目的。bootstrapper 仅在你确认登记至少一个仓库后，才会生成/更新 `specs/10_reality/crosscutting/repository-map/repositories.md`；未登记仓库不得创建该文件。你项目的 Reality 只能从自己的逆向重建与需求迭代里长出来。
+无论走哪条路径，消费者项目默认只得到**空白 Maglev 实例**：不携带 Maglev 源仓库的 Reality、项目地图或事实页——那些是 Maglev 自己仓库的当前事实，不是你项目的。bootstrapper 仅在你确认登记至少一个仓库后，才会生成/更新 `internal Reality/crosscutting/repository-map/repositories.md`；未登记仓库不得创建该文件。你项目的 Reality 只能从自己的逆向重建与需求迭代里长出来。
 
 ## 分阶段接入存量项目
 
 ### 按三阶段推进，不搞一刀切
 
-三个阶段的完整展开见存量项目引入 Maglev：
+三个阶段的完整展开见[存量项目引入 Maglev](../../../source operation guides/00_start/legacy_project_adoption.md)：
 
 **Phase 1：零文档接入**（修 Bug、微小优化时）。甚至不需要 `specs/` 目录：直接把相关代码文件放进 AI 上下文，让它"阅读这段代码，修复 NPE bug，保持原有代码风格"。此阶段只用 AI 编码能力，不引入流程。
 
@@ -267,8 +267,8 @@ reverse:
     machine_evidence_root: <项目外或隔离的机器证据目录>
 ```
 
-3. **阶段 A——语义审阅**：按项目形态选阅读入口（有页面的应用找页面路由、接口服务找接口资源、异步系统找任务与事件、命令行工具找命令、数据系统找实体与数据生命周期），直接阅读原文生成语义审阅包；结论必须标 `[FACT]` / `[INFERENCE]` / `[UNKNOWN]` / `[BLOCKED]`，没有直接证据不能写成事实；然后人工审阅四件事——模块边界、拆分合并、跨模块公共内容、无法归属项，裁决用 `accept` / `split` / `merge` / `defer` / `keep_unclassified` / `request_scope_change`（阶段 A 的完整流程出处：逆向现状重建手册）
-4. **阶段 B——事实核对与准入**：先做只读结构校验；再按当前用途核对事实，每个维度登记 `covered` / `not_applicable` / `unknown` / `blocked`；把已核对事实写入**目标项目自己的**现实资料位置（逆向只改现实资料，不改业务代码、测试、数据）；最后由独立验证方检出同一候选提交核对后准入，记录 `base_commit` 与 `candidate_commit`（阶段 B 的准入与证据要求出处：逆向现状重建手册）
+3. **阶段 A——语义审阅**：按项目形态选阅读入口（有页面的应用找页面路由、接口服务找接口资源、异步系统找任务与事件、命令行工具找命令、数据系统找实体与数据生命周期），直接阅读原文生成语义审阅包；结论必须标 `[FACT]` / `[INFERENCE]` / `[UNKNOWN]` / `[BLOCKED]`，没有直接证据不能写成事实；然后人工审阅四件事——模块边界、拆分合并、跨模块公共内容、无法归属项，裁决用 `accept` / `split` / `merge` / `defer` / `keep_unclassified` / `request_scope_change`（阶段 A 的完整流程出处：[逆向现状重建手册](../../../source operation guides/20_operations/reverse_reality_manual.md)）
+4. **阶段 B——事实核对与准入**：先做只读结构校验；再按当前用途核对事实，每个维度登记 `covered` / `not_applicable` / `unknown` / `blocked`；把已核对事实写入**目标项目自己的**现实资料位置（逆向只改现实资料，不改业务代码、测试、数据）；最后由独立验证方检出同一候选提交核对后准入，记录 `base_commit` 与 `candidate_commit`（阶段 B 的准入与证据要求出处：[逆向现状重建手册](../../../source operation guides/20_operations/reverse_reality_manual.md)）
 
 
 ## 验证

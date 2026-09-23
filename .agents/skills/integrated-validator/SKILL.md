@@ -34,7 +34,7 @@ metadata:
 
 ## Reality 边界
 
-当输入包含 `specs/10_reality` 或 Reality Projection 时：
+当输入包含 `internal Reality` 或 Reality Projection 时：
 
 - 进入 `references/reality-validation-mode.md`，不进入普通的健康度评分报告；
 - 消费同一候选提交的 Work Contract、Module Map、Gate A/B、逐模块语义包和目标 Reality；
@@ -92,7 +92,7 @@ sequenceDiagram
 **Goal**: 调用质量层能力面 + 内置扫描器，收集所有待验证的上下文。
 **Reference**: `references/step-01-collect-context.md`
 **Actions**:
-0. 先判断是否进入 Reality 模式；若输入包含 `specs/10_reality`、Reality Projection 或
+0. 先判断是否进入 Reality 模式；若输入包含 `internal Reality`、Reality Projection 或
    `reverse_review_result`，改用 `references/reality-validation-mode.md` 的输入与步骤，跳过
    普通扫描器和健康度评分。
 1.  调用 `spec-audit-surface` → 输入审计上下文

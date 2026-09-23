@@ -72,7 +72,7 @@ Skill 扮演 **[Architect]** 角色，执行以下阶段：
 ```
 
 **仅在用户确认登记至少一个仓库后，生成/更新
-`specs/10_reality/crosscutting/repository-map/repositories.md`，并在存在 Profile 时登记该页。**
+`internal Reality/crosscutting/repository-map/repositories.md`，并在存在 Profile 时登记该页。**
 
 ### Phase 4: Verify (自检)
 

@@ -40,12 +40,12 @@ knowledge_records: []
 文件记录至少包含可定位路径、摘要、主题、证据、解析状态与内容指纹：
 
 ```yaml
-- id: file:docs/guides/getting-started.md
-  path: docs/guides/getting-started.md
+- id: file:source operation guides/getting-started.md
+  path: source operation guides/getting-started.md
   kind: file
   summary: "帮助读者完成首次设置。"
   topics: ["getting", "started"]
-  evidence: [docs/guides/getting-started.md#Getting-Started]
+  evidence: [source operation guides/getting-started.md#Getting-Started]
   parse_status: indexed
   content_fingerprint: "sha256..."
 ```

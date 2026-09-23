@@ -44,7 +44,7 @@
           "scope": "distributed"
         },
         {
-          "path": "specs/10_reality/README.md",
+          "path": "internal Reality/README.md",
           "scope": "source-only"
         },
         {

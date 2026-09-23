@@ -59,7 +59,7 @@ metadata:
 **目标**：建立第一个可持续依赖的现实锚点。
 
 - 询问本项目中最核心、或近期准备修改的功能范围。
-- 若项目已有 `specs/10_reality/00_profile.yaml`，先读取并核对其来源；
+- 若项目已有 `internal Reality/00_profile.yaml`，先读取并核对其来源；
   只有目标明确属于 Maglev 源仓库时才能使用 `maglev-core-v1`。消费者项目没有
   自己的已确认 Profile 时保持无 Profile 状态，不得复制 Maglev 的 domains、Reality 页或当前事实。
 - 调用 `maglev-reverse-spec` 建立第一个 Reality Projection，并将结果映射到目标项目自己的 Profile

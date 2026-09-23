@@ -32,7 +32,7 @@ flowchart LR
 
 ## 治理适配器：从静态配置到动态约束
 
-接入一个新的 Agent 平台时，Maglev 的治理配置不需要重写，而是通过治理适配器转译。适配器读取 `.maglev/config/` 下的静态配置——核心行为准则（`core_rules.md`）、角色定义与权限（`roles.yaml`）、团队成员信息（`team.yaml`）——把它变成该平台 Agent 的动态约束（来源：治理适配器设计）：
+接入一个新的 Agent 平台时，Maglev 的治理配置不需要重写，而是通过治理适配器转译。适配器读取 `.maglev/config/` 下的静态配置——核心行为准则（`core_rules.md`）、角色定义与权限（`roles.yaml`）、团队成员信息（`team.yaml`）——把它变成该平台 Agent 的动态约束（来源：[治理适配器设计](../../../source operation guides/90_advanced/governance_adapter_design.md)）：
 
 ```mermaid
 flowchart LR
@@ -48,7 +48,7 @@ flowchart LR
 
 ## Multica 多智能体扩展
 
-单 agent 的扩展解决"用什么执行"，多 agent 协作则由 Multica 承载：Multica 是第三方多智能体运行环境，Maglev 通过 Squad Kit 把自己的多角色协作适配为可安装、可校验、可升级的小队模板。分工一句话：**Multica 管协作与执行环境（Workspace、Issue、Agent、Runtime、Task），Maglev 仓库管项目质量事实（需求、方案、用例、实施约束、验证、Reality、Extension）**（来源：Multica Squad Kit 能力、Multica × Maglev 整体模型）。
+单 agent 的扩展解决"用什么执行"，多 agent 协作则由 Multica 承载：Multica 是第三方多智能体运行环境，Maglev 通过 Squad Kit 把自己的多角色协作适配为可安装、可校验、可升级的小队模板。分工一句话：**Multica 管协作与执行环境（Workspace、Issue、Agent、Runtime、Task），Maglev 仓库管项目质量事实（需求、方案、用例、实施约束、验证、Reality、Extension）**（来源：[Multica Squad Kit 能力](../../../internal Reality/collaboration-lifecycle/capability/multica-squad-kit.md)、Multica × Maglev 整体模型）。
 
 ```mermaid
 flowchart LR
@@ -72,7 +72,7 @@ flowchart LR
 
 ### 质量分级：声明上限（L2）
 
-模板通过 self-check 后可声明 `squad_quality`，当前可声明的模板验证级别是 **模板验证级别（L2）**，对应 `template_verified`；Adapter 已落地模板资产、测试和静态验证。更高的运行验证级别 **运行验证级别（L3）**，对应 `runtime_verified`，需要“真实第三方承载端到端验证”的 Runtime Proof，**当前未声明**：本仓库没有用本地验证替代它（出处：Multica Squad Kit 能力）。
+模板通过 self-check 后可声明 `squad_quality`，当前可声明的模板验证级别是 **模板验证级别（L2）**，对应 `template_verified`；Adapter 已落地模板资产、测试和静态验证。更高的运行验证级别 **运行验证级别（L3）**，对应 `runtime_verified`，需要“真实第三方承载端到端验证”的 Runtime Proof，**当前未声明**：本仓库没有用本地验证替代它（出处：[Multica Squad Kit 能力](../../../internal Reality/collaboration-lifecycle/capability/multica-squad-kit.md)）。
 
 ### 五层产物模型：什么放哪里
 
@@ -96,7 +96,7 @@ flowchart LR
 
 ## 扩展的持续迭代靠什么保证
 
-一个 Extension Pack 发布之后，迭代质量由四方职责边界与维护记录共同保证（来源：扩展维护指南）：
+一个 Extension Pack 发布之后，迭代质量由四方职责边界与维护记录共同保证（来源：[扩展维护指南](../../../source operation guides/20_operations/extension_maintenance.md)）：
 
 | 位置 | 持有内容 |
 |------|---------|
@@ -124,7 +124,7 @@ Maglev 的集成策略是叠加而非替换：
 
 ## 跨平台适配：Claude Code 只读快照
 
-Maglev 能力对其他编码平台不使用双写同步，而是单向生成。以 Claude Code 适配层为例：`packages/maglev-claude-code` 的 generate 动作把仓库技能单向生成到 `.claude/skills/` 只读快照并生成 `CLAUDE.md`（见 `specs/10_reality/adoption-integration/capability/overview.md`）。
+Maglev 能力对其他编码平台不使用双写同步，而是单向生成。以 Claude Code 适配层为例：`packages/maglev-claude-code` 的 generate 动作把仓库技能单向生成到 `.claude/skills/` 只读快照并生成 `CLAUDE.md`（见 `internal Reality/adoption-integration/capability/overview.md`）。
 
 这个形态有一个评估者需要知道的边界：源技能变更之后、重新生成之前，适配层快照可能落后于源——跨平台接入物是"生成物"，不是持续同步的镜像。因此在源技能演进后需要重新执行生成，且不应直接手改生成目录里的内容（它们会被下次生成覆盖）。
 

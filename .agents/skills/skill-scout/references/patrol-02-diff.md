@@ -13,7 +13,7 @@ next_step: references/patrol-03-report.md
 ## 输入
 
 - `scan_result`：来自 `patrol-01-scan.md` 的扫描结果（含每个 Private Skill 的外部候选列表）
-- `.agents/private-catalog.yaml`：私域能力清单（用于获取 Private Skill 的详细信息）
+- `public capability catalog`：私域能力清单（用于获取 Private Skill 的详细信息）
 
 ## 动作
 
@@ -30,7 +30,7 @@ next_step: references/patrol-03-report.md
 对每个待分析的 Private Skill：
 
 1. 读取其 `path` 目录下的 `SKILL.md` 和 `references/` 下的步骤文件。
-2. 从 `.agents/private-catalog.yaml` 中获取该条目的 `adaptation_summary`，了解原始改造意图。
+2. 从 `public capability catalog` 中获取该条目的 `adaptation_summary`，了解原始改造意图。
 3. 提取 Private Skill 的核心功能列表、交互流程和架构特征。
 
 ### 3. 读取外部候选资源内容

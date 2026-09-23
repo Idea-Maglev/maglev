@@ -53,7 +53,7 @@ next_step: references/step-03-patrol.md
 使用约束：
 
 - 这只是当前对象图下的默认巡逻切片，不是固定白名单。
-- 只要 `.agents/private-catalog.yaml` 的 active 对象或 relations 发生变化，必须重新以连通分量结果为准。
+- 只要 `public capability catalog` 的 active 对象或 relations 发生变化，必须重新以连通分量结果为准。
 
 ### 2. 计算巡逻优先级评分
 

@@ -21,7 +21,7 @@ metadata:
 - 消费 `multica-squad-design-method` 产出的意图、角色拓扑、协同契约和质量目标。
 - 将通用 Adapter Contract 填写为 Maglev 版本：Squad Kit 文件面、`maglev-multica` 命令面、managed marker/lock 身份面、写入门禁和验证面。
 - 生成或维护 `packages/maglev-multica-kit/assets/squad-templates/<template-id>/` 下的模板资产。
-- 维护 `.agents/private-catalog.yaml`、相关 README、配置指南、active spec 和测试。
+- 维护 `public capability catalog`、相关 README、配置指南、active spec 和测试。
 - 区分已初始化仓库的 `entry-router` 能力链路与未初始化仓库的 Bridge 自包含准备模式。
 - 输出 `squad_quality`，明确最多可声明到 L1/L2/L3 哪个等级。
 

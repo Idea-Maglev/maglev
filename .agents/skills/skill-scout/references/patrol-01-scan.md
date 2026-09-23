@@ -8,11 +8,11 @@ next_step: references/patrol-02-diff.md
 
 ## 目标
 
-读取项目级治理对象清单（`.agents/private-catalog.yaml`），针对其中处于 `active` 且 `object_kind: skill` 的条目，在 Source Registry 注册的外部资源来源中搜索相似或更优的资源，为后续差异分析提供候选列表。
+读取项目级治理对象清单（`public capability catalog`），针对其中处于 `active` 且 `object_kind: skill` 的条目，在 Source Registry 注册的外部资源来源中搜索相似或更优的资源，为后续差异分析提供候选列表。
 
 ## 输入
 
-- `.agents/private-catalog.yaml`：项目级治理对象清单
+- `public capability catalog`：项目级治理对象清单
 - `references/source-registry.yaml`：外部资源来源注册表（内置层）
 - `skill-sources.yaml`：用户自定义来源注册表（用户层，可选）
 
@@ -20,7 +20,7 @@ next_step: references/patrol-02-diff.md
 
 ### 1. 读取项目级治理对象清单
 
-读取 `.agents/private-catalog.yaml`，获取所有已注册的治理对象条目。
+读取 `public capability catalog`，获取所有已注册的治理对象条目。
 
 **规则**：
 - 若文件不存在或为空，触发错误处理流程（见下方"错误处理"）。

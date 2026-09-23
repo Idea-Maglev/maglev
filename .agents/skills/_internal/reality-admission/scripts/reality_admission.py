@@ -46,7 +46,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Describe, validate, and accept a committed Reality projection"
     )
-    parser.add_argument("--reality-root", default="specs/10_reality")
+    parser.add_argument("--reality-root", default="internal Reality")
     parser.add_argument(
         "--base-ref",
         required=True,

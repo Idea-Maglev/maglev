@@ -23,37 +23,37 @@
     "collaboration-lifecycle": {
       "boundary_reason": "协作角色、生命周期和协同编排共同定义协作行为边界。",
       "boundary_basis": ["user_task", "workflow"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "governance-quality": {
       "boundary_reason": "需求、审计、验证和质量门禁共同定义质量治理边界。",
       "boundary_basis": ["workflow", "operational_responsibility"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "reality-knowledge": {
       "boundary_reason": "Reality、索引和上下文入口共同定义现状知识边界。",
       "boundary_basis": ["product_outcome", "operational_responsibility"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "skill-runtime": {
       "boundary_reason": "技能注册、加载和运行协议共同定义技能运行边界。",
       "boundary_basis": ["workflow", "operational_responsibility"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "delivery-runtime": {
       "boundary_reason": "安装、更新、构建和发布共同定义交付运行边界。",
       "boundary_basis": ["workflow", "operational_responsibility"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "adoption-integration": {
       "boundary_reason": "存量接入、初始化和外部适配共同定义接入边界。",
       "boundary_basis": ["user_task", "workflow"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     },
     "capability-evolution": {
       "boundary_reason": "竞品观测、扩展演进和能力注册共同定义能力进化边界。",
       "boundary_basis": ["product_outcome", "workflow"],
-      "evidence_refs": [".agents/private-catalog.yaml"]
+      "evidence_refs": ["public capability catalog"]
     }
   },
   "domain_entry_files": [

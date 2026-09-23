@@ -12,7 +12,7 @@ next_step: references/step-03-close-active.md
 
 ## 0. 读取并映射 Reality Profile
 
-先读取 `specs/10_reality/00_profile.yaml`。它是唯一的目录与路径准入契约，不得按主题、读者或模块临时推导新骨架。
+先读取 `internal Reality/00_profile.yaml`。它是唯一的目录与路径准入契约，不得按主题、读者或模块临时推导新骨架。
 
 对每条可写回事实记录：`primary_domain`、`owner_slot`、`knowledge_status`、`evidence_refs` 与目标路径。
 

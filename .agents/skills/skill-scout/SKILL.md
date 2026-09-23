@@ -80,7 +80,7 @@ metadata:
 - 配置文件:
   - `references/source-registry.yaml`
   - `references/user-source-preferences.yaml`
-  - `.agents/private-catalog.yaml`
+  - `public capability catalog`
   - `skill-sources.yaml`
 
 ## 快速参考
@@ -88,7 +88,7 @@ metadata:
 - **Pattern**: Entry → Workflow → Micro-Steps (双模式路由)
 - **Isolation**: 所有引用资源必须在 `references/` 下。
 - **协作**: 当目标对象需要生成独立 skill 时，由 `skill-scout` 直接驱动对象生成与登记；当目标对象应保持 `workflow-first` 时，直接生成 workflow 入口与治理登记。
-- **清单语义**: `.agents/private-catalog.yaml` 只保留当前现役对象；更名、替代或收束后的旧名不应作为并列现役对象保留。
+- **清单语义**: `public capability catalog` 只保留当前现役对象；更名、替代或收束后的旧名不应作为并列现役对象保留。
 - **SKILL.md 字段标准**:
   - 顶层 frontmatter 保持标准字段：`name`、`description`
   - 自定义治理字段写入 `metadata`

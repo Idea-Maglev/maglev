@@ -22,7 +22,7 @@ Validator 必须在 checkout `candidate_commit` 的独立 worktree 或等价只�
 
 1. 读取同一模板登记入口、登记清单、方法论、适用页面契约、正向示例和模板审阅项；
 2. 读取 Work Contract、Module Map、Gate A/B 和中间复验记录，核对流程、页面和逐模块结论；
-3. 读取完整仓库代码与完整 `specs/10_reality`；
+3. 读取完整仓库代码与完整 `internal Reality`；
 4. 按模板逐页核对最终页面结构、来源角色、适用性、未知/阻断表达和深挖链接；
 5. 逐模块核对目标、入口、边界、依赖、证据和模块间关系；
 6. 分别输出 structure、content、confidence 三层 findings；content 必须覆盖 UIUX/前端适用

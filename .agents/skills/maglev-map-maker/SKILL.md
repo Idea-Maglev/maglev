@@ -18,8 +18,8 @@ metadata:
 本技能负责生成唯一的人读项目地图 `docs/ATLAS.md`。它不再依赖 AI 手工扫描和自由推断，
 而是调用确定性脚本组合以下权威输入：
 
-- `specs/10_reality/crosscutting/repository-map/repositories.md`：受管仓库清单（若存在）
-- `specs/10_reality/00_profile.yaml`：Reality 能力域
+- `internal Reality/crosscutting/repository-map/repositories.md`：受管仓库清单（若存在）
+- `internal Reality/00_profile.yaml`：Reality 能力域
 - `specs/20_evolution/board.md`：活跃需求和阶段状态（若存在）
 - Git tracked tree：仓库结构
 

@@ -50,7 +50,7 @@ sequenceDiagram
 确保环境就绪。
 
 ### Step 2: 逆向现状重建
-调用 `maglev-reverse-spec`，按逆向现状重建使用手册
+调用 `maglev-reverse-spec`，按[逆向现状重建使用手册](../../../../source operation guides/20_operations/reverse_reality_manual.md)
 完成从范围锁定到独立验证的逆向流程。
 **关键要求**：必须取得候选提交、现实资料投影和验证交接结果后，才能进入后续接入动作。
 

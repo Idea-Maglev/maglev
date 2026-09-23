@@ -36,7 +36,7 @@ graph → group → patrol → impact → report
 
 | 步骤 | 文件 | 说明 |
 |-----|------|------|
-| 1. Graph (关系图构建) | `step-01-graph.md` | 读取 `.agents/private-catalog.yaml` 构建 Relation_Graph |
+| 1. Graph (关系图构建) | `step-01-graph.md` | 读取 `public capability catalog` 构建 Relation_Graph |
 | 2. Group (分组策略) | `step-02-group.md` | 基于连通分量算法分组，计算优先级评分 |
 | 3. Patrol (编队巡逻执行) | `step-03-patrol.md` | 按组委托 Skill Scout Patrol 模式扫描 |
 | 4. Impact (跨 skill 影响分析) | `step-04-impact.md` | 评估优化对关联 skill 的影响 |

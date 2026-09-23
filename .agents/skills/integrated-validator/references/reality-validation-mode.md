@@ -20,7 +20,7 @@ Reality 验证不是普通的 requirements ↔ spec ↔ code ↔ tests 一致性
 
 输入包含以下任一项时，进入本模式，不进入普通健康度评分流程：
 
-- `specs/10_reality`；
+- `internal Reality`；
 - Reality Projection；
 - `reverse_work_contract`、`reverse_module_map`、`semantic_review_package`；
 - `reverse_review_result` 的复验请求。

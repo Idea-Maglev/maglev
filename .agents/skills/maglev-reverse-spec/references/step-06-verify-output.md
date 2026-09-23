@@ -35,7 +35,7 @@ description: 独立验证现实资料并确认准入
 
 ```bash
 ./scripts/maglev-python .agents/skills/_internal/reality-admission/scripts/reality_admission.py \
-  --reality-root specs/10_reality \
+  --reality-root internal Reality \
   --base-ref <修改前提交> \
   --candidate-ref HEAD \
   --intended-use <本轮用途> \
@@ -93,7 +93,7 @@ description: 独立验证现实资料并确认准入
 ```bash
 cat validation-result.json | \
 ./scripts/maglev-python .agents/skills/_internal/reality-admission/scripts/reality_admission.py \
-  --reality-root specs/10_reality \
+  --reality-root internal Reality \
   --base-ref <修改前提交> \
   --candidate-ref HEAD \
   --intended-use <本轮用途> \

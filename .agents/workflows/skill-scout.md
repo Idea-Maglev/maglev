@@ -15,7 +15,7 @@ metadata:
 - 需要一个当前仓库还没有的能力对象
 - 需要参考外部高相似度对象来生成或改写现有对象
 - 需要对已登记到项目级治理对象清单中的对象做 Patrol 优化
-- 需要把新对象注册到 `.agents/private-catalog.yaml`
+- 需要把新对象注册到 `public capability catalog`
 
 当前边界：
 
@@ -28,7 +28,7 @@ metadata:
 
 关键输入：
 
-- `.agents/private-catalog.yaml`
+- `public capability catalog`
 - `skill-sources.yaml`
 - `references/source-registry.yaml`
 

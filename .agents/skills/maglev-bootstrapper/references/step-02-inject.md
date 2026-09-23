@@ -37,7 +37,7 @@ next_step: references/step-03-config.md
 
 3. **仅在用户确认登记至少一个仓库后**追加到 `crosscutting/repository-map/repositories.md` 的 AI 引导摘要区
 
-摘要写入 `specs/10_reality/crosscutting/repository-map/repositories.md`。没有登记仓库时不得创建该文件。
+摘要写入 `internal Reality/crosscutting/repository-map/repositories.md`。没有登记仓库时不得创建该文件。
 
 ## 交互示例
 AI: "Injecting Maglev core structures..."

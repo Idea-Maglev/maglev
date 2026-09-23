@@ -722,7 +722,7 @@ def _minimal_agents_example():
             "  只保留对该受众有直接阅读价值的信息。",
             "- 不要把作者视角、内容治理说明、维护提示、面向内部协作的元信息混入用户文档正文，",
             "  除非用户明确要求保留。",
-            "- 不在 `specs/10_reality/` 写未来计划——只写当前事实。",
+            "- 不在 `internal Reality/` 写未来计划——只写当前事实。",
             "- 不生成 `TODO` / `TBD` / `FIXME` / `<待补>` / `<占位符>` 等占位词到 spec 与 reality 文件。",
             "- 不编造 commit hash / PR 号 / 文件路径——所有引用必须先经过 `git show` 或 `ls` 验证。",
             "",
@@ -1945,11 +1945,11 @@ class MaglevInstaller:
     def create_skeleton_dirs(self):
         dirs = [
             "specs/00_vision",
-            "specs/10_reality",
+            "internal Reality",
             "specs/20_evolution/active",
             "specs/90_archive",
             "docs/thinking",
-            "docs/guides",
+            "source operation guides",
             "tests",
             ".maglev",
         ]
@@ -2191,7 +2191,7 @@ class MaglevInstaller:
                     f"{repo['description']} |\n"
                 )
 
-        profile_path = "specs/10_reality/00_profile.yaml"
+        profile_path = "internal Reality/00_profile.yaml"
         if os.path.exists(profile_path):
             try:
                 with open(profile_path, "r", encoding="utf-8") as file:

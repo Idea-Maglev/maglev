@@ -17,15 +17,15 @@ generator: wiki_authoring
 
 | 问题 | 回答 |
 |------|------|
-| 接在哪一层 | 定位基础设施层：会话启动（reality-sync preflight）与受控阶段（实施/设计前的上下文收集）消费它的产物与收据，不接管任何执行环节（见 specs/10_reality/machine-index-engine/capability/overview.md §1） |
-| 与现有体系冲突吗 | 不接管你已经拥有的工具：代码依赖分析走独立 `radar` skill，活跃需求看板归 collaboration-lifecycle 域，本能力只做索引与导航（见 specs/10_reality/machine-index-engine/capability/overview.md §3） |
-| 要不要一次铺满 | 不需要。新模块在 `registry.yaml` 新增 track 即纳入后续 scan/verify，按需渐进接入（见 specs/10_reality/machine-index-engine/capability/overview.md §2） |
+| 接在哪一层 | 定位基础设施层：会话启动（reality-sync preflight）与受控阶段（实施/设计前的上下文收集）消费它的产物与收据，不接管任何执行环节（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §1） |
+| 与现有体系冲突吗 | 不接管你已经拥有的工具：代码依赖分析走独立 `radar` skill，活跃需求看板归 collaboration-lifecycle 域，本能力只做索引与导航（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §3） |
+| 要不要一次铺满 | 不需要。新模块在 `registry.yaml` 新增 track 即纳入后续 scan/verify，按需渐进接入（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §2） |
 
 ## 问题：多产物仓库里"找文件"为什么不可信
 
 在 Maglev 仓库里，技能、specs、docs、代码、测试都是一等产物。靠会话记忆或逐目录翻找定位权威文件，成本高且无法证明"这次定位是对的"；全域搜索则把噪音当上下文。机器索引引擎回答一个稳定问题：**如何用最低成本定位权威文件，并证明这次定位是可信的。**
 
-抓手由三部分构成（见 specs/10_reality/machine-index-engine/capability/overview.md §1）：
+抓手由三部分构成（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §1）：
 
 ```mermaid
 flowchart LR
@@ -47,7 +47,7 @@ flowchart LR
 | 仓库入口锚点 | YAML（repo-entry 锚点；code-tree 需显式启用） | 仓库级入口文件在哪 |
 | summary YAML | 目录级摘要数据 | 机器可消费的目录摘要 |
 
-人读与机器读采用两层密度：`knowledge_records` 面向机器（有限 topic），人读知识导航表只展示前 4 个 topic 并以 `(+N)` 折叠——索引不承担正文摘抄。（见 specs/10_reality/machine-index-engine/capability/overview.md §1、§3）
+人读与机器读采用两层密度：`knowledge_records` 面向机器（有限 topic），人读知识导航表只展示前 4 个 topic 并以 `(+N)` 折叠——索引不承担正文摘抄。（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §1、§3）
 
 ## 任务导航收据：task_navigate
 
@@ -55,7 +55,7 @@ flowchart LR
 
 **抓手**：`task_navigate.py --intent <文本>` 产出导航收据 JSON（`--receipt-out` 可落盘，`--validate-receipt` 可复验已有收据）。收据字段集：`schema_version` / `status` / `task_fingerprint` / `query` / `sources` / `candidates` / `missing_categories` / `events` / `created_at`（升级态含 `escalation`）。
 
-收据 status 五态（见 specs/10_reality/machine-index-engine/interfaces/cli.md §4）：
+收据 status 五态（见 [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) §4）：
 
 | status | 含义 | 产生条件 |
 |--------|------|----------|
@@ -67,13 +67,13 @@ flowchart LR
 
 每个候选带 `score` / `adjusted_score` / `reasons` / `confidence` 字段——匹配依据可解释，而非黑盒排序。
 
-**门禁语义**：`status ∈ {insufficient, exhausted}` 时进程 exit 1，否则 exit 0。消费方按状态分流：`queried` 围绕候选定位文件；`not_needed` 说明理由后继续；`insufficient`/`escalated`/`exhausted` 不得静默跳过或恢复全域搜索，须走消费方侧升级纪律。例如上下文实施第二步（`step-02`）在 glob/grep 之前先取收据。（见 specs/10_reality/machine-index-engine/interfaces/cli.md §3、§4）
+**门禁语义**：`status ∈ {insufficient, exhausted}` 时进程 exit 1，否则 exit 0。消费方按状态分流：`queried` 围绕候选定位文件；`not_needed` 说明理由后继续；`insufficient`/`escalated`/`exhausted` 不得静默跳过或恢复全域搜索，须走消费方侧升级纪律。例如上下文实施第二步（`step-02`）在 glob/grep 之前先取收据。（见 [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) §3、§4）
 
 ## 新鲜度门禁：track_verify
 
 **问题**：索引产物会随仓库结构变化而腐烂，会话怎么在起点机器判定"索引是否还可信"？
 
-**抓手**：`track_verify.py --track-id <id>|--all` 逐 track 校验索引与登记的一致性，逐 track 打印 `ok` 或失败原因（最多打印 15 条），进程 exit code 暴露门禁结论：**0 = 全部通过，1 = 任一 track 报告失败**。`reality-sync` 启动 preflight 将其作为会话起点的漂移哨兵；repo-entry pattern 未命中为 informational，不算失败。（见 specs/10_reality/machine-index-engine/capability/overview.md §2 与 specs/10_reality/machine-index-engine/interfaces/cli.md §3）
+**抓手**：`track_verify.py --track-id <id>|--all` 逐 track 校验索引与登记的一致性，逐 track 打印 `ok` 或失败原因（最多打印 15 条），进程 exit code 暴露门禁结论：**0 = 全部通过，1 = 任一 track 报告失败**。`reality-sync` 启动 preflight 将其作为会话起点的漂移哨兵；repo-entry pattern 未命中为 informational，不算失败。（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §2 与 [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) §3）
 
 ## ATLAS：唯一人读项目地图
 
@@ -85,17 +85,17 @@ flowchart LR
 
 | 输入 | 位置 | 角色 |
 |------|------|------|
-| Reality Profile | `specs/10_reality/00_profile.yaml` | 内容解析（能力域） |
+| Reality Profile | `internal Reality/00_profile.yaml` | 内容解析（能力域） |
 | 仓库清单 | `repository-map/repositories.md`（若存在） | 内容解析（仓库范围）；决定 High 置信度的可达性 |
 | 项目看板 | `specs/20_evolution/board.md` | 内容解析（活跃需求） |
 | 横切 overview | `repository-map/overview.md`（若存在） | 参与来源指纹 |
 | Git tracked tree | `git ls-files`（可见性过滤） | 结构派生：≤2 层目录与 10 类根锚点文件 |
 
-缺席的治理源文件跳过读取、不阻断生成，仅影响指纹与置信度。（见 specs/10_reality/project-map/implementation/architecture.md §1、§2）
+缺席的治理源文件跳过读取、不阻断生成，仅影响指纹与置信度。（见 [internal Reality/project-map/implementation/architecture.md](../../../internal Reality/project-map/implementation/architecture.md) §1、§2）
 
 ### 漂移校验：--check 不写盘
 
-ATLAS frontmatter 携带 `source_digest` 指纹，指纹 = **tracked path 集 + 治理源内容 sha256**。`--check` 将其与现算指纹比对并输出一致/漂移报告，**不写盘**，exit 0/1。（见 specs/10_reality/project-map/capability/overview.md §1、§2）
+ATLAS frontmatter 携带 `source_digest` 指纹，指纹 = **tracked path 集 + 治理源内容 sha256**。`--check` 将其与现算指纹比对并输出一致/漂移报告，**不写盘**，exit 0/1。（见 [internal Reality/project-map/capability/overview.md](../../../internal Reality/project-map/capability/overview.md) §1、§2）
 
 ### 置信度分级：输入缺失就降级，不猜测
 
@@ -104,7 +104,7 @@ ATLAS frontmatter 携带 `source_digest` 指纹，指纹 = **tracked path 集 + 
 | High | 仓库清单、Reality Profile、看板等关键输入可用 |
 | Medium / Low | 部分输入缺席，按输入可用性降级标注 |
 
-输入缺失时降置信度（High/Medium/Low）而非猜测补齐；结构化生成证据 `.maglev/temp/atlas-snapshot.json` 是 gitignored 运行时产物，不作证据绑定。（见 specs/10_reality/project-map/implementation/architecture.md §1）
+输入缺失时降置信度（High/Medium/Low）而非猜测补齐；结构化生成证据 `.maglev/temp/atlas-snapshot.json` 是 gitignored 运行时产物，不作证据绑定。（见 [internal Reality/project-map/implementation/architecture.md](../../../internal Reality/project-map/implementation/architecture.md) §1）
 
 ## 索引引擎与 ATLAS 的分工
 
@@ -114,25 +114,25 @@ ATLAS frontmatter 携带 `source_digest` 指纹，指纹 = **tracked path 集 + 
 | 产物 | INDEX.md 网络、锚点/summary YAML、导航收据 | 单一 `docs/ATLAS.md` |
 | 写盘 | `track_scan` 写回/刷新索引 | 始终是显式动作：初始化与日常 reality-sync 不自动写地图 |
 
-（见 specs/10_reality/machine-index-engine/capability/overview.md §3 与 specs/10_reality/project-map/capability/overview.md §3）
+（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §3 与 [internal Reality/project-map/capability/overview.md](../../../internal Reality/project-map/capability/overview.md) §3）
 
 ## 刻意边界：不做什么
 
 | 不做的事 | 依据 |
 |----------|------|
-| 让导航收据证明任务成功 | 候选 `confidence` 限定为 `navigation_confidence`，只表示导航候选与意图的匹配强度，不作业务证据消费（见 specs/10_reality/machine-index-engine/interfaces/cli.md §4） |
-| 静默跳过 `insufficient`/`exhausted` 收据 | 消费方须走升级纪律，不得恢复全域搜索（见 specs/10_reality/machine-index-engine/interfaces/cli.md §4） |
-| 把索引产物当作业务事实 | 三类产物不自动等同于业务事实，例如 `repo-entry.yaml` 是机器导航产物（见 specs/10_reality/machine-index-engine/capability/overview.md §3） |
-| 做代码依赖分析或看板扫描 | impact/cycles/unused/hotspot 走独立 `radar`；活跃需求扫描归 collaboration-lifecycle 域（见 specs/10_reality/machine-index-engine/capability/overview.md §3） |
-| 自动写 ATLAS 或猜测补齐输入 | 写盘始终是显式动作；输入缺失降置信度而非猜测（见 specs/10_reality/project-map/capability/overview.md §3） |
-| 承诺门禁被调用的频率 | `track_verify` 被哪些启动哨兵以何种频率调用、verify 失败后的真实处置无运行遥测，属登记为 unknown 的缺口（见 specs/10_reality/machine-index-engine/capability/overview.md §3） |
+| 让导航收据证明任务成功 | 候选 `confidence` 限定为 `navigation_confidence`，只表示导航候选与意图的匹配强度，不作业务证据消费（见 [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) §4） |
+| 静默跳过 `insufficient`/`exhausted` 收据 | 消费方须走升级纪律，不得恢复全域搜索（见 [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) §4） |
+| 把索引产物当作业务事实 | 三类产物不自动等同于业务事实，例如 `repo-entry.yaml` 是机器导航产物（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §3） |
+| 做代码依赖分析或看板扫描 | impact/cycles/unused/hotspot 走独立 `radar`；活跃需求扫描归 collaboration-lifecycle 域（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §3） |
+| 自动写 ATLAS 或猜测补齐输入 | 写盘始终是显式动作；输入缺失降置信度而非猜测（见 [internal Reality/project-map/capability/overview.md](../../../internal Reality/project-map/capability/overview.md) §3） |
+| 承诺门禁被调用的频率 | `track_verify` 被哪些启动哨兵以何种频率调用、verify 失败后的真实处置无运行遥测，属登记为 unknown 的缺口（见 [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) §3） |
 
 ## 来源
 
-- specs/10_reality/machine-index-engine/capability/overview.md —— 索引能力定位、三类产物与边界
-- specs/10_reality/machine-index-engine/interfaces/cli.md —— 三个脚本命令契约与导航收据 status 语义
-- specs/10_reality/project-map/capability/overview.md —— ATLAS 生成、指纹校验与置信度分级
-- specs/10_reality/project-map/implementation/architecture.md —— 生成链路、治理输入与构件锚点
+- [internal Reality/machine-index-engine/capability/overview.md](../../../internal Reality/machine-index-engine/capability/overview.md) —— 索引能力定位、三类产物与边界
+- [internal Reality/machine-index-engine/interfaces/cli.md](../../../internal Reality/machine-index-engine/interfaces/cli.md) —— 三个脚本命令契约与导航收据 status 语义
+- [internal Reality/project-map/capability/overview.md](../../../internal Reality/project-map/capability/overview.md) —— ATLAS 生成、指纹校验与置信度分级
+- [internal Reality/project-map/implementation/architecture.md](../../../internal Reality/project-map/implementation/architecture.md) —— 生成链路、治理输入与构件锚点
 
 ## 下一步
 
@@ -143,20 +143,20 @@ ATLAS frontmatter 携带 `source_digest` 指纹，指纹 = **tracked path 集 + 
 
 ---
 
-本页条目化回答五类查证问题：specs 四层各自放什么、思考如何沉淀与归类（knowledge-check 与 9 段记忆宫殿）、写对外内容前如何同步口径（Wiki authoring）、对外 wiki 投影层如何配置与生成。口径与 specs/10_reality 各能力域页一致，数据时点以 `last_updated: 2026-09-03` 的仓库事实为准。
+本页条目化回答五类查证问题：specs 四层各自放什么、思考如何沉淀与归类（knowledge-check 与 9 段记忆宫殿）、写对外内容前如何同步口径（Wiki authoring）、对外 wiki 投影层如何配置与生成。口径与 [internal Reality](../../../internal Reality/README.md) 各能力域页一致，数据时点以 `last_updated: 2026-09-03` 的仓库事实为准。
 
 ## specs 四层：每层回答一个问题
 
-specs 按四层组织知识，分层标准见 规格知识分层能力与 specs/README.md：
+specs 按四层组织知识，分层标准见 [规格知识分层能力](../../../internal Reality/spec-knowledge-layering/capability/overview.md)与 specs/README.md：
 
 | 层 | 位置 | 回答的问题 | 生命周期 | 索引形态 |
 | --- | --- | --- | --- | --- |
 | 愿景 | `specs/00_vision.md` | 我们在构建什么（Iron Triangle / Anti-Entropy） | 稳定，低频修订 | 根 entity-index 的文件级记录 |
-| 现状 | `specs/10_reality/` | 现在是什么（当前事实层） | 随结晶回写演进 | 域 INDEX 网络 + 域 README |
+| 现状 | `internal Reality/` | 现在是什么（当前事实层） | 随结晶回写演进 | 域 INDEX 网络 + 域 README |
 | 演进 | `specs/20_evolution/` | 正在发生什么变化（进行中主题） | 主题完成即收口 | entity-index（collection）+ active/ 目录索引 |
 | 归档 | `specs/90_archive/` | 历史如何走到今天 | 只读 | entity-index（collection） |
 
-层间流转与归档纪律（工作流事实见规格知识分层工作流）：
+层间流转与归档纪律（工作流事实见[规格知识分层工作流](../../../internal Reality/spec-knowledge-layering/capability/workflows.md)）：
 
 ```mermaid
 flowchart LR
@@ -173,7 +173,7 @@ flowchart LR
 
 ## knowledge-check：思考不随会话消失
 
-[knowledge-check](../../../.agents/skills/knowledge-check/SKILL.md) 是知识沉淀检查器，也是 9 段位段归类的 canonical 检查入口。能力事实见 知识沉淀能力。
+[knowledge-check](../../../.agents/skills/knowledge-check/SKILL.md) 是知识沉淀检查器，也是 9 段位段归类的 canonical 检查入口。能力事实见 [知识沉淀能力](../../../internal Reality/knowledge-sedimentation/capability/overview.md)。
 
 | 条目 | 内容 |
 | --- | --- |
@@ -211,7 +211,7 @@ Wiki authoring 在写作或改稿前读取当前 Reality、正式指南和任务
 | 触发时机 | 写任何一篇新运营内容前；修改已有对外文章前；会话中感觉对 Maglev 的理解开始泛化、漂移或混入无关概念时 |
 | 五类同步 | Definition Sync（Reality 定义）、Message Sync（统一口径）、Audience Sync（受众与禁用表达）、Style Sync（文风约束）、Boundary Guard（阻止历史资产覆盖 Reality） |
 | 先行产物 | Wiki authoring Brief，至少含四要素：当前版本 Maglev 是什么 / 不是什么 / 本次写作的问题域 / 最需避免的跑偏方向 |
-| 来源边界 | 先读 Reality canonical，再读 `docs/guides/` 正式指南和比较材料；`docs/wiki/` 只作为经过审批的用户解释投影 | `.maglev/wiki.yaml` source policy | Publishing 和历史材料不能覆盖当前事实 |
+| 来源边界 | 先读 Reality canonical，再读 `source operation guides/` 正式指南和比较材料；`docs/wiki/` 只作为经过审批的用户解释投影 | `.maglev/wiki.yaml` source policy | Publishing 和历史材料不能覆盖当前事实 |
 | 结构审批 | Producer Plan、Blind Challenge、Divergence 和人类 Approval 共同决定页面是否进入正文阶段 | `.maglev/wiki/` 状态束 | 机械检查通过不等于内容充分 |
 | 正文责任 | Wiki authoring 负责按批准页面和 evidence bundle 写作；作者必须保留未知和边界 | `.agents/skills/maglev-wiki/` | 没有用户问答时整体保持 provisional |
 
@@ -248,11 +248,11 @@ WIKI=.agents/skills/maglev-wiki/scripts
 
 ## 来源
 
-- 规格知识分层能力与规格知识分层工作流：四层定义、层间流转、回写规则
+- [规格知识分层能力](../../../internal Reality/spec-knowledge-layering/capability/overview.md)与[规格知识分层工作流](../../../internal Reality/spec-knowledge-layering/capability/workflows.md)：四层定义、层间流转、回写规则
 - [crystallization SKILL](../../../.agents/skills/crystallization/SKILL.md)：生命周期边界与归档反模式
-- 知识沉淀能力与 [knowledge-check SKILL](../../../.agents/skills/knowledge-check/SKILL.md)：沉淀检查职责、触发、边界
+- [知识沉淀能力](../../../internal Reality/knowledge-sedimentation/capability/overview.md)与 [knowledge-check SKILL](../../../.agents/skills/knowledge-check/SKILL.md)：沉淀检查职责、触发、边界
 - [segments-canonical.yaml](../../../.agents/skills/knowledge-check/references/segments-canonical.yaml)：9 段位段语义本体
-- 运营文档知识能力：写前同步与 wiki 投影层
+- [运营文档知识能力](../../../internal Reality/operations-docs-system/capability/overview.md)：写前同步与 wiki 投影层
 - [Wiki 内容生产 Skill](../../../.agents/skills/maglev-wiki/SKILL.md)：项目结构推导、审批后写作、证据约束与读者任务审查
 - .maglev/wiki.yaml、结构方案与 [Wiki 入口](../WIKI.md)：项目输入、结构审核和阅读入口
 

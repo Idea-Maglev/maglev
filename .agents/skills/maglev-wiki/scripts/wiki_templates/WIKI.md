@@ -18,13 +18,13 @@
 
 {overview_system_role}
 
-事实依据：Maglev 定位与边界。
+事实依据：[Maglev 定位与边界](../../internal Reality/positioning.md)。
 
 ## 它解决什么问题
 
 {overview_core_problem}
 
-事实依据：Maglev 定位与边界。
+事实依据：[Maglev 定位与边界](../../internal Reality/positioning.md)。
 
 ## 它如何参与一次交付
 

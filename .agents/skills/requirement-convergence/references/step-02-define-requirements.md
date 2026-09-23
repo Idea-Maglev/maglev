@@ -107,7 +107,7 @@ next_step: references/step-03-ready-gate.md
 
 1. 扫描当前功能描述和 AC 中出现的专有名词、缩写、易混淆术语
 2. 为每个术语提供一句话定义
-3. 如果 `specs/10_reality/glossary.md` 存在，检查是否有已定义的术语可复用
+3. 如果 `internal Reality/glossary.md` 存在，检查是否有已定义的术语可复用
 4. 新术语追加到项目级术语文件的待确认区
 
 格式：

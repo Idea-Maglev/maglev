@@ -1,6 +1,6 @@
 ---
 name: step-01-graph
-description: 关系图构建 - 读取 .agents/private-catalog.yaml 构建 Relation_Graph
+description: 关系图构建 - 读取 public capability catalog 构建 Relation_Graph
 next_step: references/step-02-group.md
 ---
 
@@ -8,17 +8,17 @@ next_step: references/step-02-group.md
 
 ## 目标
 
-读取项目级治理对象清单（`.agents/private-catalog.yaml`），提取所有 `status: active` 的能力对象条目及其 `relations` 字段，构建邻接表形式的 Relation_Graph，为后续分组和编队巡逻提供基础数据结构。该清单只表示当前现状，不承担历史日志职责；旧名、替代项和历史占位不进入图。
+读取项目级治理对象清单（`public capability catalog`），提取所有 `status: active` 的能力对象条目及其 `relations` 字段，构建邻接表形式的 Relation_Graph，为后续分组和编队巡逻提供基础数据结构。该清单只表示当前现状，不承担历史日志职责；旧名、替代项和历史占位不进入图。
 
 ## 输入
 
-- `.agents/private-catalog.yaml`：项目级治理对象清单
+- `public capability catalog`：项目级治理对象清单
 
 ## 动作
 
 ### 1. 读取私域能力清单
 
-读取 `.agents/private-catalog.yaml`，获取所有已注册且纳入治理范围的能力对象条目。
+读取 `public capability catalog`，获取所有已注册且纳入治理范围的能力对象条目。
 
 **规则**：
 - 若文件不存在或为空，触发错误处理流程。
@@ -141,7 +141,7 @@ relation_graph:
 
 | 错误场景 | 处理策略 |
 |---------|---------|
-| `.agents/private-catalog.yaml` 不存在或为空 | 提示 Boya "私域能力清单为空，请先通过 Skill Scout 创建私域能力"，中止流程 |
+| `public capability catalog` 不存在或为空 | 提示 Boya "私域能力清单为空，请先通过 Skill Scout 创建私域能力"，中止流程 |
 | 所有 active 对象均不存在 | 提示 "清单中无有效现役对象（仅剩历史占位或旧名残留），无需编队巡逻"，中止流程 |
 | 所有 active 对象均无 `relations` 字段 | 提示 "未发现任何对象关系数据，请先为对象补充 relations 字段"，中止流程 |
 | `relations` 中 `target` 指向不存在的对象 | 在构建日志中标注 "目标对象不存在"，该边仍纳入图中但标记为悬空引用 |
@@ -151,4 +151,4 @@ relation_graph:
 
 - 当 Relation_Graph 构建完成且至少存在一个非孤立节点时，将 Relation_Graph 作为输入，转入 `step-02-group.md`。
 - 当所有 active 对象均无 `relations` 字段时，提示并中止流程。
-- 当 `.agents/private-catalog.yaml` 不存在或所有对象为 deprecated 时，中止流程。
+- 当 `public capability catalog` 不存在或所有对象为 deprecated 时，中止流程。

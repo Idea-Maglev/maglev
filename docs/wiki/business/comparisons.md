@@ -59,7 +59,7 @@ flowchart TB
 
 ## 已跟踪竞品全景
 
-上面的边界是概念层的。除此之外，Maglev 还用一份持续观测注册表（competitive-registry.yaml，唯一状态源）跟踪具体竞品对象，把"跟谁比、比什么、为什么盯着它"落成可核对的记录：
+上面的边界是概念层的。除此之外，Maglev 还用一份持续观测注册表（[competitive-registry.yaml](../../../internal Reality/capability-evolution/evidence/competitive-registry.yaml)，唯一状态源）跟踪具体竞品对象，把"跟谁比、比什么、为什么盯着它"落成可核对的记录：
 
 | 对象 | 跟踪的差异点 | 为什么盯着它 |
 |------|-------------|-------------|
@@ -76,7 +76,7 @@ flowchart TB
 
 ## 观测机制：insight 怎么流动
 
-每轮观测按 6 Phase 循环执行：Phase 0 先读定位锚点，之后依次走 Scope → Insight Review → Deep Research → Discovery → Output & Archive → Self-Check。研究报告归档到 `docs/thinking/10_critique/`，同时把发现的改进点登记为 insight。insight 的生命周期是一个带确认门的状态机（机制见演进循环机制）：
+每轮观测按 6 Phase 循环执行：Phase 0 先读[定位锚点](../../../internal Reality/positioning.md)，之后依次走 Scope → Insight Review → Deep Research → Discovery → Output & Archive → Self-Check。研究报告归档到 `docs/thinking/10_critique/`，同时把发现的改进点登记为 insight。insight 的生命周期是一个带确认门的状态机（机制见[演进循环机制](../../../internal Reality/capability-evolution/implementation/evolution-cycle.md)）：
 
 ```mermaid
 stateDiagram-v2
@@ -92,7 +92,7 @@ stateDiagram-v2
 
 ## 诚实边界：养分回流还没有执行实例
 
-按当前事实层已知缺口的口径，这套观测机制要诚实读：
+按当前事实层[已知缺口](../../../internal Reality/capability-evolution/verification/known-gaps.md)的口径，这套观测机制要诚实读：
 
 - 注册表现有 25 条 insight **全部处于 `open` 状态**——`proposed → absorbed` 的后半段生命周期没有任何执行实例，因此"观测养分已回流到 Maglev"这一宣称被阻断，不能成立。
 - 上表的版本号等字段是**登记时的快照**，不代表竞品的当前版本；观测由人主动触发、无自动调度，`last_researched` 最新记录为 2026-06-01（wanman），Kiro 登记后尚未深研。

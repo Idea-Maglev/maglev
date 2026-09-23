@@ -24,14 +24,14 @@ metadata:
 
 核心能力：
 
-- **关系图构建**：从 `.agents/private-catalog.yaml` 读取已纳入治理范围的能力对象间关系，构建邻接表形式的 Relation_Graph
+- **关系图构建**：从 `public capability catalog` 读取已纳入治理范围的能力对象间关系，构建邻接表形式的 Relation_Graph
 - **智能分组**：基于连通分量算法将 skill 分为关联组，计算巡逻优先级
 - **编队巡逻**：按组委托 Skill Scout 的 Patrol 模式执行单 skill 扫描
 - **影响分析**：评估优化某个 skill 对关联 skill 的接口兼容性、数据流和行为影响
 - **编队报告**：按关联组组织优化建议，标注影响等级和优化顺序
 - **运行面命名状态感知**：显式识别 `runtime_name_status`，判断结构动作名与运行面名称之间是否仍存在理解成本或迁移风险
 - **分发范围感知**：显式识别 `distribution_scope`，区分用户可见对象、运行面内部对象和私有对象，避免把不同分发面的治理逻辑混为一体
-- **当前态清单原则**：`.agents/private-catalog.yaml` 只表示当前现役治理对象，不承担历史日志、旧名存根或 tombstone 记录职责；已被替代的对象不应继续以并列现役身份占位，历史脉络应写入 archive / thinking / release 文档
+- **当前态清单原则**：`public capability catalog` 只表示当前现役治理对象，不承担历史日志、旧名存根或 tombstone 记录职责；已被替代的对象不应继续以并列现役身份占位，历史脉络应写入 archive / thinking / release 文档
 
 ## 何时使用 (When to use)
 
@@ -66,8 +66,8 @@ metadata:
   - 关系分析流程：`graph → group`（展示分组结果后结束）
 - **Memory**: 所有中间产物（Relation_Graph、Skill_Group、Patrol_Report、Cross_Impact_Analysis、Squadron_Report）以 Markdown/YAML 文件持久化，不依赖会话记忆。
 - **委托协作**: 编队巡逻阶段委托 Skill Scout 的 Patrol 模式执行单 skill 扫描，不重复实现搜索/对比逻辑。
-- **命名状态**: 关系图、巡逻和报告阶段都应读取 `.agents/private-catalog.yaml` 中的 `runtime_name_status`，把命名状态视为正式巡逻维度，而不是补充备注。
-- **分发范围**: 关系图、巡逻和报告阶段都应读取 `.agents/private-catalog.yaml` 中的 `distribution_scope`，把分发范围视为正式巡逻维度，而不是补充备注。
+- **命名状态**: 关系图、巡逻和报告阶段都应读取 `public capability catalog` 中的 `runtime_name_status`，把命名状态视为正式巡逻维度，而不是补充备注。
+- **分发范围**: 关系图、巡逻和报告阶段都应读取 `public capability catalog` 中的 `distribution_scope`，把分发范围视为正式巡逻维度，而不是补充备注。
 - **当前态优先**: 关系图、巡逻和报告阶段只以现行清单中的有效对象为准；如果清单里还残留旧名、替代项或历史占位，先按数据污染处理，不把它们展开成当前节点或历史叙事。
 
 ## 必需的参考资料 (References)
@@ -80,7 +80,7 @@ metadata:
   - `references/step-04-impact.md`（跨 skill 影响分析）
   - `references/step-05-report.md`（编队报告生成）
 - 外部依赖:
-  - `.agents/private-catalog.yaml`（项目级治理对象清单，含 `skills:` / `workflows:`、`relations`、`runtime_name_status`、`distribution_scope` 等字段；不是文件系统镜像）
+  - `public capability catalog`（项目级治理对象清单，含 `skills:` / `workflows:`、`relations`、`runtime_name_status`、`distribution_scope` 等字段；不是文件系统镜像）
   - Skill Scout 的 Patrol 模式（`patrol-01-scan.md` → `patrol-03-report.md`）
 
 ## 快速参考
@@ -88,7 +88,7 @@ metadata:
 - **Pattern**: Entry → Workflow → Micro-Steps（单模式，五步链）
 - **Isolation**: 所有引用资源必须在 `references/` 下。
 - **协作**: 编队巡逻阶段委托 Skill Scout Patrol 模式执行单 skill 扫描。
-- **清单语义**: `.agents/private-catalog.yaml` 是现状清单，不是日志；巡逻时默认忽略历史占位与旧名存根。
+- **清单语义**: `public capability catalog` 是现状清单，不是日志；巡逻时默认忽略历史占位与旧名存根。
 - **当前默认编队**:
   - 主流程前中段组
   - 体系级与后段闭环组

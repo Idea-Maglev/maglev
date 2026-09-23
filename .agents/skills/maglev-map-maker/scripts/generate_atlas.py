@@ -18,12 +18,12 @@ import yaml
 
 ATLAS_REL_PATH = Path("docs/ATLAS.md")
 SNAPSHOT_REL_PATH = Path(".maglev/temp/atlas-snapshot.json")
-PROFILE_REL_PATH = Path("specs/10_reality/00_profile.yaml")
+PROFILE_REL_PATH = Path("internal Reality/00_profile.yaml")
 REPOSITORIES_REL_PATH = Path(
-    "specs/10_reality/crosscutting/repository-map/repositories.md"
+    "internal Reality/crosscutting/repository-map/repositories.md"
 )
 REPOSITORY_OVERVIEW_REL_PATH = Path(
-    "specs/10_reality/crosscutting/repository-map/overview.md"
+    "internal Reality/crosscutting/repository-map/overview.md"
 )
 BOARD_REL_PATH = Path("specs/20_evolution/board.md")
 SOURCE_REL_PATHS = (

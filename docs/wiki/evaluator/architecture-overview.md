@@ -20,14 +20,14 @@ Maglev 不是单个工具，而是一套帮助团队在 AI Coding 时代稳定�
 | 层 | 位置 | 回答的问题 |
 |----|------|-----------|
 | 方法论 | `docs/thinking/` | 为什么这样做 |
-| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`specs/10_reality/` | 当前执行边界、兼容入口和事实 |
+| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`internal Reality/` | 当前执行边界、兼容入口和事实 |
 | 技能 | `.agents/skills/` | 能做什么 |
 
-三层分工让"为什么""现在是什么""能做什么"各自独立演化。`specs/10_reality/` 是当前事实层，登记能力域映射、模块间有静态锚点的关系，以及系统边界与未知项；评估架构时，这里是第一手核对对象。
+三层分工让"为什么""现在是什么""能做什么"各自独立演化。`internal Reality/` 是当前事实层，登记能力域映射、模块间有静态锚点的关系，以及系统边界与未知项；评估架构时，这里是第一手核对对象。
 
 ## 证据可追溯：事实层怎么核对
 
-"第一手核对对象"之所以成立，是因为事实层的每条声明都带可机械核对的凭据（机制见 10_reality README）：
+"第一手核对对象"之所以成立，是因为事实层的每条声明都带可机械核对的凭据（机制见 [10_reality README](../../../internal Reality/README.md)）：
 
 ```mermaid
 flowchart LR
@@ -56,7 +56,7 @@ flowchart LR
     SD --> EX["执行分支：context-implementer / code-execution-slot"]
     EX --> IV["integrated-validator · 综合验证"]
     IV --> CRY["crystallization · 结晶回写"]
-    CRY -->|"回写长期结论"| REAL["specs/10_reality 当前事实层"]
+    CRY -->|"回写长期结论"| REAL["internal Reality 当前事实层"]
 ```
 
 主链之外，有几类支撑模块与它咬合：`code-execution-slot` 从项目 `.maglev/extensions.lock` 读取 enabled 候选，决定"用什么执行代码"；`extension-manager` 通过 install / enable / disable / update 命令维护这份 lock；`maglev-cli` 安装器在初始化时向 `AGENTS.md` 与 `llms.txt` 注入双入口骨架和受管区块，已存在的文件一律跳过、不覆盖用户内容；`index-librarian` 生成 `specs/` 与 `docs/` 各级 `INDEX.md` 索引网络；`maglev-map-maker` 从治理事实确定性生成唯一的人读项目入口 `docs/ATLAS.md`。

@@ -48,7 +48,7 @@ description: 逆向现状重建的准备检查
 
 ### 4. 目标项目资料
 
-如果目标项目已有 `specs/10_reality/00_profile.yaml` 或等价资料入口：
+如果目标项目已有 `internal Reality/00_profile.yaml` 或等价资料入口：
 
 - 读取目标项目自己的资料契约；
 - 确认业务域和资料槽位；

@@ -22,7 +22,7 @@ wiki:
   language: zh
 source_policy:
   fact_roots:
-    - specs/10_reality
+    - internal Reality
   material_roots: []
   operation_roots: []
 audience_hints: []

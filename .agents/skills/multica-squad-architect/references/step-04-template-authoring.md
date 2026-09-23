@@ -33,7 +33,7 @@ packages/maglev-multica-kit/assets/squad-templates/<template-id>/
 - `packages/maglev-multica-kit/README.md`
 - `docs/multica/10_getting_started/squad_kit_configuration.md`
 - 若新增 active spec，则同步 `specs/20_evolution/active/INDEX.md` 与 `README.md`。
-- 如技能本身发生变化，则更新 `.agents/private-catalog.yaml` 并重新生成 `.claude/skills/` 适配层。
+- 如技能本身发生变化，则更新 `public capability catalog` 并重新生成 `.claude/skills/` 适配层。
 
 ## 写作规则
 

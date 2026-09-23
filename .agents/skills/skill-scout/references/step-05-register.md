@@ -8,7 +8,7 @@ next_step: null
 
 ## 目标
 
-将用户审核通过的私域能力对象部署到目标位置，记录来源溯源信息，并将其注册到 `.agents/private-catalog.yaml` 项目级治理对象清单中，完成 Scout 模式的最后一步。
+将用户审核通过的私域能力对象部署到目标位置，记录来源溯源信息，并将其注册到 `public capability catalog` 项目级治理对象清单中，完成 Scout 模式的最后一步。
 
 ## 输入
 
@@ -54,7 +54,7 @@ network_evidence:
 若本轮缺少已通过校验的联网证据，则：
 
 - 不得执行注册部署
-- 不得写入 `.agents/private-catalog.yaml`
+- 不得写入 `public capability catalog`
 - 必须返回 `step-02-search.md`
 
 ### 1. 文件结构完整性校验
@@ -141,9 +141,9 @@ network_evidence:
 
 示例：`"基于 {baseline_skill} 改造，{capability_summary}。主要定制：{主要定制点}。"`
 
-### 4. 更新 `.agents/private-catalog.yaml`
+### 4. 更新 `public capability catalog`
 
-将新的 PrivateCatalogEntry 写入 `.agents/private-catalog.yaml` 的对应列表中。这个文件只表示当前现状，不承担历史日志职责；旧名、替代项和历史占位不应作为并列现役对象长期保留。
+将新的 PrivateCatalogEntry 写入 `public capability catalog` 的对应列表中。这个文件只表示当前现状，不承担历史日志职责；旧名、替代项和历史占位不应作为并列现役对象长期保留。
 
 - `object_kind: skill` → 追加到 `skills:`
 - `object_kind: workflow` → 追加到 `workflows:`
@@ -203,7 +203,7 @@ Scout 模式流程完成。如需继续发现新技能，请重新触发 Skill S
 2. **确认部署**：向用户展示即将部署的目标路径，请求最终确认：
    ```
    📦 准备将 {object_name} 部署到 {object_path}
-      并更新 `.agents/private-catalog.yaml`。
+      并更新 `public capability catalog`。
 
    确认部署？（确认后操作不可撤销）
    ```
@@ -219,7 +219,7 @@ Scout 模式流程完成。如需继续发现新技能，请重新触发 Skill S
 
 私域对象文件已生成但尚未部署。你可以：
 1. 重新触发注册部署（返回本步骤）
-2. 手动将文件复制到目标路径并更新 `.agents/private-catalog.yaml`
+2. 手动将文件复制到目标路径并更新 `public capability catalog`
 3. 放弃本次 Scout 流程
 ```
 
@@ -232,11 +232,11 @@ Scout 模式流程完成。如需继续发现新技能，请重新触发 Skill S
 | 文件结构校验失败（无 step-*.md 文件） | 同上，明确指出缺少步骤文件，建议重新生成对象文件结构。 |
 | 步骤链串联不完整（next_step 断链） | 列出断链位置（如"step-02 的 next_step 指向不存在的文件"），提示用户手动修复对应步骤文件的 frontmatter。 |
 | 目标路径已存在同名对象（命名冲突） | 提示用户该名称已被占用，展示已有对象的信息，询问：(1) 修改命名（返回 `step-04-adapt.md`）；(2) 覆盖已有对象（需二次确认，操作不可撤销）。 |
-| `.agents/private-catalog.yaml` 写入失败 | 向用户展示应写入的 PrivateCatalogEntry 内容，提示手动追加到 `.agents/private-catalog.yaml` 的对应列表末尾。 |
+| `public capability catalog` 写入失败 | 向用户展示应写入的 PrivateCatalogEntry 内容，提示手动追加到 `public capability catalog` 的对应列表末尾。 |
 | 部署过程中文件写入失败 | 中止部署，提示用户检查文件系统权限，展示已成功写入和未成功写入的文件列表，建议清理后重试。 |
 
 ## 状态流转条件
 
-- 当 PrivateCatalogEntry 成功写入 `.agents/private-catalog.yaml` 且所有文件已部署到目标路径后，Scout 模式流程**完成**（`next_step: null`）。
+- 当 PrivateCatalogEntry 成功写入 `public capability catalog` 且所有文件已部署到目标路径后，Scout 模式流程**完成**（`next_step: null`）。
 - 当用户要求返回改造阶段时，返回 `step-04-adapt.md`。
 - 当用户要求重新搜索时，返回 `step-01-parse.md`。

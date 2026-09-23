@@ -79,7 +79,7 @@ network_evidence:
 
 询问用户：
 - "这个新对象需要与现有的哪些能力对象协作？请说明关系类型。"
-- 展示当前已有的治理对象列表（从 `.agents/private-catalog.yaml` 读取）供参考。
+- 展示当前已有的治理对象列表（从 `public capability catalog` 读取）供参考。
 - 关系类型包括：`调用`、`被调用`、`互补`。
 - 若无集成需求，记录为空列表。
 
@@ -230,7 +230,7 @@ Scout 与 AI 助手内建生成能力的职责边界：
 当 `object_kind: workflow` 时，不调用额外的 skill 生成器，而直接生成：
 
 - `.agents/workflows/{naming_convention}.md`
-- 与该 workflow 对应的治理登记信息（供 `.agents/private-catalog.yaml` 使用）
+- 与该 workflow 对应的治理登记信息（供 `public capability catalog` 使用）
 
 处理规则：
 
