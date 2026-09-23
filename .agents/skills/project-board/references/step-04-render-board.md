@@ -67,7 +67,7 @@ description: 渲染看板视图并持久化到仓库
 
 | 需求 | 意图 | 进度 | 主导 | 信心度 | 导航 |
 |------|------|------|------|--------|------|
-| {name} | {intent_summary} | {progress_emoji} | {role} ({person}) | {confidence} | 详情 |
+| {name} | {intent_summary} | {progress_emoji} | {role} ({person}) | {confidence} | [详情](active/{name}/) |
 ```
 
 - `进度` 列使用 emoji 进度条：如 `✅→✅→⏳→⬜→⬜`
@@ -130,7 +130,7 @@ description: 渲染看板视图并持久化到仓库
 
 | 子需求 | 进度 | 导航 |
 |--------|------|------|
-| {child_name} | {progress_emoji} | 详情 |
+| {child_name} | {progress_emoji} | [详情]({relative_path}/) |
 
 ## 已知阻塞
 
