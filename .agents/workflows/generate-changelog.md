@@ -24,12 +24,12 @@ metadata:
 1. **读取发行草案**
    - 使用 `view_file` 工具读取 `.maglev_build/CHANGELOG_DRAFT.md`。
    - 提取其中的 `[NEW]`, `[MODIFIED]`, `[DELETED]` 文件列表。
-   
+
 2. **上下文推断 (Context Gathering)**
    - 对于列表中涉及到的核心修改文件（例如 `.agents/skills/*/SKILL.md`, `.agents/workflows/*.md`）：
      - 使用 `view_file` 查阅其内容（特别是开头几百行），理解该模块的功能作用。
      - 分析文件在本次大版本中到底新增或优化了什么能力。
-     
+
 3. **调用生成技能**
    - 使用收集到的见解，调用 `maglev-changelog-generator` Skill。
    - 要求按照该 Skill 中定义的格式，生成面向用户的 `.maglev_build/CHANGELOG.md`。

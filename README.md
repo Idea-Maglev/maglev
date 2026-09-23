@@ -129,6 +129,7 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 | [source operation guides/](source operation guides/) | 面向使用者和维护者的操作手册 |
 | [.agents/skills/](.agents/skills/) 与 [.agents/workflows/](.agents/workflows/) | 当前主流程能力与兼容入口 |
 | [.agents/skills/](.agents/skills/) | 本地技能目录与执行能力 |
+| [specs/](specs/) | 项目规格与现状描述 |
 | [references/](references/) | 外部资料、论文与对照阅读 |
 
 ## 贡献与协作

@@ -7,7 +7,7 @@
 ### **[2307.07924] Communicative Agents for Software Development (ChatDev)**
 - **来源**: Tsinghua University / ModelBest
 - **核心理念**: **"Chat Chain"**。将软件开发分解为 Design, Coding, Testing, Documentation 等原子环节，每个环节由两个 Agent（如 CTO & Programmer）进行对话式交互。
-- **Maglev 借鉴点**: 
+- **Maglev 借鉴点**:
   - 我们的 **"Ring Iteration" (环形迭代)** 受其 "Chat Chain" 启发。
   - **"Role-Playing"**: 论文证明了赋予 LLM 特定角色（如 CEO, CTO）能显著提升产出质量。Maglev 的 `consult_maglev_guide` 和 `role_personas.md` 深度应用了此理论。
 - **推荐指数**: ⭐⭐⭐⭐⭐

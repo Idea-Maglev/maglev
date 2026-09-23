@@ -180,7 +180,7 @@ python3 scripts/generate_documentation_surfaces.py --check --json
 | `30_comparisons/` | 和相邻方法、产品、范式的对比 |
 | `90_advanced/` | 高级配置与进阶治理议题 |
 
-`source operation guides/README.md` 以"如果你只想知道先看什么"开头，按五类角色分流到具体篇目：第一次接触 Maglev 的人、维护 Maglev 本身的维护者、关心"为什么这样设计"的读者、评估老项目接入路径的读者、公司私域环境的使用者。（见 [internal Reality/operations-docs-system/capability/overview.md](../../../internal Reality/operations-docs-system/capability/overview.md) §1 与 source operation guides/README.md）
+`source operation guides/README.md` 以"如果你只想知道先看什么"开头，按五类角色分流到具体篇目：第一次接触 Maglev 的人、维护 Maglev 本身的维护者、关心"为什么这样设计"的读者、评估老项目接入路径的读者、公司私域环境的使用者。（见 [internal Reality/operations-docs-system/capability/overview.md](../../../internal Reality/operations-docs-system/capability/overview.md) §1 与 [source operation guides/README.md](../../guides/README.md)）
 
 ## 刻意边界：不做什么
 
@@ -201,7 +201,7 @@ python3 scripts/generate_documentation_surfaces.py --check --json
 - [internal Reality/capability-evolution/evidence/competitive-registry.yaml](../../../internal Reality/capability-evolution/evidence/competitive-registry.yaml) —— 竞品注册表本体与 Insight Schema v2
 - [internal Reality/governance-quality/implementation/documentation-governance.md](../../../internal Reality/governance-quality/implementation/documentation-governance.md) —— 文档源治理与漂移检查
 - [internal Reality/operations-docs-system/capability/overview.md](../../../internal Reality/operations-docs-system/capability/overview.md) —— 运营文档知识能力
-- source operation guides/README.md —— 运营手册五段结构与角色分流
+- [source operation guides/README.md](../../guides/README.md) —— 运营手册五段结构与角色分流
 
 ## 下一步
 
@@ -209,4 +209,4 @@ python3 scripts/generate_documentation_surfaces.py --check --json
 - 看三层结构与能力域全景：[架构总览](architecture-overview.md)
 - 看机器如何在这套登记体系之上定位文件：[机器导航与索引](../developer/navigation-and-context.md)
 - 看扩展如何安装、启用并进入插槽：[扩展机制与集成](runtime-and-extensibility.md)
-- 从使用者视角查操作手册：Maglev 指南
+- 从使用者视角查操作手册：[Maglev 指南](../../guides/README.md)
