@@ -3,16 +3,6 @@ title: "存量项目渐进式接入"
 dimension: developer
 audience: developer
 page_type: how-to
-source_bindings:
-  - path: docs/guides/00_start/legacy_project_adoption.md
-    digest: sha256:bdc235978f985c6e90585d8134265366a53b1a7ce0d86c19d60d3a76891d6207
-    role: fact
-  - path: specs/10_reality/adoption-integration/capability/overview.md
-    digest: sha256:d72e512a683cd36a2b4a8d1c077954d8e61b31a4a69a8b174197ac0339ecd7a9
-    role: fact
-  - path: specs/10_reality/adoption-integration/verification/known-gaps.md
-    digest: sha256:9e85243e0c3563f1b6bcb9261e27121c4d7c8394c7771492e84c337ddde03f14
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

@@ -3,22 +3,6 @@ title: "验证、地图与知识维护"
 dimension: developer
 audience: developer
 page_type: how-to
-source_bindings:
-  - path: specs/10_reality/machine-index-engine/capability/overview.md
-    digest: sha256:6b8c7170cef7896e74307a99a36943cf5adfcb21e3909f939131d52a156e70f3
-    role: fact
-  - path: specs/10_reality/project-map/capability/overview.md
-    digest: sha256:d16cd111ead75bfb34f58a600fd59e08550bad3c9d0820c0b38a8af6f30cda9b
-    role: fact
-  - path: specs/10_reality/agent-context-surface/capability/overview.md
-    digest: sha256:1ee479eef1a5dac6ff896d710bde0bf381ac85f229602fbdb6b37aa37d10a308
-    role: fact
-  - path: specs/10_reality/knowledge-sedimentation/capability/overview.md
-    digest: sha256:09cf91745a9710daa6c00aea3df8736077d90db7a6c131417f0d1f1f9d807bf5
-    role: fact
-  - path: specs/10_reality/governance-quality/capability/overview.md
-    digest: sha256:94d22dcfe9cb97f505777eca3bb8072cf56d937a29f4aa2b525756e7631acf67
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

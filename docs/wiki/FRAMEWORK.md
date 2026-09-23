@@ -2,10 +2,6 @@
 title: "Wiki 写作指导"
 dimension: guidance
 audience: contributor
-source_bindings:
-  - path: templates/wiki-packs/general/v1/methodology-catalog.md
-    digest: sha256:419b39266af6e1a02d7538caf1e12dc4261be5390c5985243b5c5e2e038861a8
-    role: fact
 last_updated: "2026-09-14"
 generator: wiki_generate.py
 ---

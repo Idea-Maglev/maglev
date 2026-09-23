@@ -3,13 +3,6 @@ title: "系统架构与责任边界"
 dimension: evaluator
 audience: evaluator
 page_type: reference
-source_bindings:
-  - path: specs/10_reality/product-architecture.md
-    digest: sha256:2d9b9560b22d5526c4c9c5c1787de128405da2f1a74f21915ad3cc27bfb61823
-    role: fact
-  - path: specs/10_reality/00_profile.yaml
-    digest: sha256:3727150bd45459a6c131d5cebe1e5ab33889caaff35dd1e0cbbea96bc228496f
-    role: fact
 last_updated: "2026-09-16"
 generator: wiki_authoring
 ---

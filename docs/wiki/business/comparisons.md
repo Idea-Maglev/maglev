@@ -3,25 +3,6 @@ title: "比较方法与替代方案"
 dimension: business
 audience: business
 page_type: reference
-source_bindings:
-  - path: docs/guides/30_comparisons/INDEX.md
-    digest: sha256:39702eb1f315e26edc71d64cace0835586a3a3e95f579f0615ada304fb569874
-    role: fact
-  - path: docs/guides/30_comparisons/maglev_universality_analysis.md
-    digest: sha256:a6c5721a9543a74552129157719df7f7495d2b20470f4d5a9e1dd2777ffd2ade
-    role: fact
-  - path: docs/guides/30_comparisons/toolchain_adversarial_analysis.md
-    digest: sha256:82c3e1a6feeb2c6a35584081acedb0a379f05016db8b64c7f6b00749461fe0f2
-    role: fact
-  - path: docs/guides/30_comparisons/maglev_vs_bmad.md
-    digest: sha256:7e24f10c0aa91e18c333ce82660263c4724bf70133d9df25a7145eb718852861
-    role: fact
-  - path: docs/guides/30_comparisons/maglev_vs_sdd.md
-    digest: sha256:38c96e313e4a5d8cd559653e393dc40a8312643d7e851d8194bea105a3348ac6
-    role: fact
-  - path: specs/10_reality/capability-evolution/evidence/competitive-registry.yaml
-    digest: sha256:3c2ee4231f116e68a33bccd241048ed1bf63b155ffbb5ba21cf782d89ad44758
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

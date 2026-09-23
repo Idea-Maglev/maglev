@@ -3,16 +3,6 @@ title: "从请求到结晶的日常协作"
 dimension: developer
 audience: developer
 page_type: how-to
-source_bindings:
-  - path: specs/10_reality/collaboration-lifecycle/capability/overview.md
-    digest: sha256:a463fa7fad26876129ae17c07f80612befaf284c1d4a4340699b3e8c350a11a6
-    role: fact
-  - path: specs/10_reality/session-reality-sync/capability/overview.md
-    digest: sha256:57bbbdcd7af7f0c05df4cc6567ac83e6bec6a5be1eb458c673c93146113e4890
-    role: fact
-  - path: specs/10_reality/knowledge-sedimentation/capability/overview.md
-    digest: sha256:09cf91745a9710daa6c00aea3df8736077d90db7a6c131417f0d1f1f9d807bf5
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

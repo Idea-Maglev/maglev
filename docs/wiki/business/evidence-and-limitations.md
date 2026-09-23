@@ -3,13 +3,6 @@ title: "证据口径与风险限制"
 dimension: business
 audience: business
 page_type: reference
-source_bindings:
-  - path: specs/10_reality/README.md
-    digest: sha256:486b1f4b953fe61715b6513190778b79caa45cd1d903d45a1ae52b162ede194a
-    role: fact
-  - path: specs/10_reality/product-architecture.md
-    digest: sha256:2d9b9560b22d5526c4c9c5c1787de128405da2f1a74f21915ad3cc27bfb61823
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

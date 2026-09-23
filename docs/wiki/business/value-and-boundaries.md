@@ -3,10 +3,6 @@ title: "Maglev 的价值与边界"
 dimension: business
 audience: business
 page_type: explanation
-source_bindings:
-  - path: specs/10_reality/positioning.md
-    digest: sha256:a6217272ed67aa5784afad66171011baeb524df3b2ad92aeb45bc8529d57b725
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

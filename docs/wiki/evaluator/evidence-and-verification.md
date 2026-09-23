@@ -3,22 +3,6 @@ title: "证据与验证边界"
 dimension: evaluator
 audience: evaluator
 page_type: reference
-source_bindings:
-  - path: specs/10_reality/README.md
-    digest: sha256:486b1f4b953fe61715b6513190778b79caa45cd1d903d45a1ae52b162ede194a
-    role: fact
-  - path: specs/10_reality/governance-quality/verification/known-gaps.md
-    digest: sha256:b8e400a901341878c85b5c2860baebc342739d349edfd4483a8d074d5a42a384
-    role: fact
-  - path: specs/10_reality/collaboration-lifecycle/verification/known-gaps.md
-    digest: sha256:b3fd3b0c4dca09d9b0d1384eea3b27b172d534e87cb84578b433123d477fcbf9
-    role: fact
-  - path: specs/10_reality/skill-runtime/verification/known-gaps.md
-    digest: sha256:36d8925137a73d05b878a70f61770a0e1b006a4c8b39869ace76563ebe37b392
-    role: fact
-  - path: specs/10_reality/delivery-runtime/verification/known-gaps.md
-    digest: sha256:ba0e547a5967594362f76ee6ee9750163fed0ce2b8dd6011115316145d86c9ed
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

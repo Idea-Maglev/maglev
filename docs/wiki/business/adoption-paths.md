@@ -3,16 +3,6 @@ title: "新项目与存量项目的采用路径"
 dimension: business
 audience: business
 page_type: explanation
-source_bindings:
-  - path: docs/guides/00_start/project_startup_manuals.md
-    digest: sha256:9aca4355e707b7ac877b1aaf2be2cd54f1dc5e37184ac4b2aa8ec22a2099117f
-    role: fact
-  - path: docs/guides/00_start/legacy_project_adoption.md
-    digest: sha256:bdc235978f985c6e90585d8134265366a53b1a7ce0d86c19d60d3a76891d6207
-    role: fact
-  - path: specs/10_reality/adoption-integration/capability/overview.md
-    digest: sha256:d72e512a683cd36a2b4a8d1c077954d8e61b31a4a69a8b174197ac0339ecd7a9
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

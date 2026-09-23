@@ -3,16 +3,6 @@ title: "执行运行时、交付与能力进化"
 dimension: evaluator
 audience: evaluator
 page_type: explanation
-source_bindings:
-  - path: specs/10_reality/skill-runtime/capability/overview.md
-    digest: sha256:c6b2b644d77c95bca239a8fc21a8e7b597b154c7c39ddfb8c4ae3eb1b7b3eb1f
-    role: fact
-  - path: specs/10_reality/delivery-runtime/capability/overview.md
-    digest: sha256:989ea57a2d290d0aac53b79ff691c52263c47eefed8927483c74ae925e93b1bc
-    role: fact
-  - path: specs/10_reality/capability-evolution/capability/overview.md
-    digest: sha256:545e25fa0f7f5cdc19710599e3f47e30f29de0401136236ac50b7f258889c5cb
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

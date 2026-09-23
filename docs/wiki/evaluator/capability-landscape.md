@@ -3,13 +3,6 @@ title: "能力域与深挖入口"
 dimension: evaluator
 audience: evaluator
 page_type: reference
-source_bindings:
-  - path: specs/10_reality/README.md
-    digest: sha256:486b1f4b953fe61715b6513190778b79caa45cd1d903d45a1ae52b162ede194a
-    role: fact
-  - path: specs/10_reality/00_profile.yaml
-    digest: sha256:3727150bd45459a6c131d5cebe1e5ab33889caaff35dd1e0cbbea96bc228496f
-    role: fact
 last_updated: "2026-09-16"
 generator: wiki_authoring
 ---

@@ -3,16 +3,6 @@ title: "第一次接入并确认成功"
 dimension: developer
 audience: developer
 page_type: tutorial
-source_bindings:
-  - path: docs/guides/20_operations/maglev_distribution_quickstart.md
-    digest: sha256:5c7e59d15a0cae1da9489290ec796a15878e130933491d2a6039c67d8c8e4818
-    role: fact
-  - path: specs/10_reality/adoption-integration/capability/overview.md
-    digest: sha256:d72e512a683cd36a2b4a8d1c077954d8e61b31a4a69a8b174197ac0339ecd7a9
-    role: fact
-  - path: specs/10_reality/delivery-runtime/capability/overview.md
-    digest: sha256:989ea57a2d290d0aac53b79ff691c52263c47eefed8927483c74ae925e93b1bc
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

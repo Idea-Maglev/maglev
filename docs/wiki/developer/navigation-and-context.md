@@ -3,16 +3,6 @@ title: "导航、上下文与规格分层"
 dimension: developer
 audience: developer
 page_type: reference
-source_bindings:
-  - path: specs/10_reality/machine-index-engine/capability/overview.md
-    digest: sha256:6b8c7170cef7896e74307a99a36943cf5adfcb21e3909f939131d52a156e70f3
-    role: fact
-  - path: specs/10_reality/agent-context-surface/capability/overview.md
-    digest: sha256:1ee479eef1a5dac6ff896d710bde0bf381ac85f229602fbdb6b37aa37d10a308
-    role: fact
-  - path: specs/10_reality/spec-knowledge-layering/capability/overview.md
-    digest: sha256:adb298318c31500c1729b4d57283e6a44f5ac663756e23a6ec51113144cae101
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

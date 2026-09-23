@@ -3,16 +3,6 @@ title: "协作生命周期与治理质量"
 dimension: evaluator
 audience: evaluator
 page_type: explanation
-source_bindings:
-  - path: specs/10_reality/collaboration-lifecycle/capability/overview.md
-    digest: sha256:a463fa7fad26876129ae17c07f80612befaf284c1d4a4340699b3e8c350a11a6
-    role: fact
-  - path: specs/10_reality/governance-quality/capability/overview.md
-    digest: sha256:94d22dcfe9cb97f505777eca3bb8072cf56d937a29f4aa2b525756e7631acf67
-    role: fact
-  - path: specs/10_reality/spec-knowledge-layering/capability/overview.md
-    digest: sha256:adb298318c31500c1729b4d57283e6a44f5ac663756e23a6ec51113144cae101
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---

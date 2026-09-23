@@ -3,19 +3,6 @@ title: "更新、运行与故障恢复"
 dimension: developer
 audience: developer
 page_type: how-to
-source_bindings:
-  - path: docs/guides/20_operations/maglev_entrypoints.md
-    digest: sha256:b4f28999d73a6d40aa80b3066e1f5dfd59d6335d63550f18c44188c6a81bc9c0
-    role: fact
-  - path: docs/guides/20_operations/maglev_distribution_quickstart.md
-    digest: sha256:5c7e59d15a0cae1da9489290ec796a15878e130933491d2a6039c67d8c8e4818
-    role: fact
-  - path: docs/guides/20_operations/maglev_distribution_troubleshooting.md
-    digest: sha256:968b5d98af4f0afa78f4c601e6ae6631e19c8baa837cfbe9d136905aa6e0f209
-    role: fact
-  - path: specs/10_reality/delivery-runtime/operations/errors.md
-    digest: sha256:a6e53a73e9a6bd875d48113de8888378007c5342105de2802d4fde70d81750ad
-    role: fact
 last_updated: "2026-09-15"
 generator: wiki_authoring
 ---
