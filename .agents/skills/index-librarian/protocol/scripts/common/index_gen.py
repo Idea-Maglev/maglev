@@ -287,9 +287,9 @@ def _generate_default_body(
         lines.append("|:---|:---|")
         for name, is_dir in children:
             if is_dir:
-                lines.append(f"| [{name}](./{name}/) | 📁 |")
+                lines.append(f"| {name} | 📁 |")
             else:
-                lines.append(f"| [{name}](./{name}) | 📄 |")
+                lines.append(f"| {name} | 📄 |")
     else:
         lines.append("")
         lines.append("（空目录）")

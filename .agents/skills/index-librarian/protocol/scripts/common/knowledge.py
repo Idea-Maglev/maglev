@@ -400,7 +400,7 @@ def build_navigation_block(records: list[dict[str, Any]]) -> str:
         else:
             topic_display = ", ".join(topics) or "—"
         lines.append(
-            f"| [{path}](./{link}) | {record.get('kind', 'file')} | {record.get('summary') or '—'} | "
+            f"| {path} | {record.get('kind', 'file')} | {record.get('summary') or '—'} | "
             f"{topic_display} | {evidence} | "
             f"{record.get('parse_status', 'indexed')} |"
         )

@@ -164,7 +164,7 @@ python3 scripts/check_documentation_drift.py --root . --json
 python3 scripts/generate_documentation_surfaces.py --check --json
 ```
 
-维护纪律：修改主链路、兼容入口、旧术语或发布源时，**先更新治理注册表**，再运行受管表面检查、漂移检查和相关测试。`docs/publishing/` 是派生发布层、不拥有当前事实，第一阶段只生成可复审导入包——不调用 Feishu API、不保存凭据，也不允许 Feishu 反向成为事实源。（见 specs/10_reality/governance-quality/implementation/documentation-governance.md）
+维护纪律：修改主链路、兼容入口、旧术语或发布源时，**先更新治理注册表**，再运行受管表面检查、漂移检查和相关测试。`docs/publishing/` 是派生发布层、不拥有当前事实，第一阶段只生成可复审导入包——不调用 private document API、不保存凭据，也不允许 private document integration 反向成为事实源。（见 specs/10_reality/governance-quality/implementation/documentation-governance.md）
 
 ## 运营手册出口：五段结构与角色分流
 
@@ -186,7 +186,7 @@ python3 scripts/generate_documentation_surfaces.py --check --json
 
 | 不做的事 | 依据 |
 |----------|------|
-| 让 catalog 成为技能目录的机械镜像或完备清单 | 无独立治理价值的对象不登记；当前域盘点抽查到 9 个 lark/feishu 对象未登记且无逐对象免登记裁决记录（见 specs/10_reality/capability-evolution/capability/overview.md §3） |
+| 让 catalog 成为技能目录的机械镜像或完备清单 | 无独立治理价值的对象不登记；当前域盘点抽查到 9 个 private document integration 对象未登记且无逐对象免登记裁决记录（见 specs/10_reality/capability-evolution/capability/overview.md §3） |
 | 自动启动竞品观测或自动废弃 insight | 研究由 Creator 主动触发；superseded 标记必须等 Creator 确认（见 specs/10_reality/capability-evolution/capability/overview.md §3） |
 | 承诺"观测养分已回流" | registry 中 25 条 insight 全部 `status: open`，后半段生命周期（proposed→absorbed）只有机制契约、无执行实例（见 specs/10_reality/capability-evolution/implementation/evolution-cycle.md §4） |
 | 让注册表拥有文档正文 | 正文由各自 canonical 文档维护，注册表只登记关系（见 specs/10_reality/governance-quality/implementation/documentation-governance.md） |

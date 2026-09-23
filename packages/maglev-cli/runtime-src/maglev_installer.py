@@ -2168,7 +2168,7 @@ class MaglevInstaller:
             file.write("\n")
 
         if not self.repositories:
-            self.ensure_default_extension_sources()
+            # Public projection has no bundled extension registry; configure a source explicitly.
             return
 
         repo_map_profile_path = "crosscutting/repository-map/repositories.md"
@@ -2214,7 +2214,7 @@ class MaglevInstaller:
             except (OSError, ValueError):
                 print_warning("无法登记仓库清单到 Reality Profile；已保留清单文件。")
 
-        self.ensure_default_extension_sources()
+        # Public projection has no bundled extension registry; configure a source explicitly.
 
     def ensure_project_index_registry(self):
         registry_path = PROJECT_INDEX_REGISTRY_PATH
@@ -2275,7 +2275,7 @@ class MaglevInstaller:
             print_warning(f"探测详情：{probe_error}")
             print_warning(
                 "如需手动调整，可运行 `npx @idea-maglev/maglev-extension-cli sources add --id maglev-official "
-                "--type git --url <可访问URL> --ref master --json`。"
+                "--type git --url <可访问URL> --ref main --json`。"
             )
 
     def save_state(self):

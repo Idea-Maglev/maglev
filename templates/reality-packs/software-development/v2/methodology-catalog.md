@@ -34,7 +34,7 @@ v2 草案采用混合 Reality 作为页面骨架：能力、实现、接口/运�
 
 因此，页面目录不照搬任何外部标准：每页必须先回答专属读者问题，再选择适用的方法要素；不能把代码
 目录、PRD 章节或架构图层级直接变成模块路径。完整的来源权威性评估、候选比较与不可迁移边界见
-[参考依据评估](../../../../specs/90_archive/abandoned/2026-08-26-reality-software-template-convergence/context/reference-authority-assessment.md)。
+参考依据评估。
 
 ## 共同事实纪律
 

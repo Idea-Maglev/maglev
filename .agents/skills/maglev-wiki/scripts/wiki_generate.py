@@ -215,7 +215,7 @@ def generate(root, config_path=None, plan_path=".maglev/wiki/wiki-plan.yaml", dr
     for dimension in dimensions:
         relative = WIKI_ROOT_RELATIVE / dimension["id"]
         approved_pages = planned_dimension_pages(dimension, relative)
-        page_links = "\n".join(f"- [{title}]({link})" for link, title in approved_pages) or "（该维度没有批准的正文页面。）"
+        page_links = "\n".join(f"- {title}" for link, title in approved_pages) or "（该维度没有批准的正文页面。）"
         files[relative / "README.md"] = render_template(
             "dimension_readme.md",
             dimension_title=dimension["title"],

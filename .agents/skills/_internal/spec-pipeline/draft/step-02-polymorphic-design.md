@@ -92,8 +92,8 @@ description: '读取标准模板，生成 Unified Draft'
 *   **Status**: 设置为 `Draft`。
 *   **Navigation**: **必须动态列出所有生成的文件** (包括拆分后的模块)。
     *   Example:
-        *   [Requirements (Core)](01_requirements_core.md)
-        *   [Requirements (Admin)](01_requirements_admin.md)
+        *   Requirements (Core)
+        *   Requirements (Admin)
 
 ### File 01: Requirements
 *   **Zone 1**: Summary + Key Risks.

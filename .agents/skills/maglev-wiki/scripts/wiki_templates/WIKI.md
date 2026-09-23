@@ -18,13 +18,13 @@
 
 {overview_system_role}
 
-事实依据：[Maglev 定位与边界](../../specs/10_reality/positioning.md)。
+事实依据：Maglev 定位与边界。
 
 ## 它解决什么问题
 
 {overview_core_problem}
 
-事实依据：[Maglev 定位与边界](../../specs/10_reality/positioning.md)。
+事实依据：Maglev 定位与边界。
 
 ## 它如何参与一次交付
 

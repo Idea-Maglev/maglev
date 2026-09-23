@@ -67,7 +67,7 @@ python3 --version
 
 ```bash
 npx @idea-maglev/maglev-extension-cli sources list --json
-npx @idea-maglev/maglev-extension-cli sources add --id maglev-official --type git --url https://github.com/Idea-Maglev/maglev.git --ref master --json
+npx @idea-maglev/maglev-extension-cli sources add --id maglev-official --type git --url https://github.com/Idea-Maglev/maglev.git --ref main --json
 npx @idea-maglev/maglev-extension-cli search --slot code-execution --json
 ```
 
