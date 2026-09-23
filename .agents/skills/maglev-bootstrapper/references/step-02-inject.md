@@ -13,7 +13,7 @@ next_step: references/step-03-config.md
 1.  **Inject Core**:
     *   Copy 能力资产 `.agents/` -> Root.
     *   Copy 运行规则 `.maglev/` -> Root，但不复制 Maglev 源仓库的实例数据。
-    *   Create empty `specs/`, `docs/`, `issues/`, `tests/`.
+    *   Create empty `specs/`, `docs/`, `tests/`。
 2.  **Handle Mode**:
     *   **Greenfield**: Create `code_storages/` directory.
     *   **Adoption**:

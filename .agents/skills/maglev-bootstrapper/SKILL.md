@@ -38,7 +38,7 @@ Skill 扮演 **[Architect]** 角色，执行以下阶段：
 
 ### Phase 2: Inject (骨架注入)
 
-物理复制核心骨架：`.agents/`, `.maglev/`, `specs/`, `docs/`, `issues/`。
+物理复制核心骨架：`.agents/`, `.maglev/`, `specs/`, `docs/` 和 `tests/`。
 
 ### Phase 3: Configure & Register (配置与仓库登记)
 

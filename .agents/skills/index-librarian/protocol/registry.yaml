@@ -35,8 +35,6 @@ tracks:
     entity_type: document
     child_type: auto
     max_depth: 4
-    collapse_single_file_dirs:
-      - "marketing/assets/*"
     ignore:
       - _meta
 

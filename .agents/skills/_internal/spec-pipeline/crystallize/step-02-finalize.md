@@ -14,11 +14,6 @@ description: '清理现场并报告'
 *   删除 `{input_draft}`。
 *   删除 `{input_facts}`。 (已存档，原来的就不需要了)
 
-### 2. 归档源头 (Archive Source)
-**如果** 本次 Spec 生成源自 `issues/active/` 下的 Issue (查看 `ingest_manifest` 或询问用户):
-*   **Move**: 将源 Issue 文件移动到 `issues/closed/{date}-{slug}.md`。
-*   **Log**: 在 `issues/closed/README.md` (如有) 或 Issue 文件末尾追加: "Moved to closed after Spec Crystallization on {date}"。
-
 ### 2. 报告
 输出最终报告：
 

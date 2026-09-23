@@ -97,4 +97,3 @@ find tests/ -name "*{spec_name}*" -type f 2>/dev/null | head -3
 | 当前阶段的所有证据均满足 | `confirmed` |
 | 文件存在但内容质量未通过阈值检查 | `inferred` |
 | 相邻阶段证据冲突或两阶段同时 in_progress | `uncertain` |
-| type=issue（无 spec 文件） | `confirmed`（固定为需求收敛 ⏳，其余 ⬜） |

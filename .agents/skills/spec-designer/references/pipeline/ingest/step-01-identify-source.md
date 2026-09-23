@@ -11,14 +11,14 @@ nextStepFile: './step-02-map-skeleton.md'
 
 ## 交互流程
 
-### 1. 意图收件箱检查 (Intent Inbox Check)
-**优先动作**: 检查 `issues/active/` 下是否有待处理文件。
-*   **Case A: 发现 Issue 文件** (e.g. `issues/active/feat-login.md`)
-    *   读取文件内容作为 **Raw Intent**。
-    *   询问用户: "检测到待处理意图 'feat-login.md'。是否基于此开始？[Y/n]"
-    *   如果 Y: 设置 `slug="feat-login"`, `source=issues/...`
-*   **Case B: 无 Issue**
-    *   询问用户: "没有检测到活跃 Issue。请告诉我你想做什么？(Intent & Title)"
+### 1. 意图输入检查 (Intent Input Check)
+**优先动作**: 使用当前用户已明确的任务描述作为 Raw Intent。
+*   **Case A: 已有明确意图**
+    *   读取用户输入作为 `intent`。
+    *   设置 `slug`，并将 `source` 记录为当前会话或用户提供的相对路径。
+*   **Case B: 意图仍不明确**
+    *   询问用户："请告诉我想要改变什么，以及这次变更的标题。"
+    *   在获得明确意图前不进入方案设计。
 
 ### 2. Spec-First Check (Spec 优先检查)
 *   **Action**: 检查目录 `{project-root}/specs/20_evolution/active/{slug}` 是否存在。

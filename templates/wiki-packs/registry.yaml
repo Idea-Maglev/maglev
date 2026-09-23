@@ -1,0 +1,13 @@
+schema_version: wiki-template-pack-registry/v1
+registry_id: wiki-packs
+path_base: .
+default_pack_id: general
+
+# wiki 模板包唯一登记入口。wiki 投影能力只消费登记且获准使用的包，
+# 不得从目录名称、历史产物或样本推断模板。
+# 与 templates/reality-packs/registry.yaml 同构、语义隔离（两类包不混用）。
+packs:
+  general:
+    manifest_path: general/v1/pack.yaml
+    status: production
+    source_of_truth: true

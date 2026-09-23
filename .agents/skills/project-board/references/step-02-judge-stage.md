@@ -16,7 +16,7 @@ next_step: references/step-03-map-roles.md
 
 ## 动作
 
-对每个 type=spec 的 ActiveItem：
+对每个 ActiveItem：
 
 ### 1. 文件证据检查
 
@@ -83,9 +83,6 @@ find tests/ -name "*{spec_name}*" -type f 2>/dev/null | head -3
 - 在 `evidence` 中记录错误原因
 - **继续处理其余条目**，不终止整个流程
 
-对 type=issue 的 ActiveItem：
-- 直接标记为进度 `⏳⬜⬜⬜⬜`（需求收敛 in_progress，其余 not_started）
-- confidence = `confirmed`
 
 ## 输出
 

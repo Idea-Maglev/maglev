@@ -21,7 +21,7 @@ import urllib.request
 from datetime import datetime, timezone
 
 
-DEFAULT_UPSTREAM = os.environ.get("MAGLEV_UPSTREAM_URL", "https://git.nevint.com/feiyu.gao/maglev/-/raw/release")
+DEFAULT_UPSTREAM = os.environ.get("MAGLEV_UPSTREAM_URL", "https://raw.githubusercontent.com/Idea-Maglev/maglev/main")
 MAGLEV_DIR = ".maglev"
 STATE_FILE = os.path.join(MAGLEV_DIR, "sync_state.json")
 CONFIG_FILE = os.path.join(MAGLEV_DIR, "config.json")
@@ -29,8 +29,8 @@ EXTENSION_SOURCES_FILE = os.path.join(MAGLEV_DIR, "extensions.sources.yaml")
 DEFAULT_EXTENSION_SOURCE_ID = "maglev-official"
 DEFAULT_EXTENSION_SOURCE_NAME = "Maglev Official Extensions"
 DEFAULT_EXTENSION_SOURCE_TYPE = "git"
-DEFAULT_EXTENSION_SOURCE_URL = "git@git.nevint.com:maglev/maglev-extensions-registry.git"
-DEFAULT_EXTENSION_SOURCE_REF = "master"
+DEFAULT_EXTENSION_SOURCE_URL = "https://github.com/Idea-Maglev/maglev.git"
+DEFAULT_EXTENSION_SOURCE_REF = "main"
 DEFAULT_INDEXING_CONFIG = {
     "ignore_dirs": [".agent", ".claude", ".codex", ".github"],
     "ignore_hidden_dirs": True,
@@ -98,7 +98,7 @@ RETIREMENT_BINARY_SIGNATURES = (
     b"SQLite format 3\x00",
 )
 # maglev:managed:mainline
-# source: specs/_meta/documentation-governance.json sha256: 9118d62d09dae8ea50318052d9cd05de172269b51ec198d3bde2679186e427e9
+# source: specs/_meta/documentation-governance.json sha256: bef096121348497172a7692451415cbe7f783080b22a2d822cdd4fe13c7816b7
 CURRENT_RUNTIME_NAMES = [
     "entry-router",
     "reality-sync",
@@ -149,14 +149,19 @@ DISCIPLINE_BLOCK = """\
 2. **事实驱动**：声明任何状态前必须有工具验证依据，禁止凭记忆/印象下结论
 3. **穷尽方法**：宣告无法解决前必须走完 maglev-discipline 通用 5 步方法论
 
-## 强制读取
-
 进入任何主流程（`reality-sync` / `spec-designer` / `context-implementer` / `integrated-validator`）或本项目治理任务前，必须读取 `.agents/skills/maglev-discipline/SKILL.md`，并将其红线协议作为本会话默认背景纪律。
+
+## 人类可读输出
+
+- 默认用自然语言说明发生了什么、影响什么和需要人做什么；
+- 内部符号和英文术语首次出现时先给中文解释或定义链接；
+- 非代码人审使用 Markdown，机器文件需要人类判断时提供 Markdown 映射；
+- 共享契约：`.agents/skills/_internal/human-readable-output/contract.md`；检查器不裁判语义质量。
 
 ---
 <!-- /maglev:managed:discipline -->
 """
-DISCIPLINE_LLMS_LINE = "> 🔴 会话纪律：进入主流程前必须读取 `.agents/skills/maglev-discipline/SKILL.md` 并遵循其红线协议。"
+DISCIPLINE_LLMS_LINE = "> 🔴 会话纪律：进入主流程前必须读取 `.agents/skills/maglev-discipline/SKILL.md`；人类可读输出契约见 `.agents/skills/_internal/human-readable-output/contract.md`。"
 
 
 class Colors:
@@ -700,6 +705,12 @@ def _minimal_agents_example():
             "- 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback。",
             "- 外部或全局 skill 不得自动绕过 Maglev 主流程；只有用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后，才可使用。",
             "",
+            "## 人类可读输出",
+            "",
+            "- 默认用自然语言；内部符号和英文术语首次出现时先给中文解释或定义链接。",
+            "- 非代码人审使用 Markdown，机器文件需要人类判断时提供 Markdown 映射。",
+            "- 共享契约：`.agents/skills/_internal/human-readable-output/contract.md`。",
+            "",
             "## 协作约束",
             "",
             "- 改代码前先读相关规格和上下文。",
@@ -749,6 +760,8 @@ def _minimal_llms_example():
             "- /create-spec",
             "- /quick-dev",
             "- /validate-all",
+            "",
+            "人类可读输出契约：聊天和未声明受众的文件默认面向人类；规则见 `.agents/skills/_internal/human-readable-output/contract.md`。",
             "",
             "说明：workflow 入口是兼容入口，不等于当前 skill runtime name。",
             "",
@@ -801,7 +814,7 @@ def check_ai_context_assets(project_root="."):
     lower_text = combined_text.lower()
     has_project_context = any(token in combined_text for token in ["项目", "仓库", "目录", "代码库", "repo"])
     has_structure_context = any(
-        token in combined_text for token in [".agents", ".maglev", "specs/", "docs/", "issues/"]
+        token in combined_text for token in [".agents", ".maglev", "specs/", "docs/"]
     )
     has_maglev_context = "maglev" in lower_text
     has_runtime_name = any(token in combined_text for token in CURRENT_RUNTIME_NAMES)
@@ -1937,8 +1950,6 @@ class MaglevInstaller:
             "specs/90_archive",
             "docs/thinking",
             "docs/guides",
-            "issues/active",
-            "issues/closed",
             "tests",
             ".maglev",
         ]

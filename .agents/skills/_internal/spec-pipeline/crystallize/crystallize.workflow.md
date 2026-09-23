@@ -21,11 +21,9 @@ output_base: '{project-root}/specs/20_evolution/active'
 ### 2. Finalize (完成)
 读取 `./step-02-finalize.md`。
 *   清理 `.maglev/temp/`。
-*   自动处理 Issue 归档 (Success Case)。
 *   报告最终结果。
 
 ### 3. Abandon (废弃) [Optional]
 仅当用户明确要求 "废弃/Abandon" 时跳转此步。
 读取 `./step-99-abandon.md`。
 *   移动 Spec 到 `90_archive`。
-*   关闭 Issue。

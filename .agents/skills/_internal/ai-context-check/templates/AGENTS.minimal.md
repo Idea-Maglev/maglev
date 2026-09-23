@@ -70,6 +70,12 @@
 - 任务入口先经过 `entry-router`；代码交付物先经过 `code-execution-slot` 选择 enabled 扩展或 agent-native fallback。
 - 外部或全局 skill 不得自动绕过 Maglev 主流程；只有用户明确指定，或由 `code-execution-slot` 根据当前项目配置选择后，才可使用。
 
+### 人类可读输出
+
+- 默认使用自然语言；内部符号和英文术语首次出现时先给中文解释或定义链接。
+- 非代码人审产物使用 Markdown；机器文件需要人类判断时提供 Markdown 映射。
+- 共享契约：`.agents/skills/_internal/human-readable-output/contract.md`。
+
 ## 协作约束
 
 - 在信息不足时，先说明缺口，再继续执行。

@@ -22,7 +22,7 @@ next_step: references/step-02-curriculum.md
 
 1.  **Q1 (Philosophy)**: "你认为 Maglev 和传统的 Agile 流程 (Jira/Epic) 最大的区别是什么？"
 2.  **Q2 (Mechanism)**: "如果 Spec 和 Code 冲突了，Maglev 协议规定谁是 Source of Truth？" (Answer: Spec)
-3.  **Q3 (Workflow)**: "当你想修改一个功能时，第一步应该做什么？" (Answer: Find/Create Issue or Update Spec, NOT touch code)
+3.  **Q3 (Workflow)**: "当你想修改一个功能时，第一步应该做什么？" (Answer: Enter requirement convergence and find or create the corresponding Evolution, NOT touch code)
 
 ## 动作序列
 1.  **Ask**: 抛出诊断问题。

@@ -19,13 +19,7 @@ description: '废弃 Spec 并归档关联资产'
 *   在 `00_index.md` (或该文件夹下任意显著位置) 顶部追加:
     > `> **ABANDONED**: 于 {Date} 归档。原因: {User Reason}`
 
-### 3. 关闭关联 Issue
-**如果** 存在 `issues/active/{slug}.md` 或关联 Issue:
-*   **Move**: 将 Issue 移动到 `issues/closed/{date}-{slug}.md`。
-*   **Append**: 在 Issue 末尾追加: "Closed via Abandonment Workflow. Reason: {User Reason}"。
-
-### 4. 报告
+### 3. 报告
 "已废弃方案 '{slug}'。
 - Spec 已归档至: `specs/90_archive/abandoned/...`
-- Issue 已关闭。
 - 只有 History 记得它来过。🥀"

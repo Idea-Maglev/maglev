@@ -19,7 +19,7 @@ tracks:
     # Optional: explicit glob patterns for single-file leaf directories that
     # should collapse into their parent INDEX record instead of keeping their own.
     # collapse_single_file_dirs:
-    #   - "marketing/assets/*"
+    #   - "content/assets/*"
 
 # Project-wide defaults live in .maglev/config.json:
 # {

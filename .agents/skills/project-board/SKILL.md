@@ -20,7 +20,7 @@ metadata:
 
 它负责：
 
-- 扫描 `specs/20_evolution/active/` 和 `issues/active/` 识别活跃需求
+- 扫描 `specs/20_evolution/active/` 识别活跃需求
 - 基于文件证据 + 内容质量 + 代码变更 + 测试覆盖交叉判断流程阶段
 - 映射 VO/TP/XG 铁三角角色在每个需求上的参与状态
 - 输出两级看板（总看板 `board.md` + 需求子看板 `status.md`）

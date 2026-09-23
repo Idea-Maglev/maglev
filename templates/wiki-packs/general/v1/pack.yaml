@@ -1,0 +1,22 @@
+schema_version: wiki-template-effect-pack/v1
+pack:
+  pack_id: general
+  version: 1.1.0
+  source_of_truth: true
+consumer_interface:
+  version: wiki-template-effect-pack-consumer/v1
+  operations:
+    - resolve_pack
+    - resolve_asset
+assets:
+  methodology.catalog:
+    type: methodology
+    public_path: methodology-catalog.md
+    digest: sha256:419b39266af6e1a02d7538caf1e12dc4261be5390c5985243b5c5e2e038861a8
+  pack.readme:
+    type: pack_readme
+    public_path: README.md
+    digest: sha256:b6f76acc3017cc3c9fd6b457bbeabc37212d3cbd36648f68a8c06a7732065628
+integrity:
+  manifest_digest: sha256:c21ed7381008aea05de9a6b4a24d8240db284ff280269e1445c6f9d8c033a191
+  pack_digest: sha256:00edae6b78a6f028a2b9a52a632321a422380d1bdc98eef7fd961bc9c991b7c1

@@ -37,7 +37,7 @@ reality-sync 通过 Reality / Risk / Action / Mode 四类同步，把会话起�
 ## 核心能力 (Capabilities)
 1. **Reality Sync**: 识别当前主 Spec、主实现、关键发行物和历史资产。
 2. **Risk Sync**: 识别当前最重要的结构风险、试用反馈和未闭环项。
-3. **Action Sync**: 基于 active specs / issues / 计划文档生成下一步建议。
+3. **Action Sync**: 基于 active specs / 计划文档生成下一步建议。
 4. **Mode Sync**: 判断当前更适合进入 `Analyze`、`Implement`、`Verify` 还是 `Release` 模式。
 
 ## 生命周期提醒 (Lifecycle Reminder)

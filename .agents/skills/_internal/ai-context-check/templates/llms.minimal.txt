@@ -55,3 +55,9 @@
 - 改代码前先读相关规格和上下文。
 - 不要把上游 Maglev 源仓库的私有现实当成当前项目事实。
 - 如果信息不足，先说明缺口，再继续执行。
+
+## 5. 人类可读输出
+
+- 默认自然语言和中文解释；
+- 人审使用 Markdown；机器文件需要人类判断时使用对应 Markdown 映射；
+- 共享契约：`.agents/skills/_internal/human-readable-output/contract.md`。

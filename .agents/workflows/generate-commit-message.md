@@ -39,9 +39,9 @@ metadata:
         Verification:
         - [x] Test A Passed
 
-        Ref: #Issue-ID | Spec: feat-XXX
+        Ref: Spec: feat-XXX
         ```
-    *   **Traceability**: 必须填满 `Ref` 字段，关联 Issue 或 Spec 文件。
+    *   **Traceability**: 必须关联对应的 Evolution/Spec 文件。
 
 ---
 **Turbo Mode**: 如果用户使用 `/generate-commit-message -y`，则假设所有检查通过，但仍需在生成的 Message 中注明 "Skipped Calibration"。

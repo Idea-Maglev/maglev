@@ -22,8 +22,8 @@ metadata:
     - **对齐**: 称呼用户的名字，并确认已知晓其 `current_focus`。
 
 4.  **同步战术面板 (The Dashboard)**
-    - 使用 `view_file` 读取 `issues/README.md`。
-    - **感知**: 了解当前的项目焦点与任务状态。
+    - 使用 `view_file` 读取 `specs/20_evolution/board.md`。
+    - **感知**: 了解当前 Evolution 主线、阶段状态与项目焦点。
 
 5.  **同步历史状态 (The History)**
     - 使用 `view_file` 读取 `docs/dev_log.md` 和 `docs/tech_status/gap_summary_and_roadmap.md`。

@@ -9,8 +9,6 @@
     - *Auto-Fix*: 如果用户同意，且你具备 `maglev-bootstrapper` 能力，尝试调用它。否则，提供复制指令。
 2.  **If specs/ missing**:
     - 创建 `specs/00_planning`, `specs/10_reality`, `specs/20_evolution`, `specs/90_archive`。
-3.  **If issues/ missing**:
-    - 创建 `issues/active`, `issues/closed`。
 
 4. **Reality bootstrap boundary**:
     - 不复制 Maglev 自身的 Profile、Reality 页面或现状文档到消费者项目。

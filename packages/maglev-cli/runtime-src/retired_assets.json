@@ -176,6 +176,45 @@
       "reason": "旧 Draft handoff 已替换为直接提交 Reality Projection。",
       "remove_if_unmodified": true,
       "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-content-sync/SKILL.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-wiki/SKILL.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "Content Sync 已由经人类审批的 Wiki 结构、证据包和正文审查流程取代；不保留独立内容运营层。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/skills/maglev-content-sync/references/content-sync.workflow.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-wiki/SKILL.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "旧写作前同步协议随 Content Sync 机制退役；Wiki 工作流承担来源、结构、审批和审查边界。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
+    },
+    {
+      "path": ".agents/workflows/content-sync.md",
+      "disposition": "RETIRE",
+      "successors": [
+        {
+          "path": ".agents/skills/maglev-wiki/SKILL.md",
+          "scope": "distributed"
+        }
+      ],
+      "reason": "Content Sync 兼容 workflow 不再提供入口；内容生产统一走 Wiki 结构审批与证据约束。",
+      "remove_if_unmodified": true,
+      "remove_if_unreferenced": true
     }
   ]
 }

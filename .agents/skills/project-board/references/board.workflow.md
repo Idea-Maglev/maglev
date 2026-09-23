@@ -11,7 +11,7 @@ description: 项目看板工作流，编排扫描、判断、映射与渲染。
 
 ### Step 1: Scan (扫描)
 读取 `references/step-01-scan.md`。
-- 扫描 `specs/20_evolution/active/` 和 `issues/active/`
+- 扫描 `specs/20_evolution/active/`
 - 产出：ActiveItem 列表
 
 ### Step 2: Judge Stage (阶段判断)
