@@ -26,20 +26,20 @@ scope:
 
 | 触发/入口 | 前置条件 | 可见结果 | 实现/验证深挖 | 知识状态 | 证据充分度 |
 | --- | --- | --- | --- | --- | --- |
-| 显式生成动作 | 在 Git 仓库内运行 | 整文件覆写 ATLAS.md；先写 snapshot 再写地图 | 生成架构 | established | supported |
-| `--check` | ATLAS frontmatter 携带 source_digest | 指纹一致/漂移报告，不写盘 | 生成架构 | established | supported |
-| 治理源缺席 | 候选源文件不存在 | 跳过读取不阻断；置信度降级标注 | 生成架构（`_confidence`） | established | supported |
+| 显式生成动作 | 在 Git 仓库内运行 | 整文件覆写 ATLAS.md；先写 snapshot 再写地图 | [生成架构](../implementation/architecture.md) | established | supported |
+| `--check` | ATLAS frontmatter 携带 source_digest | 指纹一致/漂移报告，不写盘 | [生成架构](../implementation/architecture.md) | established | supported |
+| 治理源缺席 | 候选源文件不存在 | 跳过读取不阻断；置信度降级标注 | [生成架构](../implementation/architecture.md)（`_confidence`） | established | supported |
 
 ## 3. 作用边界与不承诺事项
 
 | 边界类型 | 不覆盖或未证实的内容 | 依据/已查范围 | 下一步静态入口 |
 | --- | --- | --- | --- |
 | 不承诺 | 初始化/日常 reality-sync 自动写地图 | 写盘始终是显式动作 | `.agents/skills/maglev-map-maker/SKILL.md` |
-| 不承诺 | 输入缺失时猜测补齐 | 按输入可用性降级置信度（High/Medium/Low） | 生成架构 |
+| 不承诺 | 输入缺失时猜测补齐 | 按输入可用性降级置信度（High/Medium/Low） | [生成架构](../implementation/architecture.md) |
 | 范围外 | 索引导航与目录盘点 | 属 machine-index-engine 域 | `../machine-index-engine/capability/overview.md` |
 | 范围外 | 看板扫描语义 | 属 collaboration-lifecycle 域 | `../collaboration-lifecycle/capability/overview.md` |
 
 ## 4. 事实与深挖
 
-- 生成架构、构件、数据、依赖、配置
+- [生成架构](../implementation/architecture.md)、构件、数据、依赖、配置
 - [已知缺口](../verification/known-gaps.md)、Claim 登记册

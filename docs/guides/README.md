@@ -14,8 +14,8 @@
 
 如果你已经在维护 Maglev 本身，且想先理解最近这一轮 skill 结构升级与命名调整后的项目现状，建议补看：
 
-1. [Maglev 当前定位](../../internal Reality/positioning.md)
-2. [交付运行时 Reality](../../internal Reality/delivery-runtime/README.md)
+1. [Maglev 当前定位](../../specs/10_reality/positioning.md)
+2. 交付运行时 Reality
 3. Active Evolution Index
 
 如果你更关心“这套东西为什么这样设计”，再看：
@@ -31,7 +31,7 @@
 
 如果你在公司私域环境中使用 Maglev，请先阅读对应私域指南，再回到这里查通用操作手册：
 
-1. [私域文档入口](../private deployment context/INDEX.md)
+1. 私域文档入口
 
 ## 目录说明
 
@@ -41,7 +41,7 @@
 | [`10_concepts/`](./10_concepts/)       | 核心概念与方法论解释         |
 | [`20_operations/`](./20_operations/)   | 日常操作、安装、更新、排障   |
 | [`30_comparisons/`](./30_comparisons/) | 和相邻方法、产品、范式的对比 |
-| `90_advanced/`       | 高级配置与进阶治理议题       |
+| [`90_advanced/`](./90_advanced/)       | 高级配置与进阶治理议题       |
 
 ## 00_start
 
@@ -125,7 +125,7 @@
 
 ## 90_advanced
 
-- ai_native_config_templates.md
+- [ai_native_config_templates.md](./90_advanced/ai_native_config_templates.md)
   - AI 原生项目的配置模板。
-- governance_adapter_design.md
+- [governance_adapter_design.md](./90_advanced/governance_adapter_design.md)
   - 不同 IDE 和工具环境下的治理适配。

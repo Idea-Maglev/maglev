@@ -359,8 +359,8 @@ Maglev 更像把能力放在“仓库可见资产里”。
 - `llms.txt`
 - `docs/thinking/10_critique/2026-03-16-maglev_vs_harness_engineering.md`
 - `docs/thinking/20_architecture/2026-03-16-harness_maglev_integration_blueprint.md`
-- `source operation guides/30_comparisons/maglev_vs_harness_engineering.md`
-- `source operation guides/30_comparisons/maglev_vs_openspec.md`
+- `docs/guides/30_comparisons/maglev_vs_harness_engineering.md`
+- `docs/guides/30_comparisons/maglev_vs_openspec.md`
 
 ---
 

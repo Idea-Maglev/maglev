@@ -39,7 +39,7 @@ maglev-cli init
 
 如果你在公司私域环境中安装，需要先配置内部 npm 源、网络和权限，请看：
 
-- [私域安装引导](../../private deployment context/installation_guide.md)
+- 私域安装引导
 
 ---
 
@@ -195,7 +195,7 @@ test -x scripts/maglev-python
 如果你只是想先理解“装完以后能做什么”，建议继续看：
 
 - Maglev 入门说明
-- [存量项目接入与集成](../../../internal Reality/adoption-integration/README.md)
+- 存量项目接入与集成
 
 ---
 

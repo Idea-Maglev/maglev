@@ -46,7 +46,7 @@ scope:
 | 教学 | 不代替项目级现状同步，不代替主流程对象执行需求/设计/实现 | tutor SKILL.md"不负责什么"段 | — |
 | 运行证据 | 四个能力的触发-产出在本仓只有契约文本，无运行记录机制，触发与产出按契约理解 | 本域无运行日志类证据源 | `../adoption-integration/verification/known-gaps.md` |
 
-消费者隔离是本域的硬边界（`rk.ad.cap.blank-instance-boundary`）：bootstrapper 仅在用户确认登记至少一个仓库后才生成/更新 `internal Reality/crosscutting/repository-map/repositories.md`，未登记时不得创建该文件。
+消费者隔离是本域的硬边界（`rk.ad.cap.blank-instance-boundary`）：bootstrapper 仅在用户确认登记至少一个仓库后才生成/更新 `specs/10_reality/crosscutting/repository-map/repositories.md`，未登记时不得创建该文件。
 
 ## 4. 事实与深挖
 

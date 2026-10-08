@@ -35,7 +35,7 @@ scope:
 | 00_vision.md 无独立槽位页 | 目录盘点：单文件层，仅根 entity-index 文件记录承载 fingerprint/freshness | 根 INDEX 只证明"文件未变"，不证明"愿景仍准确"；修订触发是维护规则自觉 | 愿景漂移只能靠人工复核 | vision 修订流程提案 |
 | status.md"最后更新"人工维护 | 多主题 status.md 的时间戳为手写引用块，无机器写回与校验 | 无检查比较时间戳与内容/git 活动 | 滞后时间窗不可量化 | 逆向 R 类发现累积 |
 | `specs/README.md` 地图文本滞后 | README 写 20_evolution"尚无内容"，实际 active/ 有 9 个主题目录 | README 为手工 Map，未随目录演进刷新 | 新读者可能低估演进层规模 | specs 根 README 维护提案（不在本页组修改范围） |
-| `internal Reality/positioning.md`"3 层 specs/"与四层口径差 | positioning.md 核心能力域表 vs `specs/README.md` 四层标准 | 两源并存，无法静态判定哪一方是笔误 | 引用层数时须注明来源口径 | 定位文档维护提案 |
+| `specs/10_reality/positioning.md`"3 层 specs/"与四层口径差 | positioning.md 核心能力域表 vs `specs/README.md` 四层标准 | 两源并存，无法静态判定哪一方是笔误 | 引用层数时须注明来源口径 | 定位文档维护提案 |
 | draft 模板执行质量无验证记录 | `.agents/skills/_internal/spec-pipeline/draft/unified-draft-template.md` 与 step-02 为参考文本，全仓无对应验证记录 | 模板存在性可证明，填充质量不可静态证明 | 草稿质量只能靠人工审阅 | 观测类主题 |
 | abandon 与 crystallization 归档双口径未决 | `.agents/skills/_internal/spec-pipeline/crystallize/step-99-abandon.md` 直接移动归档；crystallization SKILL 要求先提取结论再归档 | 两机制触发条件不同（明确废弃 vs 完成收口），但"废弃前是否强制判断可提取结论"无契约 | 废弃操作可能绕过"先写回"要求 | `../spec-knowledge-layering/capability/business-rules.md` 决策表 B |
 

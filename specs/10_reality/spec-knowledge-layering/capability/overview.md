@@ -25,7 +25,7 @@ scope:
 | 新加入的贡献者 | 快速知道"现在是什么"，并区分"为什么/正在变/历史" | 四层目录与每层入口（README/INDEX/定位锚点） | `specs/README.md` 四层架构标准 |
 | AI Agent | 不读全仓即取得当前事实与能力边界作为推理依据 | 分层事实页 + 页面 frontmatter 知识状态 | AGENTS.md"10_reality 定位"节 |
 | 维护者 | 判断一段内容放入哪一层、何时收口归档 | 层间分工规则与生命周期边界 | AGENTS.md"Git 工作流纪律"；crystallization SKILL 生命周期边界 |
-| 定位敏感场景（竞品分析/战略决策/对外沟通） | 避免"Maglev 是什么"的越界表述 | `internal Reality/positioning.md` 定位锚点 | AGENTS.md"定位锚点"节（强制读取） |
+| 定位敏感场景（竞品分析/战略决策/对外沟通） | 避免"Maglev 是什么"的越界表述 | `specs/10_reality/positioning.md` 定位锚点 | AGENTS.md"定位锚点"节（强制读取） |
 | 索引引擎（index-librarian） | 以稳定对象模型扫描与验证知识树 | 分层目录作为 dir-tree track 的可扫根 | `.agents/skills/index-librarian/protocol/registry.yaml`（M1 页组登记） |
 
 四层结构（`specs/README.md` 标准）：
@@ -33,7 +33,7 @@ scope:
 | 层 | 位置 | 回答的问题 | 生命周期 | 索引形态 |
 | --- | --- | --- | --- | --- |
 | 愿景 | `specs/00_vision.md` | 我们在构建什么（三层构成、四类漂移、北极星原则；README 将其概括为 Iron Triangle / Anti-Entropy） | 稳定，低频修订 | 根 entity-index 的文件级记录 |
-| 现状 | `internal Reality/` | 现在是什么（当前事实层） | 随结晶回写演进 | 域 INDEX 网络 + 域 README |
+| 现状 | `specs/10_reality/` | 现在是什么（当前事实层） | 随结晶回写演进 | 域 INDEX 网络 + 域 README |
 | 演进 | `specs/20_evolution/` | 正在发生什么变化（进行中主题） | 主题完成即收口 | entity-index（collection）+ active/ 目录索引 |
 | 归档 | `specs/90_archive/` | 历史如何走到今天 | 只读 | entity-index（collection） |
 

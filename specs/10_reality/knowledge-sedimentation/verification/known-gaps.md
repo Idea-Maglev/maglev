@@ -35,7 +35,7 @@ scope:
 | 贡献记录与思考资产的对账缺失 | `references/step-02-audit-records.md` 只核对 `contributors/contribution_log.md` 是否更新；该日志记录 Intent/Workload，不校验思考文档本身 | "贡献记录已更新"不等于"对应思考已落 docs/thinking 对应段" | 贡献记录存在可能掩盖沉淀缺口 | knowledge-check 轮次 |
 | 检查产物无持久化格式 | SKILL.md"交付结果"段只定义会话内交付（资产清单/完整性/边界/缺口），references 无输出落盘模板 | 交付物定义存在，但无落盘格式与位置约定 | 检查结果只活在会话里，无法事后审计执行率 | 观测类主题 |
 | contribute_methodology 依赖失效 | SKILL.md"依赖与集成"列出该对象；`.agents/skills/` 与 `public capability catalog` 均无此对象；`specs/90_archive/skill_structural_upgrade/design/03at_non_core_skill_retention_decision_v1.md` 记录其已删除 | 依赖声明指向已删除对象，SKILL.md 未随清理同步 | 按 SKILL.md 排查依赖的会话会扑空；依赖图失真 | skill 治理主题 |
-| `docs/thinking/` 双域角色无调和说明 | 文档治理登记 id=historical-thinking（class=historical / disposition=reference-only / successor=internal Reality/README.md）vs AGENTS.md 知识沉淀注记（持续写入 `docs/thinking/`） | 两域对同一路径的角色描述无互相引用或调和条款 | 新会话可能误读 `docs/thinking/` 为只读历史语料 | 治理裁决类主题 |
+| `docs/thinking/` 双域角色无调和说明 | 文档治理登记 id=historical-thinking（class=historical / disposition=reference-only / successor=specs/10_reality/README.md）vs AGENTS.md 知识沉淀注记（持续写入 `docs/thinking/`） | 两域对同一路径的角色描述无互相引用或调和条款 | 新会话可能误读 `docs/thinking/` 为只读历史语料 | 治理裁决类主题 |
 
 ## 3. 阻断 provenance
 

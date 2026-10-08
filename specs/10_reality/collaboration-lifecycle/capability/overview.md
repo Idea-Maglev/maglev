@@ -38,7 +38,7 @@ scope:
 | 边界类型 | 不覆盖或未证实的内容 | 依据/已查范围 | 下一步静态入口 |
 | --- | --- | --- | --- |
 | 范围外 | `reality-sync`（会话起点同步）属 `session-reality-sync` 域；本域概览只登记其看板展示消费面 | `AGENTS.md` 主链路与 r1 域划分 | `../session-reality-sync/capability/overview.md` |
-| 范围外 | `code-execution-slot` 属 `skill-runtime` 域；本域仅在主链顺序中引用其分支位置 | `AGENTS.md` 主链路；`internal Reality/skill-runtime/capability/overview.md` | `../skill-runtime/capability/overview.md` |
+| 范围外 | `code-execution-slot` 属 `skill-runtime` 域；本域仅在主链顺序中引用其分支位置 | `AGENTS.md` 主链路；`specs/10_reality/skill-runtime/capability/overview.md` | `../skill-runtime/capability/overview.md` |
 | 范围外 | `project-board` 不执行流程推进、不做工时/绩效/外部集成、不做 commit 级追踪 | `.agents/skills/project-board/SKILL.md` 不负责段 | `../operations/team-roles.md` |
 | 边界 | `multica-squad-architect` 不替代通用方法设计、不直接安装远端 Workspace、不替代综合验证 | `.agents/skills/multica-squad-architect/SKILL.md` 不负责段 | `../verification/known-gaps.md` |
 | unknown | 主线各技能的会话级行为质量（如收敛耗时、验证通过率）无运行记录机制，本域不声明 | 本域无此类统计来源 | `../verification/known-gaps.md` |

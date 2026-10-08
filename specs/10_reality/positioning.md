@@ -16,7 +16,7 @@ Maglev 是一套帮助团队在 AI Coding 时代**稳定协作、持续交付并
 | 层 | 位置 | 回答的问题 |
 |----|------|-----------|
 | 方法论 | `docs/thinking/` | 为什么这样做 |
-| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`internal Reality/` | 当前执行边界、兼容入口和事实 |
+| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`specs/10_reality/` | 当前执行边界、兼容入口和事实 |
 | 技能 | `.agents/skills/` | 能做什么 |
 
 ## 3. Maglev 不做什么（刻意边界）

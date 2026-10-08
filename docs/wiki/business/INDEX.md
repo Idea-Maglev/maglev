@@ -6,14 +6,14 @@ child_count: 4
 child_type: file
 stats:
   total: 4
-updated: '2026-09-15'
+updated: '2026-10-08'
 knowledge_schema_version: 1
 knowledge_records:
 - id: file:docs/wiki/business/README.md
   path: docs/wiki/business/README.md
   local_path: README.md
   kind: md
-  content_fingerprint: 7e3f1c3612397ee87a9a07e9ba8edf18235a76ab5a0b6972a821730fec631c13
+  content_fingerprint: de00c3bb29aa0259c1ba506e35236cf9cae094ff2a6326e90865221fb4c1be62
   freshness: current
   summary: 价值、边界与采用判断
   topics:
@@ -30,7 +30,7 @@ knowledge_records:
   path: docs/wiki/business/adoption-paths.md
   local_path: adoption-paths.md
   kind: md
-  content_fingerprint: 472b95971a880e9cb1358db55316485dff99710ab417443abc99ab06e5fdebbb
+  content_fingerprint: 2fc56966759fc27fe3a9dbedef93c693f555cf68be81b08ed9c4e5d127b93282
   freshness: current
   summary: 新项目与存量项目的采用路径
   topics:
@@ -69,7 +69,7 @@ knowledge_records:
   path: docs/wiki/business/evidence-and-limitations.md
   local_path: evidence-and-limitations.md
   kind: md
-  content_fingerprint: 2e5fb2225160599ed9af54fe5d6839e608bd1f934802e561d383cc1a49142c4d
+  content_fingerprint: 6c6e6e34519cd7d959bcf325cdc750ccde4804ddfa3c9907a21aa4114abd4b3b
   freshness: current
   summary: 证据口径与风险限制
   topics:

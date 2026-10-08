@@ -6,14 +6,14 @@ child_count: 5
 child_type: file
 stats:
   total: 5
-updated: '2026-09-16'
+updated: '2026-10-08'
 knowledge_schema_version: 1
 knowledge_records:
 - id: file:docs/wiki/evaluator/README.md
   path: docs/wiki/evaluator/README.md
   local_path: README.md
   kind: md
-  content_fingerprint: fdff87b4154b64f56d5878f58eb0af7715cfb6264d405e6c8de329bf4ee868c1
+  content_fingerprint: a5a8ca53fb807a6379442e85c8c9a65d6e7b504fccd9767f87050188d640c601
   freshness: current
   summary: 架构、能力与证明边界
   topics:
@@ -30,7 +30,7 @@ knowledge_records:
   path: docs/wiki/evaluator/architecture-overview.md
   local_path: architecture-overview.md
   kind: md
-  content_fingerprint: 1215eab5c2f5f73ab63945c7417e6ba2a7ff94ed11a35b140ad3da61ecd8c8d7
+  content_fingerprint: cb598e09d14c64b0e547f76561c88b7dabab38a4e52725e5df36066b66733ff2
   freshness: current
   summary: 系统架构与责任边界
   topics:
@@ -50,16 +50,15 @@ knowledge_records:
   path: docs/wiki/evaluator/capability-landscape.md
   local_path: capability-landscape.md
   kind: md
-  content_fingerprint: 09df7039718336d844de82a16a55d1b11df19e3dc5deb80430238aa0955722f6
+  content_fingerprint: 92becb08a15ff0eea22798f455f5dfa7590ecef3ebf2d859828da6c37351d51b
   freshness: current
   summary: 能力域与深挖入口
   topics:
   - 能力域与深挖入口
+  - 根级横切事实入口
   - 评估者先读
   - 接入三问
   - 治理登记表一览
-  - 能力清单
-  - 主链路
   answers:
   - 能力域与深挖入口
   constraints: []
@@ -70,7 +69,7 @@ knowledge_records:
   path: docs/wiki/evaluator/evidence-and-verification.md
   local_path: evidence-and-verification.md
   kind: md
-  content_fingerprint: b9d4660510e6252f6f82ed3a8be71c0e2ebc9856f459a65de48777072a3be007
+  content_fingerprint: 309b27f2d1c4b315f29b0948dcc32f7f702e732bf2eaac119cb8305cf8c521bf
   freshness: current
   summary: 证据与验证边界
   topics:
@@ -90,7 +89,7 @@ knowledge_records:
   path: docs/wiki/evaluator/lifecycle-and-governance.md
   local_path: lifecycle-and-governance.md
   kind: md
-  content_fingerprint: 7253b5929a498ce4382857cdb381fc88b4d0a70b383e192bb3ddc7217e593eb3
+  content_fingerprint: 163de32d6885e6d0f680146fc22250d8a0f43ea89f59bb53b084db372e9b0f57
   freshness: current
   summary: 协作生命周期与治理质量
   topics:
@@ -110,7 +109,7 @@ knowledge_records:
   path: docs/wiki/evaluator/runtime-and-extensibility.md
   local_path: runtime-and-extensibility.md
   kind: md
-  content_fingerprint: f086defb6b8c7cb20ba3816650d2a507213bfa6bfc050af188e41f64298896cb
+  content_fingerprint: b07ff70e038440a239a01aa470a91e56bea9ad8262ef4d72c093af5e6f505e4d
   freshness: current
   summary: 执行运行时、交付与能力进化
   topics:
@@ -144,7 +143,7 @@ knowledge_records:
 |:---|:---|:---|:---|:---|:---|
 | [docs/wiki/evaluator/README.md](./README.md) | md | 架构、能力与证明边界 | 架构, 能力与证明边界, 页面索引 | docs/wiki/evaluator/README.md#架构-能力与证明边界 | indexed |
 | [docs/wiki/evaluator/architecture-overview.md](./architecture-overview.md) | md | 系统架构与责任边界 | 系统架构与责任边界, 三层结构, 方法论, 当前规则 (+2) | docs/wiki/evaluator/architecture-overview.md#系统架构与责任边界 | indexed |
-| [docs/wiki/evaluator/capability-landscape.md](./capability-landscape.md) | md | 能力域与深挖入口 | 能力域与深挖入口, 评估者先读, 接入三问, 治理登记表一览 (+2) | docs/wiki/evaluator/capability-landscape.md#能力域与深挖入口 | indexed |
+| [docs/wiki/evaluator/capability-landscape.md](./capability-landscape.md) | md | 能力域与深挖入口 | 能力域与深挖入口, 根级横切事实入口, 评估者先读, 接入三问 (+1) | docs/wiki/evaluator/capability-landscape.md#能力域与深挖入口 | indexed |
 | [docs/wiki/evaluator/evidence-and-verification.md](./evidence-and-verification.md) | md | 证据与验证边界 | 证据与验证边界, 评估者先读, 接入三问, 问题 (+2) | docs/wiki/evaluator/evidence-and-verification.md#证据与验证边界 | indexed |
 | [docs/wiki/evaluator/lifecycle-and-governance.md](./lifecycle-and-governance.md) | md | 协作生命周期与治理质量 | 协作生命周期与治理质量, 五阶段总览, 阶段一, 需求收敛 (+2) | docs/wiki/evaluator/lifecycle-and-governance.md#协作生命周期与治理质量 | indexed |
 | [docs/wiki/evaluator/runtime-and-extensibility.md](./runtime-and-extensibility.md) | md | 执行运行时、交付与能力进化 | 执行运行时, 交付与能力进化, 扩展如何进入执行链, 治理适配器 (+2) | docs/wiki/evaluator/runtime-and-extensibility.md#执行运行时-交付与能力进化 | indexed |

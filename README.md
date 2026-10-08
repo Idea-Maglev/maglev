@@ -36,27 +36,26 @@ npx @idea-maglev/maglev-cli update --dry-run
 
 更多用户文档见：
 
-- [Maglev 快速开始](source operation guides/20_operations/maglev_distribution_quickstart.md)
-- [Maglev 初始化使用手册](source operation guides/20_operations/maglev_init_manual.md)
-- [Maglev 更新与同步手册](source operation guides/20_operations/maglev_update_manual.md)
-- [Maglev 多入口使用说明](source operation guides/20_operations/maglev_entrypoints.md)
+- [Maglev 快速开始](docs/guides/20_operations/maglev_distribution_quickstart.md)
+- [Maglev 初始化使用手册](docs/guides/20_operations/maglev_init_manual.md)
+- [Maglev 更新与同步手册](docs/guides/20_operations/maglev_update_manual.md)
+- [Maglev 多入口使用说明](docs/guides/20_operations/maglev_entrypoints.md)
 
 ## Maglev 现在由什么构成
 
 当前 Maglev 可以理解成三层：
 
-- 当前规则：由 [.agents/skills/](.agents/skills/)、[.agents/workflows/](.agents/workflows/) 和 [Reality](internal Reality/) 分层承载
+- 当前规则：由 [.agents/skills/](.agents/skills/)、[.agents/workflows/](.agents/workflows/) 和 [Reality](specs/10_reality/) 分层承载
 - 能力：定义具体能做什么，主要在 [.agents/skills/](.agents/skills/)
 
 同时，它已经具备一条可运行的分发链路：
 
 - CLI 入口：[`@idea-maglev/maglev-cli`](packages/maglev-cli/package.json)
 - 初始化与更新执行核心：发行物中的 `maglev_installer.py`（当前由 npm 包内镜像携带）
-- 用户操作文档：[`source operation guides/20_operations/`](source operation guides/20_operations/)
+- 用户操作文档：[`docs/guides/20_operations/`](docs/guides/20_operations/)
 
 
-- [Maglev 当前事实入口](internal Reality/README.md)
-- [交付运行时 Reality](internal Reality/delivery-runtime/README.md)
+- [Maglev 当前事实入口](specs/10_reality/README.md)
 
 ## 它能实际做什么
 
@@ -91,8 +90,7 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 
 如果你想看一页用户视角的能力说明，而不是直接读技能目录，建议看：
 
-- [Maglev 当前事实入口](internal Reality/README.md)
-- [存量项目接入与集成](internal Reality/adoption-integration/README.md)
+- [Maglev 当前事实入口](specs/10_reality/README.md)
 
 ## 安装后怎么用
 
@@ -119,14 +117,13 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 
 如果你更关心这里的边界关系，继续看：
 
-- [Maglev 定位与边界](internal Reality/positioning.md)
-- [治理与质量](internal Reality/governance-quality/README.md)
+- [Maglev 定位与边界](specs/10_reality/positioning.md)
 
 ## 仓库导航
 
 | 路径 | 作用 |
 | :--- | :--- |
-| [source operation guides/](source operation guides/) | 面向使用者和维护者的操作手册 |
+| [docs/guides/](docs/guides/) | 面向使用者和维护者的操作手册 |
 | [.agents/skills/](.agents/skills/) 与 [.agents/workflows/](.agents/workflows/) | 当前主流程能力与兼容入口 |
 | [.agents/skills/](.agents/skills/) | 本地技能目录与执行能力 |
 | [specs/](specs/) | 项目规格与现状描述 |
@@ -137,8 +134,8 @@ Maglev 不是只讲原则，当前已经围绕几类核心动作提供能力：
 如果你准备参与这个仓库，建议先看：
 
 - [主流程入口](.agents/skills/entry-router/SKILL.md)
-- [指南总入口](source operation guides/README.md)
-- [Maglev 开发与发布流程](source operation guides/20_operations/maglev_development_release_workflow.md)
+- [指南总入口](docs/guides/README.md)
+- [Maglev 开发与发布流程](docs/guides/20_operations/maglev_development_release_workflow.md)
 
 问题反馈目前使用仓库内路径：
 

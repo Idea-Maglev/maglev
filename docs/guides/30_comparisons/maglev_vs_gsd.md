@@ -94,10 +94,10 @@ Maglev 与 GSD 都在解决 AI 交付可靠性。GSD 更像高自动化执行引
 Maglev 仓库内依据：
 
 1. [README.md](../../../README.md)
-2. [Maglev 当前定位](../../../internal Reality/positioning.md)
-3. [Maglev 当前事实入口](../../../internal Reality/README.md)
-4. [协作生命周期](../../../internal Reality/collaboration-lifecycle/README.md)
-5. [治理与质量](../../../internal Reality/governance-quality/README.md)
+2. [Maglev 当前定位](../../../specs/10_reality/positioning.md)
+3. [Maglev 当前事实入口](../../../specs/10_reality/README.md)
+4. 协作生命周期
+5. 治理与质量
 
 GSD 公开依据：
 

@@ -30,7 +30,7 @@ scope:
 | --- | --- | --- | --- | --- | --- |
 | 主流程进入 | AGENTS.md 纪律区块在上下文 | 红线与升级纪律作为背景约束生效 | [已知缺口](../verification/known-gaps.md)（静态契约） | established（契约文本） | supported |
 | 实施前审计 | requirements 与 spec 已成文 | 来源完整性 blocker 判定 | 需求来源治理 | established | supported |
-| 主链路/发布源修改 | 治理注册表先行更新 | 受管表面重新渲染；漂移检查报 code/path/message | 文档源治理 | established | supported |
+| 主链路/发布源修改 | 治理注册表先行更新 | 受管表面重新渲染；漂移检查报 code/path/message | [文档源治理](../implementation/documentation-governance.md) | established | supported |
 | hooks 事件发生 | trace root 可用 | 事件追加（best-effort）；deny/allow 决策不受 trace 可用性影响 | Hooks 观测 | established | supported |
 | `unittest` 运行 | `.maglev/runtime/python` 就绪 | 行为回归结果；部分用例需已构建 `dist/` | 测试体系 | established | supported |
 | 发版流水线 Hash & Manifest 阶段 | 发行集技能文件就绪 | 载体 token 命中即拦截发行；适配层技能（`multica-squad-architect`、`multica-squad-design-method`）在白名单内 | `scripts/check_carrier_neutrality.py`（由 `scripts/maglev_release.py` 调用） | established | supported |
@@ -47,5 +47,5 @@ scope:
 
 ## 4. 事实与深挖
 
-- 文档源治理、需求来源治理
+- [文档源治理](../implementation/documentation-governance.md)、需求来源治理
 - Hooks 观测、测试体系、[已知缺口](../verification/known-gaps.md)、Claim 登记册

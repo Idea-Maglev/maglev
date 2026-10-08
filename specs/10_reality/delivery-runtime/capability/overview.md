@@ -30,7 +30,7 @@ scope:
 | `npx @idea-maglev/maglev-cli init/update` | CLI 可用 | 受管文件落盘；bundled 入口经 `--local-dist` 与离线入口共享退役校验 | CLI 入口 | established | supported |
 | 版本不匹配或产物缺失 | bundled/dist 状态异常 | 显式报错，不静默使用不一致发行物 | CLI 入口 | established | supported |
 | 发版执行 | catalog distribution scope 就绪 | 发行目录 + manifest（含 retired_files）+ npm publish + tag | 发行构建 | established | supported |
-| `maglev-extension` 生命周期命令 | extensions.sources.yaml 存在（init 写默认官方源） | 安装/启用状态写入下游 `.maglev/extensions.lock` | 扩展分发 | established | supported（lock 为下游产物，见[已知缺口](../verification/known-gaps.md)） |
+| `maglev-extension` 生命周期命令 | extensions.sources.yaml 存在（init 写默认官方源） | 安装/启用状态写入下游 `.maglev/extensions.lock` | [扩展分发](../implementation/extension-distribution.md) | established | supported（lock 为下游产物，见[已知缺口](../verification/known-gaps.md)） |
 | submodule 项目 init/同步 | `.maglev/config.json` 登记了 submodule | HEAD 漂移检测并回到记录版本 | 安装核心 | established | supported |
 
 ## 3. 作用边界与不承诺事项
@@ -44,6 +44,6 @@ scope:
 
 ## 4. 事实与深挖
 
-- CLI 入口、安装核心、发行构建、扩展分发
-- 下游布局、Python 运行时
+- CLI 入口、安装核心、发行构建、[扩展分发](../implementation/extension-distribution.md)
+- [下游布局](../operations/downstream-layout.md)、Python 运行时
 - 分发路径、[已知缺口](../verification/known-gaps.md)、Claim 登记册

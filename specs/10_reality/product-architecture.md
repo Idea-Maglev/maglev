@@ -63,7 +63,7 @@ flowchart LR
     AT["generate_atlas.py<br/>(maglev-map-maker)"] -->|"读取治理事实输入 (f)"| SRC["00_profile / repositories /<br/>repository-map / board"]
     AT -->|"确定性生成 (f)"| ATL["docs/ATLAS.md"]
     CC["maglev-claude-code generate"] -->|"单向生成 (g)"| CSA[".claude/skills/ 适配层"]
-    CRY -->|"step-02 回写 (h)"| REAL["internal Reality"]
+    CRY -->|"step-02 回写 (h)"| REAL["specs/10_reality"]
     SS["skill-scout / skill-squadron"] -->|"读取与登记维护 (i)"| CAT["public capability catalog"]
 ```
 
@@ -80,7 +80,7 @@ flowchart LR
 | index-librarian（`track_scan.py`） | 生成 | specs/ 与 docs/ 各级 `INDEX.md` 网络及知识导航 | machine-index-engine/implementation/architecture.md L44、L58 | 不证明索引内容新鲜（新鲜度由 `track_verify` 校验）；导航收据是知识入口判断事实，不是任务成功证明 |
 | `generate_atlas.py`（maglev-map-maker） | 读取并确定性生成 | 输入 00_profile / repositories / repository-map / board 四项治理事实；产物 `docs/ATLAS.md` | project-map/implementation/dependencies.md L37；`.agents/skills/maglev-map-maker/scripts/generate_atlas.py` L29–L34（`SOURCE_REL_PATHS`） | ATLAS 是派生观察视图，不替代 Reality 事实；其置信度自评 Medium（见第 4 节） |
 | maglev-claude-code generate | 单向生成 | `.claude/skills/<skill>/SKILL.md` 只读快照与 `CLAUDE.md` | claude-code-adapter.md 第 2 节静态关系图（L42 起） | 源技能变更后、重新生成前，`.claude/skills/` 可能漂移；不证明 Claude Code 运行时的实际加载行为 |
-| crystallization step-02 | 回写 | `internal Reality` | `AGENTS.md` L57；spec-knowledge-layering/capability/workflows.md L45 | 回写受 floor/ceiling 双向质量卡点约束，不证明单次回写内容质量；不证明所有 active 主题最终都回写（存在用户明确废弃 → 归档分支，同页 L46） |
+| crystallization step-02 | 回写 | `specs/10_reality` | `AGENTS.md` L57；[spec-knowledge-layering/capability/workflows.md](./spec-knowledge-layering/capability/workflows.md) L45 | 回写受 floor/ceiling 双向质量卡点约束，不证明单次回写内容质量；不证明所有 active 主题最终都回写（存在用户明确废弃 → 归档分支，同页 L46） |
 | skill-scout / skill-squadron | 读取与登记维护 | `public capability catalog`（现役能力对象与 relations 的单一权威） | `public capability catalog` 头注释 L1–L24；`AGENTS.md` L69；`.agents/skills/skill-scout/SKILL.md` L83；`.agents/skills/skill-squadron/SKILL.md` L83 | `relations` 声明是登记事实，不证明运行时调用实际发生；登记完备性无机械校验（见第 4 节） |
 
 ## 4. 系统边界与未知项
@@ -89,5 +89,5 @@ flowchart LR
 | --- | --- | --- | --- |
 | 运行拓扑未采样 | 模块间静态关系（第 3 节账本）与契约级生命周期均有 `file:line` 锚点 | 各域已知缺口页统一口径：本仓无运行记录机制，触发频率、失败率、耗时等运行统计无数据源 | 各域 `verification/known-gaps.md`（如 [skill-runtime/verification/known-gaps.md](./skill-runtime/verification/known-gaps.md) 第 1 节） |
 | catalog 完备性无机械校验 | catalog 头注释自述其登记字段与 relations 结构（L1–L24） | catalog 自述"不是 `.agents/skills/` 的机械镜像"；9 个 private document integration 对象未登记，且无逐对象免登记裁决记录，无法区分"裁决免登记"与"漏登记" | [capability-evolution/verification/known-gaps.md](./capability-evolution/verification/known-gaps.md) L55 |
-| VO/TP/XG 未配置具体人员 | 三个角色的任务与职责映射已登记 | 角色当前均未配置具体人员，无法核对人名与职责的实际对应；本页不声明任何真实人员承担 VO/TP/XG | collaboration-lifecycle/operations/team-roles.md L65 |
+| VO/TP/XG 未配置具体人员 | 三个角色的任务与职责映射已登记 | 角色当前均未配置具体人员，无法核对人名与职责的实际对应；本页不声明任何真实人员承担 VO/TP/XG | [collaboration-lifecycle/operations/team-roles.md](./collaboration-lifecycle/operations/team-roles.md) L65 |
 | ATLAS 置信度 Medium | `docs/ATLAS.md` 由四项治理输入确定性生成（边 f） | 生成器声明"使用当前 Git 仓库并结合部分治理事实"，置信度自评 Medium，未达到 High 的差距无自动提升机制 | docs/ATLAS.md frontmatter（L8 `confidence: Medium`） |

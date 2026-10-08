@@ -20,7 +20,7 @@ scope:
 
 运营文档知识回答一个稳定问题：**使用者（非仓库维护者）如何获得与当前版本一致的运营知识，写作者如何在不跑偏的前提下生产这些知识。**
 
-能力由三个知识面构成：**运营手册**（`source operation guides/`：00_start / 10_concepts / 20_operations /
+能力由三个知识面构成：**运营手册**（`docs/guides/`：00_start / 10_concepts / 20_operations /
 30_comparisons / 90_advanced 五段结构 + INDEX 导航）、**版本发布知识**（`docs/releases/`，
 属 M8 release-knowledge）与**对外 Wiki 投影**（`docs/wiki/`）。Wiki 能力由 `.agents/skills/maglev-wiki/` 携带：`.maglev/wiki.yaml` 只声明项目与来源边界；确定性 Source Universe 登记可访问证据；生产 Agent 推导 Wiki Plan，隔离挑战 Agent 在不可见 Plan 与现有 Wiki 的上下文中重建读者问题、风险和深度信号。
 Plan 与 Challenge 经 Divergence Ledger 逐项处置后，`.maglev/wiki/wiki-plan.md` 向人同时展示结构、遗漏、替代方案和剩余风险；未批准、隔离输入污染或摘要不一致时，导航与正文生成阻断。批准后 `wiki_generate.py` 只生成 `WIKI.md`、维度入口和 `FRAMEWORK.md`，正文由 Agent 按证据写作。
@@ -32,11 +32,11 @@ Wiki 生成状态资产与项目输入分离：`.maglev/wiki.yaml` 保留标题�
 
 | 受益者/调用方 | 要完成的任务 | 模块提供的结果 | 产品依据 |
 | --- | --- | --- | --- |
-| 使用者/读者（第一次接触 Maglev 的人） | 知道从哪篇文档开始上手，而不是在目录里迷路 | `source operation guides/README.md`"如果你只想知道先看什么"按角色分流到五段具体篇目 | `source operation guides/README.md` 起步段 |
+| 使用者/读者（第一次接触 Maglev 的人） | 知道从哪篇文档开始上手，而不是在目录里迷路 | `docs/guides/README.md`"如果你只想知道先看什么"按角色分流到五段具体篇目 | `docs/guides/README.md` 起步段 |
 | 对外读者（业务/技术评估/接入开发者）与 Agent | 从项目 Wiki 获取按真实任务组织且经过遗漏挑战的知识 | `docs/wiki/WIKI.md` 阅读入口 + 经 Plan/Challenge 差异裁决的页面树；页面标注受众和来源 | `.maglev/wiki/wiki-plan.yaml` + `.maglev/wiki/wiki-challenge.yaml` + `docs/wiki/WIKI.md` |
-| 使用者/读者（日常操作者、维护者） | 查安装、初始化、更新、发版、排障的操作口径 | `20_operations` 段的推荐操作链路（7 篇）+ 其他操作文档清单 | `source operation guides/README.md` 20_operations 段 |
+| 使用者/读者（日常操作者、维护者） | 查安装、初始化、更新、发版、排障的操作口径 | `20_operations` 段的推荐操作链路（7 篇）+ 其他操作文档清单 | `docs/guides/README.md` 20_operations 段 |
 | 内容作者（人类或 AI Agent） | 基于当前事实生产用户解释，并保留来源、边界和未知 | Wiki Source Universe、Plan、Challenge、审批收据和页面 review 资产 | `.agents/skills/maglev-wiki/` 与 `.maglev/wiki/` |
-| 评估与对外沟通者 | 从 Wiki 和 Reality 获取可复核的定位、比较和风险边界 | 按受众组织的 Wiki 页面与对应 source bindings | `docs/wiki/WIKI.md` + `internal Reality/positioning.md` |
+| 评估与对外沟通者 | 从 Wiki 和 Reality 获取可复核的定位、比较和风险边界 | 按受众组织的 Wiki 页面与对应 source bindings | `docs/wiki/WIKI.md` + `specs/10_reality/positioning.md` |
 | AI Agent（会话执行方） | 在受控阶段定位 docs 内的权威文件，而不依赖目录猜测 | docs 的 entity-index 导航节点与知识导航块（M1 能力的消费面） | `../machine-index-engine/capability/overview.md` 能力对象定义 |
 
 ## 2. 触发条件与可见结果
@@ -53,7 +53,7 @@ Wiki 生成状态资产与项目输入分离：`.maglev/wiki.yaml` 保留标题�
 
 | 边界类型 | 不覆盖或未证实的内容 | 依据/已查范围 | 下一步静态入口 |
 | --- | --- | --- | --- |
-| 不拥有事实层 | Wiki 与 guides 是用户解释或操作入口，不取代 `internal Reality` 作为当前事实来源 | `.maglev/wiki/` Plan/Approval 规则 + Reality 定位 | `../../../internal Reality/README.md` |
+| 不拥有事实层 | Wiki 与 guides 是用户解释或操作入口，不取代 `specs/10_reality` 作为当前事实来源 | `.maglev/wiki/` Plan/Approval 规则 + Reality 定位 | `../../../specs/10_reality/README.md` |
 | 不负责正文自动生成 | `wiki_generate.py` 只生成导航和框架，批准正文仍需按证据写作与审查 | `maglev-wiki` 工作流 | `../../../.agents/skills/maglev-wiki/SKILL.md` |
 | 不覆盖发布流程 | 版本发布说明和发行流程分别归 release-knowledge 与 delivery-runtime | frontmatter excludes | `../release-knowledge/capability/overview.md` |
 | 不覆盖方法论层 | `docs/thinking/` 属 M4 knowledge-sedimentation，本能力不登记其内容 | frontmatter excludes + `docs/INDEX.md` thinking 记录 | `../knowledge-sedimentation/capability/overview.md` |

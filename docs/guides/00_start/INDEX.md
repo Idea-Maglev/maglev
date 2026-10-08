@@ -9,8 +9,8 @@ stats:
 updated: '2026-09-03'
 knowledge_schema_version: 1
 knowledge_records:
-- id: file:source operation guides/00_start/legacy_project_adoption.md
-  path: source operation guides/00_start/legacy_project_adoption.md
+- id: file:docs/guides/00_start/legacy_project_adoption.md
+  path: docs/guides/00_start/legacy_project_adoption.md
   local_path: legacy_project_adoption.md
   kind: md
   content_fingerprint: bdc235978f985c6e90585d8134265366a53b1a7ce0d86c19d60d3a76891d6207
@@ -27,10 +27,10 @@ knowledge_records:
   - '遗留项目接入指南：渐进式对齐 (Legacy Project Adoption: Progressive Alignment)'
   constraints: []
   evidence:
-  - source operation guides/00_start/legacy_project_adoption.md#遗留项目接入指南-渐进式对齐-Legacy-Project-Adoption-Progressive-Alignment
+  - docs/guides/00_start/legacy_project_adoption.md#遗留项目接入指南-渐进式对齐-Legacy-Project-Adoption-Progressive-Alignment
   parse_status: indexed
-- id: file:source operation guides/00_start/maglev_traditional_team_kickoff.md
-  path: source operation guides/00_start/maglev_traditional_team_kickoff.md
+- id: file:docs/guides/00_start/maglev_traditional_team_kickoff.md
+  path: docs/guides/00_start/maglev_traditional_team_kickoff.md
   local_path: maglev_traditional_team_kickoff.md
   kind: md
   content_fingerprint: 64d9050c8a46980d9a1f2281d3b2e68f381c656547385b346e55a2bed19ddffe
@@ -47,10 +47,10 @@ knowledge_records:
   - 'Maglev Kickoff: The "Evolution, Not Revolution" Deck'
   constraints: []
   evidence:
-  - source operation guides/00_start/maglev_traditional_team_kickoff.md#Maglev-Kickoff-The-Evolution-Not-Revolution-Deck
+  - docs/guides/00_start/maglev_traditional_team_kickoff.md#Maglev-Kickoff-The-Evolution-Not-Revolution-Deck
   parse_status: indexed
-- id: file:source operation guides/00_start/project_startup_manuals.md
-  path: source operation guides/00_start/project_startup_manuals.md
+- id: file:docs/guides/00_start/project_startup_manuals.md
+  path: docs/guides/00_start/project_startup_manuals.md
   local_path: project_startup_manuals.md
   kind: md
   content_fingerprint: 9aca4355e707b7ac877b1aaf2be2cd54f1dc5e37184ac4b2aa8ec22a2099117f
@@ -67,7 +67,7 @@ knowledge_records:
   - Maglev 项目启动实操手册 (Project Startup Manuals)
   constraints: []
   evidence:
-  - source operation guides/00_start/project_startup_manuals.md#Maglev-项目启动实操手册-Project-Startup-Manuals
+  - docs/guides/00_start/project_startup_manuals.md#Maglev-项目启动实操手册-Project-Startup-Manuals
   parse_status: indexed
 ---
 # 00_start
@@ -83,8 +83,8 @@ knowledge_records:
 
 | 知识对象 | 类型 | 摘要 | 主题 | 证据 | 状态 |
 |:---|:---|:---|:---|:---|:---|
-| [source operation guides/00_start/legacy_project_adoption.md](./legacy_project_adoption.md) | md | 遗留项目接入指南：渐进式对齐 (Legacy Project Adoption: Progressive Alignment) | 遗留项目接入指南, 渐进式对齐, legacy, project (+2) | source operation guides/00_start/legacy_project_adoption.md#遗留项目接入指南-渐进式对齐-Legacy-Project-Adoption-Progressive-Alignment | indexed |
-| [source operation guides/00_start/maglev_traditional_team_kickoff.md](./maglev_traditional_team_kickoff.md) | md | Maglev Kickoff: The "Evolution, Not Revolution" Deck | maglev, kickoff, evolution, not (+2) | source operation guides/00_start/maglev_traditional_team_kickoff.md#Maglev-Kickoff-The-Evolution-Not-Revolution-Deck | indexed |
-| [source operation guides/00_start/project_startup_manuals.md](./project_startup_manuals.md) | md | Maglev 项目启动实操手册 (Project Startup Manuals) | maglev, 项目启动实操手册, project, startup (+2) | source operation guides/00_start/project_startup_manuals.md#Maglev-项目启动实操手册-Project-Startup-Manuals | indexed |
+| [docs/guides/00_start/legacy_project_adoption.md](./legacy_project_adoption.md) | md | 遗留项目接入指南：渐进式对齐 (Legacy Project Adoption: Progressive Alignment) | 遗留项目接入指南, 渐进式对齐, legacy, project (+2) | docs/guides/00_start/legacy_project_adoption.md#遗留项目接入指南-渐进式对齐-Legacy-Project-Adoption-Progressive-Alignment | indexed |
+| [docs/guides/00_start/maglev_traditional_team_kickoff.md](./maglev_traditional_team_kickoff.md) | md | Maglev Kickoff: The "Evolution, Not Revolution" Deck | maglev, kickoff, evolution, not (+2) | docs/guides/00_start/maglev_traditional_team_kickoff.md#Maglev-Kickoff-The-Evolution-Not-Revolution-Deck | indexed |
+| [docs/guides/00_start/project_startup_manuals.md](./project_startup_manuals.md) | md | Maglev 项目启动实操手册 (Project Startup Manuals) | maglev, 项目启动实操手册, project, startup (+2) | docs/guides/00_start/project_startup_manuals.md#Maglev-项目启动实操手册-Project-Startup-Manuals | indexed |
 
 <!-- index-librarian:knowledge-end -->

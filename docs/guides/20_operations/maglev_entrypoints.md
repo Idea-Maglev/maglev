@@ -248,5 +248,5 @@ python3 scripts/maglev_version.py check
 3. [角色与流程翻译](./maglev_role_flow_translation.md)
 4. [Maglev 开发与发布流程](./maglev_development_release_workflow.md)
 5. [Maglev 发布说明与维护手册](./maglev_release_manual.md)
-6. [当前 CLI 与分发入口事实](../../../internal Reality/delivery-runtime/implementation/cli.md)
+6. 当前 CLI 与分发入口事实
 7. 分发 runtime 治理任务归档

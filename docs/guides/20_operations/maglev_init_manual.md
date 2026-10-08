@@ -114,11 +114,11 @@ maglev-cli init
 当前会确保这些目录存在：
 
 specs/00_vision/
-internal Reality/
+specs/10_reality/
 specs/20_evolution/active/
 specs/90_archive/
 docs/thinking/
-source operation guides/
+docs/guides/
 tests/
 .maglev/
 ```
@@ -271,15 +271,15 @@ sources:
 如果后面再补，你主要还需要做两件事：
 
 - 把代码仓库按 `clone` 或 `submodule` 方式接进来
-- 更新 `internal Reality/repository_map.md`
+- 更新 `specs/10_reality/repository_map.md`
 
 ## 7. 初始化时可能附带做的事
 
 ### 生成 `repository_map.md`
 
-如果 `internal Reality/` 目录存在，当前实现会尝试生成：
+如果 `specs/10_reality/` 目录存在，当前实现会尝试生成：
 
-- `internal Reality/repository_map.md`
+- `specs/10_reality/repository_map.md`
 
 内容会包含：
 
@@ -294,7 +294,7 @@ sources:
 
 当前仓库主地图可参考：
 
-- [仓库地图](../../../internal Reality/crosscutting/repository-map/overview.md)
+- 仓库地图
 
 ### 接入外部仓库
 
@@ -492,4 +492,4 @@ python3 .maglev_build/maglev_installer.py init --local-dist /path/to/.maglev_bui
 1. [Maglev 快速开始](./maglev_distribution_quickstart.md)
 2. [Maglev 更新与同步手册](./maglev_update_manual.md)
 3. [Maglev 多入口使用说明](./maglev_entrypoints.md)
-4. [当前安装器与更新状态机](../../../internal Reality/delivery-runtime/implementation/installer.md)
+4. 当前安装器与更新状态机

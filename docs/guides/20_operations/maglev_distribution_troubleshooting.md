@@ -446,8 +446,8 @@ python3 .maglev_build/maglev_installer.py update --local-dist /path/to/.maglev_b
 
 如果你想进一步理解背后的实现和测试边界，建议继续看：
 
-1. [当前安装器与更新状态机](../../../internal Reality/delivery-runtime/implementation/installer.md)
-2. [当前 CLI 与包入口事实](../../../internal Reality/delivery-runtime/implementation/cli.md)
+1. 当前安装器与更新状态机
+2. 当前 CLI 与包入口事实
 3. 当前退役与分发测试覆盖
 4. 历史分发设计（仅供参考）
 5. 历史分发测试计划（仅供参考）

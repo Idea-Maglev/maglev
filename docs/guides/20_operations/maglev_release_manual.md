@@ -359,5 +359,5 @@ python3 scripts/maglev_release.py --version 0.1.4
 1. [Maglev 快速开始](./maglev_distribution_quickstart.md)
 2. [Maglev 更新与同步手册](./maglev_update_manual.md)
 3. [Maglev 分发排障手册](./maglev_distribution_troubleshooting.md)
-4. [当前分发与发布事实](../../../internal Reality/delivery-runtime/implementation/release.md)
+4. 当前分发与发布事实
 5. 文档补全任务清单

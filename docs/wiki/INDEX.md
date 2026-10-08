@@ -6,14 +6,14 @@ child_count: 5
 child_type: mixed
 stats:
   total: 17
-updated: '2026-09-16'
+updated: '2026-10-08'
 knowledge_schema_version: 1
 knowledge_records:
 - id: file:docs/wiki/FRAMEWORK.md
   path: docs/wiki/FRAMEWORK.md
   local_path: FRAMEWORK.md
   kind: md
-  content_fingerprint: 8996fe4b57ea6c0b81e13d4419f42ab237d9edbad5eba4898a7afd4378181250
+  content_fingerprint: 932f42c5d9c14113900a5b22ffff75ec708c26845488ce0c3bd077a8a3717ece
   freshness: current
   summary: 当前批准结构
   topics:
@@ -32,7 +32,7 @@ knowledge_records:
   path: docs/wiki/WIKI.md
   local_path: WIKI.md
   kind: md
-  content_fingerprint: 35704f7f47e7535a37199eab917e032b14258a8f71618dffeaf5258fa4ced04a
+  content_fingerprint: 85206b6004d55ded419ae262c7360e015b91f614cfff7a1c8e0f66908da4e377
   freshness: current
   summary: Maglev Wiki
   topics:
@@ -53,7 +53,7 @@ knowledge_records:
   local_path: business/
   kind: directory
   directory_index: docs/wiki/business/INDEX.md
-  content_fingerprint: f9b8cfc4262a22445d317a23169735ca3575376a7d8517bfb07dfe3299ad3656
+  content_fingerprint: 15b1dd17bc6ec6b3517171919519e769480cc3b056b339a8ea6dae06c8a02ff9
   freshness: current
   summary: 价值、边界与采用判断
   topics:
@@ -73,7 +73,7 @@ knowledge_records:
   local_path: developer/
   kind: directory
   directory_index: docs/wiki/developer/INDEX.md
-  content_fingerprint: 584d509e5f851701d983643f6515ebd09b779a340f299464a946c659d878786b
+  content_fingerprint: d8de93b1bbc05e598ea87238b3f514bd8f42780dfb0855705b78089d292f7f63
   freshness: current
   summary: 接入、协作与日常操作
   topics:
@@ -93,7 +93,7 @@ knowledge_records:
   local_path: evaluator/
   kind: directory
   directory_index: docs/wiki/evaluator/INDEX.md
-  content_fingerprint: 9074e16407b51c495e0a5f0d6f5988d94dc4489b4c9bf99f09624df6e2783d7b
+  content_fingerprint: f44fe93d45e5e1045372fd141956467f29147db4962fa46e4efa7ea2b7fd5903
   freshness: current
   summary: 架构、能力与证明边界
   topics:

@@ -27,10 +27,10 @@ scope:
 
 | 触发/入口 | 前置条件 | 可见结果 | 实现/验证深挖 | 知识状态 | 证据充分度 |
 | --- | --- | --- | --- | --- | --- |
-| 会话启动 | agent 读取仓库入口 | AGENTS.md/llms.txt 双入口生效 | 上下文入口 | established | supported |
-| init 缺失入口文件 | installer 运行 | 写最小骨架 + 纪律注入 | 上下文入口 | established | supported |
+| 会话启动 | agent 读取仓库入口 | AGENTS.md/llms.txt 双入口生效 | [上下文入口](../operations/agent-context.md) | established | supported |
+| init 缺失入口文件 | installer 运行 | 写最小骨架 + 纪律注入 | [上下文入口](../operations/agent-context.md) | established | supported |
 | ai-context-check 执行 | 契约已登记 | 四判定 + 补齐建议；只判断不重写 | 状态模型 | established | supported |
-| 治理注册表变更 | 注册表先行更新 | managed 区块重渲染；标记对不符报结构错误 | 文档源治理 | established | supported |
+| 治理注册表变更 | 注册表先行更新 | managed 区块重渲染；标记对不符报结构错误 | [文档源治理](../../governance-quality/implementation/documentation-governance.md) | established | supported |
 
 ## 3. 作用边界与不承诺事项
 
@@ -42,5 +42,5 @@ scope:
 
 ## 4. 事实与深挖
 
-- 上下文入口、配置、错误语义、状态模型
+- [上下文入口](../operations/agent-context.md)、配置、错误语义、状态模型
 - [已知缺口](../verification/known-gaps.md)、Claim 登记册

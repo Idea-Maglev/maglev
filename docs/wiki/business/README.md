@@ -3,7 +3,7 @@ title: "价值、边界与采用判断"
 dimension: business
 page_type: navigation
 audience: business
-last_updated: "2026-09-14"
+last_updated: "2026-09-21"
 ---
 
 # 价值、边界与采用判断

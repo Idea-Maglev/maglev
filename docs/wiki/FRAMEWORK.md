@@ -2,7 +2,7 @@
 title: "Wiki 写作指导"
 dimension: guidance
 audience: contributor
-last_updated: "2026-09-14"
+last_updated: "2026-09-21"
 generator: wiki_generate.py
 ---
 

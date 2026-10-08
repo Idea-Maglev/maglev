@@ -92,7 +92,7 @@
 - `.agents/workflows/`
 - `scripts/`
 - `packages/maglev-cli/`
-- `source operation guides/20_operations/`
+- `docs/guides/20_operations/`
 
 常见修改类型包括：
 

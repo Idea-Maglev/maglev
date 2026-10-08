@@ -29,8 +29,8 @@ scope:
 | --- | --- | --- | --- | --- |
 | 文档内容与当前版本的口径漂移（guides/Wiki 是否逐篇同步） | `docs/INDEX.md`、`docs/releases/` 和 Wiki source bindings | track_verify 只证明索引结构一致；页面语义与 release 口径仍需逐篇核对 | 读者可能按旧口径操作 | 发布轮次的 Wiki/guides review |
 | 页面审查的实际充分性 | Plan、Challenge、Divergence 和 review contract；仓库无用户级遥测 | 契约和机械检查证明流程存在，不证明每次页面都回答真实用户问题 | 无法把结构通过升级为用户充分性 | 独立业务问答与反证审查 |
-| `docs/private/` 知识边界 | 目录名；`docs/_meta/index.yaml` 有 `docs/private`、`private documentation` 两条 has_index 条目；`source operation guides/README.md` 链接其私域入口 | 未盘点（本轮读取契约不含其内容）；"被扫描"不等于"内容已登记" | 涉及私域的运营事实无法登记；docs/ 全量知识地图不完整 | 需授权后单独盘点轮次 |
-| guides/README 人工推荐段的覆盖度 | 文件名清单比对：`source operation guides/20_operations/` 实有 19 篇（不含 INDEX），README 提及其中 14 篇，5 篇未提及（agent_hooks_adoption_guide、extension_maintenance、hooks_trace_snapshot_analysis_manual、maglev_hooks_semantic_trace_schema、maglev_rebuild_and_update_e2e_manual） | README 是人工正文，保留正文规则只保证它不被机器覆盖，不负责自动补全 | 新增操作手册可能不在读者推荐路径上 | 发版轮次人工刷新 |
+| `docs/private/` 知识边界 | 目录名；`docs/_meta/index.yaml` 有 `docs/private`、`private documentation` 两条 has_index 条目；`docs/guides/README.md` 链接其私域入口 | 未盘点（本轮读取契约不含其内容）；"被扫描"不等于"内容已登记" | 涉及私域的运营事实无法登记；docs/ 全量知识地图不完整 | 需授权后单独盘点轮次 |
+| guides/README 人工推荐段的覆盖度 | 文件名清单比对：`docs/guides/20_operations/` 实有 19 篇（不含 INDEX），README 提及其中 14 篇，5 篇未提及（agent_hooks_adoption_guide、extension_maintenance、hooks_trace_snapshot_analysis_manual、maglev_hooks_semantic_trace_schema、maglev_rebuild_and_update_e2e_manual） | README 是人工正文，保留正文规则只保证它不被机器覆盖，不负责自动补全 | 新增操作手册可能不在读者推荐路径上 | 发版轮次人工刷新 |
 | Challenge 隔离证据 | `wiki-challenge-receipt.yaml` isolation_status 为 unproven | 仓库收据不能认证执行者或会话独立性 | 整体充分性保持 provisional | `.agents/skills/maglev-wiki/references/step-03-review-structure.md` |
 | `docs/extensions/` 仅含 INDEX.md（child_count 0） | `docs/INDEX.md` extensions 记录 + 目录清单 | 只能观察"无正文文档"，无法区分"待建专题"与"已废弃占位" | 该专题在读者导航中的角色无法登记 | 观测类主题 |
 

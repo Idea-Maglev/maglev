@@ -3,7 +3,7 @@ title: "系统架构与责任边界"
 dimension: evaluator
 audience: evaluator
 page_type: reference
-last_updated: "2026-09-16"
+last_updated: "2026-10-08"
 generator: wiki_authoring
 ---
 
@@ -11,7 +11,7 @@ generator: wiki_authoring
 
 Maglev 的静态架构由多个能力域、主流程入口、运行时和事实层组成。这里的关系图只表达来源中能够定位的静态责任和依赖；它不等于部署拓扑，也不证明每条运行链已经端到端验证。
 
-> 面向正在评估 Maglev 的技术负责人与架构师：读完本页，你会得到三层结构的组织方式、主干链路的构成、Maglev 与编码工具的上下游关系，以及它刻意不做什么。
+> 面向正在评估 Maglev 的技术负责人与架构师：读完本页，你会了解能力域与主链路、相关方责任和跨系统依赖，并区分静态关系与未证实的运行结果。
 
 ## 三层结构：方法论、当前规则、技能
 
@@ -20,14 +20,14 @@ Maglev 不是单个工具，而是一套帮助团队在 AI Coding 时代稳定�
 | 层 | 位置 | 回答的问题 |
 |----|------|-----------|
 | 方法论 | `docs/thinking/` | 为什么这样做 |
-| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`internal Reality/` | 当前执行边界、兼容入口和事实 |
+| 当前规则 | `.agents/skills/`、`.agents/workflows/`、`specs/10_reality/` | 当前执行边界、兼容入口和事实 |
 | 技能 | `.agents/skills/` | 能做什么 |
 
-三层分工让"为什么""现在是什么""能做什么"各自独立演化。`internal Reality/` 是当前事实层，登记能力域映射、模块间有静态锚点的关系，以及系统边界与未知项；评估架构时，这里是第一手核对对象。
+三层分工让"为什么""现在是什么""能做什么"各自独立演化。`specs/10_reality/` 是当前事实层，登记能力域映射、模块间有静态锚点的关系，以及系统边界与未知项；评估架构时，这里是第一手核对对象。
 
 ## 证据可追溯：事实层怎么核对
 
-"第一手核对对象"之所以成立，是因为事实层的每条声明都带可机械核对的凭据（机制见 [10_reality README](../../../internal Reality/README.md)）：
+"第一手核对对象"之所以成立，是因为事实层的每条声明都带可机械核对的凭据（机制见 [10_reality README](../../../specs/10_reality/README.md)）：
 
 ```mermaid
 flowchart LR
@@ -56,10 +56,35 @@ flowchart LR
     SD --> EX["执行分支：context-implementer / code-execution-slot"]
     EX --> IV["integrated-validator · 综合验证"]
     IV --> CRY["crystallization · 结晶回写"]
-    CRY -->|"回写长期结论"| REAL["internal Reality 当前事实层"]
+    CRY -->|"回写长期结论"| REAL["specs/10_reality 当前事实层"]
 ```
 
 主链之外，有几类支撑模块与它咬合：`code-execution-slot` 从项目 `.maglev/extensions.lock` 读取 enabled 候选，决定"用什么执行代码"；`extension-manager` 通过 install / enable / disable / update 命令维护这份 lock；`maglev-cli` 安装器在初始化时向 `AGENTS.md` 与 `llms.txt` 注入双入口骨架和受管区块，已存在的文件一律跳过、不覆盖用户内容；`index-librarian` 生成 `specs/` 与 `docs/` 各级 `INDEX.md` 索引网络；`maglev-map-maker` 从治理事实确定性生成唯一的人读项目入口 `docs/ATLAS.md`。
+
+## 相关方与责任边界
+
+相关方按任务和静态交互理解，不能仅凭角色名称推断人员安排或权限（[项目相关方与角色关系](../../../specs/10_reality/stakeholders.md)）。
+
+| 参与方 | 静态交互 | 不能据此推断 |
+|---|---|---|
+| 维护者与贡献者 | 维护事实、规则、索引或发行资产 | 具体人员指派、排期或绩效 |
+| 开发者与 AI Agent | 按协作主流程工作，Agent 消费受管上下文 | Agent 实际响应质量或绕过治理门禁 |
+| 技术评估者 | 核对定位、架构、能力与证据 | 未有证据支持的收益或运行保证 |
+| 外部仓库与 Provider（外部能力提供方） | 在扩展分发与发布链中交互 | 网络可达、授权有效、远端写入成功或 Provider 业务能力 |
+
+## 跨系统依赖与运行未知
+
+同进程模块关系与跨系统依赖分开查看；下表只登记静态交互锚点（[系统依赖与集成边界](../../../specs/10_reality/system-dependencies.md)）。
+
+| 依赖 | 已登记用途 | 当前边界 |
+|---|---|---|
+| Git 发布源 | 安装器读取发行清单与文件；环境变量 `MAGLEV_UPSTREAM_URL` 可覆盖默认上游 | 可达性、缓存和自动重试未知 |
+| `uv`（Python 环境管理工具）与系统 Python | 为协议脚本提供运行环境；系统 Python 是回退路径，默认目标版本为 3.11 | 所有发行版兼容性与两种运行时均缺失时的行为未知 |
+| Node.js（JavaScript 运行环境） | 扩展 CLI 声明需要 `>=20.0.0` | 版本不匹配时是否实际拒绝尚未验证 |
+| Git 扩展源仓库 | 搜索、克隆和探测扩展源 | 网络、鉴权与 Provider 运行结果未知 |
+| npm（Node.js 包管理器）包仓库 | CLI 发布与版本验证 | 仓库可用性和实际发布完成度未知 |
+
+这些条目不证明网络可达、授权有效、远端副作用成功或端到端运行关系成立；详细限制以对应事实页为准。
 
 ## 与编码工具的上下游关系
 

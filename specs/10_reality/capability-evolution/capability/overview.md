@@ -9,7 +9,7 @@ scope:
   includes:
     - 能力对象能力面：持续进化观测（evolution-observatory）、技能侦察（skill-scout 双模式）、编队巡逻（skill-squadron）、扩展迭代（extension-evolver）
     - 对象清单与生命周期状态的登记口径（public capability catalog，单一权威）
-    - 域边界注册（internal Reality/00_profile.yaml 的 capability-evolution 条目）
+    - 域边界注册（specs/10_reality/00_profile.yaml 的 capability-evolution 条目）
   excludes:
     - 三条演进循环的机制与状态机细节（属 implementation/evolution-cycle）
     - extension-manager 消费侧命令面与 code-execution-slot（r1 Gate A 裁决归 skill-runtime 域）
@@ -27,7 +27,7 @@ scope:
 | Creator | 持续优化已登记的治理对象 | Patrol 差异分析与按价值排序的巡逻报告 | `.agents/skills/skill-scout/SKILL.md` 概览 Patrol 模式 |
 | 扩展作者 / Registry 维护者 | 对已发布的 Extension Pack 做受控迭代 | `maintenance/` 决策与验证记录 + Registry 发布交接信息 | `.agents/skills/extension-evolver/SKILL.md` 首段与记录约定 |
 
-域边界依据：`internal Reality/00_profile.yaml` 中 capability-evolution 条目声明
+域边界依据：`specs/10_reality/00_profile.yaml` 中 capability-evolution 条目声明
 "竞品观测、扩展演进和能力注册共同定义能力进化边界"（boundary_basis:
 `product_outcome` + `workflow`）。对象清单以 `public capability catalog`
 为单一权威：`top_level_capability: '能力进化'` 的登记对象共 7 个——
@@ -39,11 +39,11 @@ multica-squad-design-method、multica-squad-architect、evolution-observatory，
 
 | 触发/入口 | 前置条件 | 可见结果 | 实现/验证深挖 | 知识状态 | 证据充分度 |
 | --- | --- | --- | --- | --- | --- |
-| "启动进化观测" / "研究一下 {框架名}" / "检查竞品动态" 等 | Creator 主动触发（AI 不自动启动研究）；每轮开始前先读 positioning.md 锚定 | 研究报告归档至 `docs/thinking/10_critique/`，competitive-registry.yaml 更新（last_researched、version_tracked、新增 open insights），commit 前缀 `research(observatory)` | 演进循环机制 | established（契约文本） | 契约级 |
-| "启动 Skill Scout，我需要一个…" 等 Scout 触发词 | 实际联网检索并留下显式证据（Hard Gate：无联网证据不得进入 evaluate/adapt/register） | 私域能力对象生成并登记进 private-catalog | 演进循环机制 | established（契约文本） | 契约级 |
-| "启动巡逻模式" / "巡逻一下现有技能" 等 Patrol 触发词 | 治理对象已登记 catalog | PatrolReport（优化机会按 value_score 降序；无机会时 `all_current` 结束） | 演进循环机制 | established（契约文本） | 契约级 |
+| "启动进化观测" / "研究一下 {框架名}" / "检查竞品动态" 等 | Creator 主动触发（AI 不自动启动研究）；每轮开始前先读 positioning.md 锚定 | 研究报告归档至 `docs/thinking/10_critique/`，competitive-registry.yaml 更新（last_researched、version_tracked、新增 open insights），commit 前缀 `research(observatory)` | [演进循环机制](../implementation/evolution-cycle.md) | established（契约文本） | 契约级 |
+| "启动 Skill Scout，我需要一个…" 等 Scout 触发词 | 实际联网检索并留下显式证据（Hard Gate：无联网证据不得进入 evaluate/adapt/register） | 私域能力对象生成并登记进 private-catalog | [演进循环机制](../implementation/evolution-cycle.md) | established（契约文本） | 契约级 |
+| "启动巡逻模式" / "巡逻一下现有技能" 等 Patrol 触发词 | 治理对象已登记 catalog | PatrolReport（优化机会按 value_score 降序；无机会时 `all_current` 结束） | [演进循环机制](../implementation/evolution-cycle.md) | established（契约文本） | 契约级 |
 | 编队巡逻（skill-squadron） | 治理对象已登记 catalog | 基于治理对象关系图的分组、巡逻、命名状态检查与跨对象影响分析；单对象扫描委托 skill-scout 的 Patrol 模式 | `public capability catalog` skill-squadron 条目 relations | established（catalog 登记） | 契约级 |
-| 已发布 Extension Pack 的变更意图 | extension.yaml、Registry entry、lock 可定位基线 | `maintenance/records/YYYY-MM-DD-<topic>.md`（意图、兼容性、验证证据、交接），兼容性不能确认时必须标为阻塞 | 演进循环机制 | established（契约文本） | 契约级 |
+| 已发布 Extension Pack 的变更意图 | extension.yaml、Registry entry、lock 可定位基线 | `maintenance/records/YYYY-MM-DD-<topic>.md`（意图、兼容性、验证证据、交接），兼容性不能确认时必须标为阻塞 | [演进循环机制](../implementation/evolution-cycle.md) | established（契约文本） | 契约级 |
 
 ## 3. 作用边界与不承诺事项
 

@@ -320,7 +320,7 @@ Maglev 带来的最大变化不仅仅是快，而是**角色的根本性反转**
 **No.** 模板是静态的文件，Maglev 是动态的**协议 (Protocol)**。
 *   模板给你一个 `Controller.java` 让你填空。
 *   Maglev 定义了 `Issue -> Spec -> Code` 的**数据流向**，并通过需求收敛和验证守门等**主动能力**来维护这个流向。它是活的操作系统，而不是死的脚手架。
-📖 **Deep Dive**: [当前事实入口](../../../internal Reality/README.md) 与 [结晶流程](../../../.agents/skills/crystallization/SKILL.md)
+📖 **Deep Dive**: [当前事实入口](../../../specs/10_reality/README.md) 与 [结晶流程](../../../.agents/skills/crystallization/SKILL.md)
 
 ### Q2: 既然代码都是 AI 写的，我岂不是可以"躺平"了？
 **恰恰相反。** Maglev 实际上**增加了**你的认知负荷。
@@ -385,7 +385,7 @@ Maglev 重新定义了你的职责：**你不再是"代码搬运工 (Worker)"，
     *   **价值**:
         *   **上帝视角 (God Mode)**: 你是在为 AI 制定法律和赋予能力。
         *   **杠杆效应**: 你编写了一个 Skill，全团队的 AI Agent 瞬间学会。这种**"教会徒弟，解放全军"**的成就感，是传统编码无法比拟的。
-    *   📖 **Deep Dive**: AI Native Config Templates (配置模板)
+    *   📖 **Deep Dive**: [AI Native Config Templates (配置模板)](../90_advanced/ai_native_config_templates.md)
 *   **私有/复杂逻辑? -> "混合双打" (Hybrid Mode)**
     *   Maglev 并不禁止人类写代码。对于极度敏感的核心算法，你可以亲手打造。
     *   **但请记住**: 必须遵守 **"Shadow Rule"** —— 即代码写完后，必须反向补充 Spec。

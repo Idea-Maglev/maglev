@@ -6,14 +6,14 @@ child_count: 6
 child_type: file
 stats:
   total: 6
-updated: '2026-09-16'
+updated: '2026-10-08'
 knowledge_schema_version: 1
 knowledge_records:
 - id: file:docs/wiki/developer/README.md
   path: docs/wiki/developer/README.md
   local_path: README.md
   kind: md
-  content_fingerprint: c655fbefab036113184a68bdfc14bc2d895fed1c3cde3a80da5db7ec3c74b2cf
+  content_fingerprint: 4c4e7f2a990607c928e61a8c1662109ba4ff7b00d62ff81ea1c3be333841dfa3
   freshness: current
   summary: 接入、协作与日常操作
   topics:
@@ -30,7 +30,7 @@ knowledge_records:
   path: docs/wiki/developer/brownfield-adoption.md
   local_path: brownfield-adoption.md
   kind: md
-  content_fingerprint: 0c4c4d5ccf683a4cd2f1c1b9c25f352b75c4c148c86654e69a2947b22738fc1b
+  content_fingerprint: 55886204a2b473f9672126775e42fdc00b77267eac21a467ab882def77b17879
   freshness: current
   summary: 存量项目渐进式接入
   topics:
@@ -49,7 +49,7 @@ knowledge_records:
   path: docs/wiki/developer/first-success.md
   local_path: first-success.md
   kind: md
-  content_fingerprint: 7527e64a08d5af04e3debd76db8efc33705c7f27c672f756ef1b6bf99736ce28
+  content_fingerprint: 90296de9134c3c7fe86b555bf3636b15505b982b04773eeefda1ab736396a5c8
   freshness: current
   summary: 第一次接入并确认成功
   topics:
@@ -68,7 +68,7 @@ knowledge_records:
   path: docs/wiki/developer/navigation-and-context.md
   local_path: navigation-and-context.md
   kind: md
-  content_fingerprint: 10fdb389f3af23728a0a34a9cec50d7d4ab8732e1971350c30cf5b1b1f8da096
+  content_fingerprint: 0daa20700b9bcc8ab8d88a3f955c3df51624e08655363b073c1256793e0ca7df
   freshness: current
   summary: 导航、上下文与规格分层
   topics:
@@ -88,7 +88,7 @@ knowledge_records:
   path: docs/wiki/developer/session-workflow.md
   local_path: session-workflow.md
   kind: md
-  content_fingerprint: 6706e4955848e26c482eb5e393051dffd9e290d96015a52b4601b72c894ff01c
+  content_fingerprint: c903bd5d20d6b41e11479538db4e0f36b625a615c8ad9d5780ceb20df69b5b56
   freshness: current
   summary: 从请求到结晶的日常协作
   topics:
@@ -107,7 +107,7 @@ knowledge_records:
   path: docs/wiki/developer/update-and-recovery.md
   local_path: update-and-recovery.md
   kind: md
-  content_fingerprint: 4fb7a326335e8637a1f8583b084271dddc7457634fc9225bc990da5f229a7dba
+  content_fingerprint: 8387f416fc05e54115edd08b43b0b765351a0becdcf2c3a279f5537cb39a3fe8
   freshness: current
   summary: 更新、运行与故障恢复
   topics:
@@ -127,7 +127,7 @@ knowledge_records:
   path: docs/wiki/developer/verification-and-knowledge.md
   local_path: verification-and-knowledge.md
   kind: md
-  content_fingerprint: c6a1a798bebb3e10eacb9fb90fa02df15ec2ea452d79f057ab13e4209ee982ef
+  content_fingerprint: 999b1d63f454ea67bbe1d7f7075b9a696404da4868b716d7f17c2233bfb9e2aa
   freshness: current
   summary: 验证、地图与知识维护
   topics:

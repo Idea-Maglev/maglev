@@ -3,7 +3,7 @@ title: "架构、能力与证明边界"
 dimension: evaluator
 page_type: navigation
 audience: evaluator
-last_updated: "2026-09-14"
+last_updated: "2026-09-21"
 ---
 
 # 架构、能力与证明边界
